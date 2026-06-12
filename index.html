@@ -6,1029 +6,234 @@
     <title>ScriptsDelta | عبدالله</title>
     <style>
         :root {
-            --bg: #0f0f1e;
-            --surface: rgba(25, 25, 50, 0.85);
-            --surface2: rgba(30, 30, 60, 0.7);
-            --text: #f0e6ff;
-            --text2: #b8b8d0;
+            --bg: #0a0a1a;
+            --surface: #151530;
+            --surface2: #1e1e3a;
+            --text: #e8e8f0;
+            --text2: #a0a0c0;
             --primary: #7c5cfc;
-            --primary-glow: rgba(124, 92, 252, 0.5);
             --accent: #ff6b9d;
-            --accent-glow: rgba(255, 107, 157, 0.4);
             --gold: #ffd700;
-            --gold-glow: rgba(255, 215, 0, 0.4);
-            --card: rgba(30, 25, 55, 0.8);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --glass: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --blur: blur(24px);
-            --radius: 20px;
-            --radius-sm: 14px;
-            --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --card: #1a1a35;
+            --border: rgba(255,255,255,0.06);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html {
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
-            font-family: 'Segoe UI', 'Tajawal', 'Cairo', 'Inter', system-ui, sans-serif;
+            font-family: 'Segoe UI', 'Tajawal', 'Cairo', sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            transition: background var(--transition), color var(--transition);
-            overflow-x: hidden;
             background-image:
-                radial-gradient(ellipse at 15% 10%, rgba(124, 92, 252, 0.12) 0%, transparent 55%),
-                radial-gradient(ellipse at 85% 90%, rgba(255, 107, 157, 0.10) 0%, transparent 55%),
-                radial-gradient(ellipse at 50% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 60%);
+                radial-gradient(ellipse at 20% 10%, rgba(124,92,252,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 90%, rgba(255,107,157,0.08) 0%, transparent 50%);
             background-attachment: fixed;
         }
-
-        /* جسيمات متحركة */
-        .particles-container {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
+        #loadingScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #08081a; z-index: 99999;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            transition: opacity 0.5s, visibility 0.5s;
         }
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            animation: floatUp linear infinite;
-            opacity: 0;
-        }
-        @keyframes floatUp {
-            0% {
-                transform: translateY(105vh) scale(0) rotate(0deg);
-                opacity: 0;
-            }
-            5% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: translateY(-10vh) scale(1.2) rotate(720deg);
-                opacity: 0;
-            }
-        }
-
-        /* شاشة التحميل */
-        .loading-screen {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: #0a0a1a;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
-        .loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        .loader-container {
-            position: relative;
-            width: 90px;
-            height: 90px;
-        }
-        .loader-ring {
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            animation: spinRing 1.5s linear infinite;
-        }
-        .loader-ring:nth-child(1) {
+        #loadingScreen.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loader-spin {
+            width: 50px; height: 50px;
+            border: 3px solid rgba(255,255,255,0.1);
             border-top-color: #7c5cfc;
-            border-right-color: #7c5cfc;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
-        .loader-ring:nth-child(2) {
-            inset: 8px;
-            border-bottom-color: #ff6b9d;
-            border-left-color: #ff6b9d;
-            animation-direction: reverse;
-            animation-duration: 1.2s;
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loader-msg { color: #a0a0c0; margin-top: 16px; font-weight: 600; font-size: 0.95em; }
+        .loader-bar { width: 180px; height: 3px; background: rgba(255,255,255,0.08); border-radius: 10px; margin-top: 12px; overflow: hidden; }
+        .loader-bar-fill { height: 100%; background: #7c5cfc; border-radius: 10px; width: 0%; transition: width 0.3s; }
+        #progressBar {
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: linear-gradient(90deg, #7c5cfc, #ff6b9d, #ffd700);
+            z-index: 1000; width: 0%; transition: width 0.1s;
         }
-        .loader-ring:nth-child(3) {
-            inset: 16px;
-            border-top-color: #ffd700;
-            border-right-color: #ffd700;
-            animation-duration: 0.9s;
-        }
-        @keyframes spinRing {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-        .loader-logo {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8em;
-            animation: pulseIcon 1.2s ease-in-out infinite;
-        }
-        @keyframes pulseIcon {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.15);
-            }
-        }
-        .loader-text {
-            margin-top: 24px;
-            font-weight: 700;
-            font-size: 1.15em;
+        .container { max-width: 900px; margin: 0 auto; padding: 14px; }
+        .header { text-align: center; padding: 24px 10px 16px; }
+        .header .icon { font-size: 3em; animation: float 3s infinite; }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .header h1 {
+            font-size: 2.4em; font-weight: 900;
             background: linear-gradient(135deg, #7c5cfc, #ff6b9d, #ffd700);
             background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: gradientShift 2s infinite;
-            letter-spacing: 1px;
+            animation: grad 3s infinite;
         }
-        .loader-progress {
-            width: 200px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            margin-top: 16px;
-            overflow: hidden;
+        @keyframes grad { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        .header .sub { color: #a0a0c0; font-size: 0.9em; margin-top: 2px; }
+        .badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+        .badge { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 18px; font-size: 0.73em; color: #c0c0d8; font-weight: 600; }
+        .badge.dev { background: #7c5cfc; color: #fff; border: none; }
+        .badge.gold { background: #ffd700; color: #1a1a2e; border: none; font-weight: 700; }
+        .search-bar { display: flex; gap: 8px; margin: 14px 0; flex-wrap: wrap; }
+        .search-bar input {
+            flex: 1; min-width: 180px; padding: 12px 16px;
+            border-radius: 25px; border: 2px solid rgba(255,255,255,0.08);
+            background: var(--surface); color: var(--text);
+            font-size: 0.9em; font-family: inherit; transition: 0.3s;
         }
-        .loader-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #7c5cfc, #ff6b9d, #ffd700);
-            border-radius: 10px;
-            transition: width 0.3s ease;
-            width: 0%;
-        }
-        @keyframes gradientShift {
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-
-        /* شريط التقدم */
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #7c5cfc, #ff6b9d, #ffd700);
-            z-index: 1000;
-            transition: width 0.1s linear;
-            border-radius: 0 4px 4px 0;
-            box-shadow: 0 0 12px rgba(124, 92, 252, 0.6);
-        }
-
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 16px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* الهيدر */
-        .header {
-            text-align: center;
-            padding: 28px 16px 18px;
-            animation: fadeSlideDown 0.7s ease-out;
-        }
-        @keyframes fadeSlideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .logo-wrapper {
-            display: inline-block;
-            position: relative;
-            margin-bottom: 6px;
-        }
-        .logo-icon {
-            font-size: 3.2em;
-            display: block;
-            animation: floatIcon 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px rgba(124, 92, 252, 0.5));
-        }
-        @keyframes floatIcon {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-12px);
-            }
-        }
-        .logo-text {
-            font-size: 2.8em;
-            font-weight: 900;
-            background: linear-gradient(135deg, #7c5cfc, #ff6b9d, #ffd700, #7c5cfc);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -1px;
-            animation: gradientShift 4s infinite;
-            line-height: 1.2;
-        }
-        .subtitle {
-            font-size: 0.95em;
-            color: #b8b8d0;
-            margin-top: 4px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-        .badge-row {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 12px;
-        }
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: var(--glass);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            border: 1px solid var(--glass-border);
-            color: #f0e6ff;
-            padding: 7px 15px;
-            border-radius: 22px;
-            font-size: 0.78em;
-            font-weight: 600;
-            transition: all var(--transition);
-            letter-spacing: 0.3px;
-        }
-        .badge:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(124, 92, 252, 0.25);
-            border-color: rgba(124, 92, 252, 0.5);
-        }
-        .badge.dev {
-            background: linear-gradient(135deg, #7c5cfc, #6a4de6);
-            color: #fff;
-            border: none;
-            box-shadow: 0 4px 18px rgba(124, 92, 252, 0.4);
-        }
-        .badge.gold {
-            background: linear-gradient(135deg, #ffd700, #ffb800);
-            color: #1a1a2e;
-            border: none;
-            font-weight: 800;
-        }
-
-        /* شريط البحث */
-        .top-bar {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            margin: 18px 0;
-            animation: fadeSlideDown 0.8s ease-out;
-        }
-        .search-wrapper {
-            flex: 1;
-            min-width: 200px;
-            position: relative;
-        }
-        .search-wrapper input {
-            width: 100%;
-            padding: 14px 20px;
-            padding-right: 50px;
-            border-radius: 30px;
-            border: 2px solid rgba(255, 255, 255, 0.08);
-            background: var(--surface);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            color: #f0e6ff;
-            font-size: 0.95em;
-            transition: all var(--transition);
-            font-family: inherit;
-            letter-spacing: 0.3px;
-        }
-        .search-wrapper input::placeholder {
-            color: #6a6a8a;
-        }
-        .search-wrapper input:focus {
-            outline: none;
-            border-color: #7c5cfc;
-            box-shadow: 0 0 0 5px rgba(124, 92, 252, 0.12), 0 0 25px rgba(124, 92, 252, 0.15);
-            background: rgba(35, 30, 60, 0.9);
-        }
-        .search-icon {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #7c5cfc;
-            pointer-events: none;
-            font-size: 1.15em;
-            transition: all var(--transition);
-        }
-        .search-wrapper input:focus~.search-icon {
-            color: #ffd700;
-            transform: translateY(-50%) scale(1.2);
-        }
-
+        .search-bar input:focus { outline: none; border-color: #7c5cfc; box-shadow: 0 0 0 4px rgba(124,92,252,0.1); }
+        .search-bar input::placeholder { color: #6a6a8a; }
         .icon-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.08);
-            background: var(--surface);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            cursor: pointer;
-            font-size: 1.25em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all var(--transition);
-            color: #f0e6ff;
-            flex-shrink: 0;
-            position: relative;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--surface); border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text); cursor: pointer; font-size: 1.2em;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.3s; flex-shrink: 0;
         }
-        .icon-btn:hover {
-            border-color: #7c5cfc;
-            box-shadow: 0 0 20px rgba(124, 92, 252, 0.3);
-            transform: scale(1.08);
-            background: rgba(35, 30, 60, 0.9);
+        .icon-btn:hover { border-color: #7c5cfc; background: #1e1e3a; }
+        .lang-btn { width: auto; padding: 0 14px; border-radius: 22px; font-weight: 700; font-size: 0.8em; gap: 4px; }
+        .lang-drop {
+            position: absolute; top: 50px; right: 0;
+            background: #1a1a35; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 100; min-width: 170px; max-height: 280px;
+            overflow-y: auto; display: none; flex-direction: column; padding: 6px;
         }
-        .icon-btn:active {
-            transform: scale(0.92);
-            transition: transform 0.1s;
+        .lang-drop.show { display: flex; }
+        .lang-drop button {
+            background: none; border: none; padding: 10px 14px;
+            text-align: right; cursor: pointer; color: #c0c0d8;
+            font-size: 0.85em; border-radius: 10px; font-family: inherit;
         }
-        .lang-btn {
-            width: auto;
-            padding: 0 16px;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 0.85em;
-            gap: 5px;
+        .lang-drop button:hover { background: rgba(124,92,252,0.2); }
+        .lang-drop button.active { background: #7c5cfc; color: #fff; font-weight: 700; }
+        .stats { display: flex; gap: 8px; margin: 14px 0; flex-wrap: wrap; }
+        .stat {
+            flex: 1; min-width: 70px; text-align: center;
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 12px 10px; transition: 0.3s;
         }
-        .lang-dropdown {
-            position: absolute;
-            top: 56px;
-            right: 0;
-            background: rgba(25, 22, 45, 0.95);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 16px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-            z-index: 100;
-            min-width: 190px;
-            max-height: 320px;
-            overflow-y: auto;
-            display: none;
-            flex-direction: column;
-            padding: 8px;
-            animation: scaleIn 0.2s ease;
-        }
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        .lang-dropdown.show {
-            display: flex;
-        }
-        .lang-dropdown button {
-            background: transparent;
-            border: none;
-            padding: 11px 15px;
-            text-align: right;
-            cursor: pointer;
-            color: #f0e6ff;
-            font-size: 0.9em;
-            border-radius: 10px;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-        .lang-dropdown button:hover {
-            background: rgba(124, 92, 252, 0.2);
-        }
-        .lang-dropdown button.active {
-            background: #7c5cfc;
-            color: #fff;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(124, 92, 252, 0.4);
-        }
-
-        /* الإحصائيات */
-        .stats-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 18px 0;
-            animation: fadeSlideDown 0.9s ease-out;
-        }
-        .stat-card {
-            background: var(--card);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-sm);
-            padding: 16px 20px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            min-width: 90px;
-            transition: all var(--transition);
-            cursor: default;
-            flex: 1;
-            max-width: 150px;
-            position: relative;
-            overflow: hidden;
-        }
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #7c5cfc, #ff6b9d);
-            opacity: 0;
-            transition: opacity var(--transition);
-        }
-        .stat-card:hover::before {
-            opacity: 1;
-        }
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 14px 40px rgba(124, 92, 252, 0.2);
-            border-color: rgba(124, 92, 252, 0.4);
-        }
-        .stat-num {
-            font-size: 2.1em;
-            font-weight: 900;
-            background: linear-gradient(135deg, #7c5cfc, #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-        }
-        .stat-lbl {
-            font-size: 0.73em;
-            color: #b8b8d0;
-            font-weight: 500;
-            margin-top: 4px;
-            letter-spacing: 0.3px;
-        }
-
-        /* التصنيفات */
-        .tabs-scroll {
-            overflow-x: auto;
-            padding: 6px 0;
-            margin: 10px 0 16px;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            animation: fadeSlideDown 1s ease-out;
-        }
-        .tabs-scroll::-webkit-scrollbar {
-            display: none;
-        }
-        .tabs {
-            display: flex;
-            gap: 8px;
-            flex-wrap: nowrap;
-            padding: 0 4px;
-        }
-        .tab-btn {
-            padding: 10px 20px;
-            border-radius: 25px;
-            border: 2px solid rgba(255, 255, 255, 0.06);
-            background: rgba(255, 255, 255, 0.03);
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.82em;
-            transition: all var(--transition);
-            color: #b8b8d0;
-            white-space: nowrap;
-            font-family: inherit;
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            letter-spacing: 0.3px;
-        }
-        .tab-btn:hover {
-            border-color: rgba(124, 92, 252, 0.5);
-            color: #f0e6ff;
-            transform: translateY(-2px);
-            background: rgba(124, 92, 252, 0.1);
-        }
-        .tab-btn.active {
-            background: linear-gradient(135deg, #7c5cfc, #6a4de6);
-            color: #fff;
-            border-color: #7c5cfc;
-            box-shadow: 0 6px 22px rgba(124, 92, 252, 0.45);
-            transform: scale(1.05);
-        }
-
-        /* المحتوى */
-        .content-area {
-            animation: fadeIn 0.5s ease;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        .section-title {
-            font-size: 1.15em;
-            font-weight: 800;
-            margin: 22px 0 12px;
-            color: #f0e6ff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .section-title .icon {
-            font-size: 1.3em;
-            animation: floatIcon 2.5s ease-in-out infinite;
-        }
-        .script-count {
-            font-size: 0.7em;
-            color: #ffd700;
-            font-weight: 600;
-            background: rgba(255, 215, 0, 0.1);
-            padding: 3px 10px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 215, 0, 0.25);
-        }
-
-        /* كرت السكربت */
+        .stat:hover { transform: translateY(-3px); border-color: rgba(124,92,252,0.3); }
+        .stat .num { font-size: 1.8em; font-weight: 900; background: linear-gradient(135deg, #7c5cfc, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .stat .lbl { font-size: 0.68em; color: #a0a0c0; margin-top: 2px; }
+        .tabs-wrap { overflow-x: auto; padding: 6px 0; margin: 8px 0 14px; }
+        .tabs-wrap::-webkit-scrollbar { display: none; }
+        .tabs { display: flex; gap: 6px; flex-wrap: nowrap; }
+        .tab { padding: 8px 16px; border-radius: 22px; white-space: nowrap; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); cursor: pointer; font-weight: 600; font-size: 0.78em; color: #a0a0c0; transition: 0.3s; font-family: inherit; }
+        .tab:hover { border-color: rgba(124,92,252,0.3); color: #fff; }
+        .tab.active { background: #7c5cfc; color: #fff; border-color: #7c5cfc; box-shadow: 0 4px 16px rgba(124,92,252,0.3); }
+        .cat-title { font-size: 1.05em; font-weight: 700; margin: 16px 0 10px; display: flex; align-items: center; gap: 8px; }
+        .count-badge { font-size: 0.65em; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2); color: #ffd700; padding: 2px 8px; border-radius: 10px; }
         .script-card {
-            background: var(--card);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius);
-            padding: 16px 18px;
-            margin: 12px 0;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
-            transition: all var(--transition);
-            opacity: 0;
-            transform: translateY(35px);
-            animation: cardSlideIn 0.5s ease forwards;
-            position: relative;
-            overflow: hidden;
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 14px; margin: 10px 0;
+            transition: 0.3s; opacity: 0; transform: translateY(20px);
+            animation: cardIn 0.4s ease forwards;
         }
-        .script-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(124, 92, 252, 0.06) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity var(--transition);
-            pointer-events: none;
+        @keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
+        .script-card:hover { border-color: rgba(124,92,252,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+        .script-card .name { font-weight: 700; font-size: 0.95em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff6b9d; flex-shrink: 0; }
+        .key-tag { background: #ffd700; color: #1a1a2e; padding: 2px 8px; border-radius: 8px; font-size: 0.65em; font-weight: 700; }
+        .code-box {
+            background: #0e0e22; border-radius: 10px; padding: 10px;
+            font-family: 'Courier New', monospace; font-size: 0.72em;
+            word-break: break-all; color: #b0b0d0; max-height: 50px;
+            overflow: hidden; position: relative; line-height: 1.5;
+            margin-bottom: 10px; direction: ltr; text-align: left;
+            user-select: all; cursor: text;
         }
-        .script-card:hover::after {
-            opacity: 1;
+        .code-box::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 16px; background: linear-gradient(transparent, #0e0e22); }
+        .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .btn { padding: 8px 16px; border-radius: 20px; border: none; cursor: pointer; font-weight: 700; font-size: 0.75em; display: flex; align-items: center; gap: 4px; font-family: inherit; transition: 0.3s; }
+        .btn:active { transform: scale(0.94); }
+        .btn-copy { background: #7c5cfc; color: #fff; }
+        .btn-copy:hover { background: #6a4de6; }
+        .btn-copy.done { background: #00b894; }
+        .btn-fav { background: rgba(255,255,255,0.04); color: #a0a0c0; border: 1px solid rgba(255,255,255,0.1); }
+        .btn-fav:hover { background: rgba(255,215,0,0.1); border-color: rgba(255,215,0,0.3); color: #ffd700; }
+        .btn-fav.on { background: rgba(255,215,0,0.1); border-color: #ffd700; color: #ffd700; }
+        .favs-section { margin-top: 20px; border-top: 2px dashed rgba(255,255,255,0.06); padding-top: 16px; display: none; }
+        .favs-section.show { display: block; }
+        #toast {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+            background: #1e1e3a; color: #fff; padding: 12px 22px;
+            border-radius: 25px; font-weight: 600; font-size: 0.85em;
+            z-index: 9999; transition: transform 0.35s ease;
+            border: 1px solid rgba(124,92,252,0.3); pointer-events: none;
         }
-        @keyframes cardSlideIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        #toast.show { transform: translateX(-50%) translateY(0); }
+        #backTop {
+            position: fixed; bottom: 20px; right: 16px; width: 42px; height: 42px;
+            border-radius: 50%; background: #7c5cfc; color: #fff; border: none;
+            cursor: pointer; font-size: 1.2em; z-index: 99;
+            opacity: 0; transform: translateY(20px); transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 16px rgba(124,92,252,0.4);
         }
-        .script-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 35px rgba(124, 92, 252, 0.18);
-            border-color: rgba(124, 92, 252, 0.35);
-        }
-        .script-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        .script-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ff6b9d;
-            flex-shrink: 0;
-            animation: dotGlow 2s infinite;
-            box-shadow: 0 0 12px rgba(255, 107, 157, 0.7);
-        }
-        @keyframes dotGlow {
-            0%,
-            100% {
-                box-shadow: 0 0 8px rgba(255, 107, 157, 0.6);
-            }
-            50% {
-                box-shadow: 0 0 20px rgba(255, 107, 157, 1), 0 0 35px rgba(255, 107, 157, 0.5);
-            }
-        }
-        .script-name {
-            font-weight: 700;
-            font-size: 1em;
-            color: #f0e6ff;
-            flex: 1;
-            letter-spacing: 0.2px;
-        }
-        .key-tag {
-            background: linear-gradient(135deg, #ffd700, #ffb800);
-            color: #1a1a2e;
-            padding: 3px 10px;
-            border-radius: 10px;
-            font-size: 0.68em;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-        }
-        .code-block {
-            background: rgba(15, 12, 30, 0.7);
-            border-radius: 12px;
-            padding: 12px 14px;
-            font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
-            font-size: 0.77em;
-            word-break: break-all;
-            color: #c8c8e0;
-            max-height: 55px;
-            overflow: hidden;
-            position: relative;
-            line-height: 1.6;
-            margin-bottom: 12px;
-            direction: ltr;
-            text-align: left;
-            user-select: all;
-            cursor: text;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .code-block::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 22px;
-            pointer-events: none;
-            background: linear-gradient(transparent, rgba(15, 12, 30, 0.9));
-        }
-        .actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .btn {
-            padding: 10px 18px;
-            border-radius: 22px;
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.8em;
-            transition: all var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-family: inherit;
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 0.3px;
-        }
-        .btn:active {
-            transform: scale(0.93);
-            transition: transform 0.1s;
-        }
-        .btn-copy {
-            background: linear-gradient(135deg, #7c5cfc, #6a4de6);
-            color: #fff;
-            box-shadow: 0 4px 18px rgba(124, 92, 252, 0.35);
-        }
-        .btn-copy:hover {
-            box-shadow: 0 8px 28px rgba(124, 92, 252, 0.5);
-            transform: translateY(-2px);
-        }
-        .btn-copy.copied {
-            background: linear-gradient(135deg, #00b894, #00a381);
-            animation: copyPop 0.45s ease;
-        }
-        @keyframes copyPop {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.13);
-            }
-        }
-        .btn-fav {
-            background: rgba(255, 255, 255, 0.04);
-            color: #b8b8d0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .btn-fav:hover {
-            background: rgba(255, 215, 0, 0.12);
-            border-color: rgba(255, 215, 0, 0.5);
-            color: #ffd700;
-        }
-        .btn-fav.favorited {
-            background: rgba(255, 215, 0, 0.15);
-            border-color: #ffd700;
-            color: #ffd700;
-            animation: heartBeat 0.5s ease;
-            box-shadow: 0 0 18px rgba(255, 215, 0, 0.25);
-        }
-        @keyframes heartBeat {
-            0% {
-                transform: scale(1);
-            }
-            30% {
-                transform: scale(1.22);
-            }
-            60% {
-                transform: scale(0.9);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        /* المفضلة */
-        .favs-section {
-            margin-top: 28px;
-            border-top: 2px dashed rgba(255, 255, 255, 0.08);
-            padding-top: 22px;
-            display: none;
-            animation: fadeIn 0.7s ease;
-        }
-        .favs-section.has-favs {
-            display: block;
-        }
-
-        /* Toast */
-        .toast-container {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            pointer-events: none;
-        }
-        .toast {
-            background: linear-gradient(135deg, #1e1e3a, #2a2a50);
-            color: #fff;
-            padding: 14px 26px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.9em;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(124, 92, 252, 0.3);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            opacity: 0;
-            transform: translateY(40px);
-            white-space: nowrap;
-            text-align: center;
-            border: 1px solid rgba(124, 92, 252, 0.3);
-        }
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* زر العودة */
-        .back-to-top {
-            position: fixed;
-            bottom: 28px;
-            right: 20px;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #7c5cfc, #6a4de6);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            font-size: 1.3em;
-            z-index: 99;
-            box-shadow: 0 6px 25px rgba(124, 92, 252, 0.5);
-            transition: all var(--transition);
-            opacity: 0;
-            transform: translateY(35px);
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .back-to-top.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-        .back-to-top:hover {
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 10px 35px rgba(124, 92, 252, 0.7);
-        }
-
-        /* سكرول بار */
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(124, 92, 252, 0.3);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(124, 92, 252, 0.5);
-        }
-
-        @media (max-width: 768px) {
-            .logo-text {
-                font-size: 2.1em;
-            }
-            .logo-icon {
-                font-size: 2.5em;
-            }
-            .stat-card {
-                min-width: 60px;
-                padding: 12px 14px;
-            }
-            .stat-num {
-                font-size: 1.6em;
-            }
-            .tab-btn {
-                padding: 8px 14px;
-                font-size: 0.75em;
-            }
-            .code-block {
-                font-size: 0.7em;
-            }
-            .script-card {
-                padding: 13px 14px;
-            }
-        }
-        @media (max-width: 380px) {
-            .container {
-                padding: 8px;
-            }
-            .logo-text {
-                font-size: 1.7em;
-            }
-            .badge {
-                font-size: 0.66em;
-                padding: 5px 10px;
-            }
+        #backTop.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #backTop:not(.visible) { pointer-events: none; }
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.8em; }
+            .stat { min-width: 55px; padding: 10px 6px; }
+            .stat .num { font-size: 1.4em; }
+            .tab { padding: 7px 12px; font-size: 0.7em; }
+            .code-box { font-size: 0.65em; }
         }
     </style>
 </head>
 <body>
 
-    <!-- شاشة التحميل -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loader-container">
-            <div class="loader-ring"></div>
-            <div class="loader-ring"></div>
-            <div class="loader-ring"></div>
-            <div class="loader-logo">📜</div>
-        </div>
-        <div class="loader-text" id="loaderText">ScriptsDelta</div>
-        <div class="loader-progress">
-            <div class="loader-progress-fill" id="loaderProgressFill"></div>
-        </div>
+    <div id="loadingScreen">
+        <div class="loader-spin"></div>
+        <div class="loader-msg">ScriptsDelta</div>
+        <div class="loader-bar"><div class="loader-bar-fill" id="loaderFill"></div></div>
     </div>
 
-    <!-- جسيمات -->
-    <div class="particles-container" id="particlesContainer"></div>
-
-    <!-- شريط التقدم -->
-    <div class="progress-bar" id="progressBar"></div>
-
-    <!-- Toast -->
-    <div class="toast-container"><div class="toast" id="toast"></div></div>
-
-    <!-- العودة للأعلى -->
-    <button class="back-to-top" id="backToTop" title="العودة للأعلى">⬆</button>
+    <div id="progressBar"></div>
+    <div id="toast"></div>
+    <button id="backTop" title="العودة للأعلى">⬆</button>
 
     <div class="container">
-        <!-- الهيدر -->
         <div class="header">
-            <div class="logo-wrapper">
-                <span class="logo-icon">📜</span>
-                <span class="logo-text" id="siteTitle">ScriptsDelta</span>
-            </div>
-            <div class="subtitle" id="siteSubtitle">تطبيق سكربتات Roblox - المطور عبدالله</div>
-            <div class="badge-row">
+            <div class="icon">📜</div>
+            <h1 id="siteTitle">ScriptsDelta</h1>
+            <div class="sub" id="siteSub">تطبيق سكربتات Roblox - المطور عبدالله</div>
+            <div class="badges">
                 <span class="badge dev">👨‍💻 عبدالله</span>
-                <span class="badge gold">🚀 الإصدار 1.0</span>
+                <span class="badge gold">🚀 v1.0</span>
                 <span class="badge">🎮 SAD_J82</span>
                 <span class="badge">📱 dark4abod</span>
             </div>
         </div>
 
-        <!-- شريط البحث -->
-        <div class="top-bar">
-            <div class="search-wrapper">
-                <input type="text" id="searchInput" placeholder="🔍 بحث سريع عن سكربت...">
-                <span class="search-icon">🔎</span>
-            </div>
-            <button class="icon-btn" id="themeToggle" title="تغيير المظهر">✨</button>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="🔍 بحث سريع...">
+            <button class="icon-btn" id="themeBtn" title="تأثير">✨</button>
             <div style="position:relative;">
-                <button class="icon-btn lang-btn" id="langToggle" title="تغيير اللغة">
-                    🌐 <span id="currentLangFlag">AR</span>
-                </button>
-                <div class="lang-dropdown" id="langDropdown"></div>
+                <button class="icon-btn lang-btn" id="langBtn">🌐 <span id="langFlag">AR</span></button>
+                <div class="lang-drop" id="langDrop"></div>
             </div>
         </div>
 
-        <!-- الإحصائيات -->
-        <div class="stats-row">
-            <div class="stat-card">
-                <div class="stat-num" id="totalScripts">0</div>
-                <div class="stat-lbl" id="statScripts">إجمالي السكربتات</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-num" id="totalCategories">0</div>
-                <div class="stat-lbl" id="statCategories">تصنيف</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-num" id="totalFavs">0</div>
-                <div class="stat-lbl" id="statFavs">مفضلة</div>
-            </div>
+        <div class="stats">
+            <div class="stat"><div class="num" id="statScripts">0</div><div class="lbl" id="statLbl1">سكربتات</div></div>
+            <div class="stat"><div class="num" id="statCats">0</div><div class="lbl" id="statLbl2">تصنيفات</div></div>
+            <div class="stat"><div class="num" id="statFavs">0</div><div class="lbl" id="statLbl3">مفضلة</div></div>
         </div>
 
-        <!-- التصنيفات -->
-        <div class="tabs-scroll">
-            <div class="tabs" id="tabsContainer"></div>
-        </div>
+        <div class="tabs-wrap"><div class="tabs" id="tabsContainer"></div></div>
+        <div id="contentArea"></div>
 
-        <!-- المحتوى -->
-        <div class="content-area" id="contentArea"></div>
-
-        <!-- المفضلة -->
         <div class="favs-section" id="favsSection">
-            <div class="section-title"><span class="icon">⭐</span> <span id="favsTitle">المفضلة</span></div>
+            <div class="cat-title">⭐ <span id="favsTitle">المفضلة</span></div>
             <div id="favsContent"></div>
         </div>
     </div>
 
     <script>
         (function() {
-            // ============ البيانات ============
-            const scriptsData = [
+            var scriptsData = [
                 { cat: 'cat_all', name: 'سكربت صاحب التطبيق (Monika)',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/main/Monika.lua"))()' },
-                { cat: 'cat_brookhaven', name: 'XKhazraji',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-XKhazraji-58197"))()' },
-                { cat: 'cat_brookhaven', name: 'تخريب (Map Al-Biout)',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/n0kc/AtomicHub/main/Map-Al-Biout.lua"))()' },
-                { cat: 'cat_brookhaven', name: 'منوع (JG Brookhaven)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-New-Update-Script-JG-Brookhaven-93130"))()' },
-                { cat: 'cat_brookhaven', name: 'اغاني (OXR RECHAT)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-OXR-RECHAT-207620"))()' },
-                { cat: 'cat_brookhaven', name: 'اغاني (GhostMusic)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-GhostMusic-135281"))()' },
-                { cat: 'cat_brookhaven', name: 'MOLYN DEVELOPMENT',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MOLYN-DEVELOPMENT-201480"))()' },
-                { cat: 'cat_brookhaven', name: 'اغاني (Fe Music)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-Fe-Music-Script-Tiktok-Songs-Hindi-Songs-Phonk-And-Bhojpuri-210809"))()' },
-                { cat: 'cat_mm2', name: 'YARHM',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-YARHM-12403"))()' },
-                { cat: 'cat_mm2', name: 'GhostHub',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Murder-Mystery-2-GhostHub-MM-13413"))()' },
-                { cat: 'cat_mm2', name: 'XhubMM2',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Au0yX/Community/main/XhubMM2"))()' },
                 { cat: 'cat_all', name: 'VR7',
                     code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/Hm5011/hussain/refs/heads/main/Mercy%20Script\'))()' },
                 { cat: 'cat_all', name: 'Zayn Chat',
@@ -1078,6 +283,26 @@
                 { cat: 'cat_all', name: 'سكربت السرعة (Speed Hub)',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kckckckckcc/Speed-hub-update-25/refs/heads/main/Speed%20hub%20%20update%2025"))()' },
                 { cat: 'cat_all', name: 'سكربت السرعة - المفتاح', code: '1234', isKey: true },
+                { cat: 'cat_brookhaven', name: 'XKhazraji',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-XKhazraji-58197"))()' },
+                { cat: 'cat_brookhaven', name: 'تخريب (Map Al-Biout)',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/n0kc/AtomicHub/main/Map-Al-Biout.lua"))()' },
+                { cat: 'cat_brookhaven', name: 'منوع (JG Brookhaven)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-New-Update-Script-JG-Brookhaven-93130"))()' },
+                { cat: 'cat_brookhaven', name: 'اغاني (OXR RECHAT)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-OXR-RECHAT-207620"))()' },
+                { cat: 'cat_brookhaven', name: 'اغاني (GhostMusic)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-GhostMusic-135281"))()' },
+                { cat: 'cat_brookhaven', name: 'MOLYN DEVELOPMENT',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MOLYN-DEVELOPMENT-201480"))()' },
+                { cat: 'cat_brookhaven', name: 'اغاني (Fe Music)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-Fe-Music-Script-Tiktok-Songs-Hindi-Songs-Phonk-And-Bhojpuri-210809"))()' },
+                { cat: 'cat_mm2', name: 'YARHM',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-YARHM-12403"))()' },
+                { cat: 'cat_mm2', name: 'GhostHub',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Murder-Mystery-2-GhostHub-MM-13413"))()' },
+                { cat: 'cat_mm2', name: 'XhubMM2',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Au0yX/Community/main/XhubMM2"))()' },
                 { cat: 'cat_megamansion', name: 'جمع تلقائي فلوس',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mega-Mansion-Tycoon-CITY!-Auto-Collect-without-gamepass-5216"))()' },
                 { cat: 'cat_lava', name: 'Auto collect tokens',
@@ -1138,24 +363,22 @@
                     code: 'loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/53325754de16c11fbf8bf78101c1c881.lua"))()' },
             ];
 
-            const catKeys = ['cat_all', 'cat_brookhaven', 'cat_mm2', 'cat_megamansion', 'cat_lava', 'cat_arab',
-                'cat_wallhop', 'cat_spider', 'cat_mafia', 'cat_survive', 'cat_fling', 'cat_studio', 'cat_teamwork',
-                'cat_flee', 'cat_escape', 'cat_train', 'cat_steal'
+            var catKeys = ['cat_all', 'cat_brookhaven', 'cat_mm2', 'cat_megamansion', 'cat_lava', 'cat_arab', 'cat_wallhop',
+                'cat_spider', 'cat_mafia', 'cat_survive', 'cat_fling', 'cat_studio', 'cat_teamwork', 'cat_flee',
+                'cat_escape', 'cat_train', 'cat_steal'
             ];
 
-            const translations = {
+            var translations = {
                 ar: {
-                    loading: 'ScriptsDelta',
                     siteTitle: 'ScriptsDelta',
-                    siteSubtitle: 'تطبيق سكربتات Roblox - المطور عبدالله',
-                    searchPlaceholder: '🔍 بحث سريع عن سكربت...',
-                    statScripts: 'إجمالي السكربتات',
-                    statCategories: 'تصنيف',
-                    statFavs: 'مفضلة',
+                    siteSub: 'تطبيق سكربتات Roblox - المطور عبدالله',
+                    searchPlaceholder: '🔍 بحث سريع...',
+                    statLbl1: 'سكربتات',
+                    statLbl2: 'تصنيفات',
+                    statLbl3: 'مفضلة',
                     favsTitle: 'المفضلة',
-                    noResults: 'لا توجد نتائج 😕',
+                    noResults: 'لا توجد نتائج',
                     copied: '✅ تم النسخ!',
-                    keyCopied: '✅ تم نسخ المفتاح!',
                     cat_all: '🌍 جميع المابات',
                     cat_brookhaven: '🏡 Brookhaven',
                     cat_mm2: '🔪 MM2',
@@ -1169,23 +392,21 @@
                     cat_fling: '🤸 Fling Things',
                     cat_studio: '🎬 استوديو لايت',
                     cat_teamwork: '🧩 Teamwork',
-                    cat_flee: '🏃 Flee Facility',
+                    cat_flee: '🏃 Flee the Facility',
                     cat_escape: '🌋 Escape Lava',
                     cat_train: '🚂 القطار',
                     cat_steal: '💰 السرقة',
                 },
                 en: {
-                    loading: 'ScriptsDelta',
                     siteTitle: 'ScriptsDelta',
-                    siteSubtitle: 'Roblox Scripts - Dev Abdullah',
-                    searchPlaceholder: '🔍 Quick search...',
-                    statScripts: 'Total Scripts',
-                    statCategories: 'Categories',
-                    statFavs: 'Favorites',
+                    siteSub: 'Roblox Scripts - Dev Abdullah',
+                    searchPlaceholder: '🔍 Search...',
+                    statLbl1: 'Scripts',
+                    statLbl2: 'Categories',
+                    statLbl3: 'Favorites',
                     favsTitle: 'Favorites',
-                    noResults: 'No results 😕',
+                    noResults: 'No results',
                     copied: '✅ Copied!',
-                    keyCopied: '✅ Key copied!',
                     cat_all: '🌍 All Maps',
                     cat_brookhaven: '🏡 Brookhaven',
                     cat_mm2: '🔪 MM2',
@@ -1199,72 +420,313 @@
                     cat_fling: '🤸 Fling Things',
                     cat_studio: '🎬 Studio Lite',
                     cat_teamwork: '🧩 Teamwork',
-                    cat_flee: '🏃 Flee Facility',
+                    cat_flee: '🏃 Flee the Facility',
                     cat_escape: '🌋 Escape Lava',
                     cat_train: '🚂 Train',
                     cat_steal: '💰 Steal',
                 },
-                es: {
-                    loading: 'ScriptsDelta',
-                    siteTitle: 'ScriptsDelta',
-                    siteSubtitle: 'Scripts Roblox - Dev Abdullah',
-                    searchPlaceholder: '🔍 Búsqueda rápida...',
-                    statScripts: 'Total Scripts',
-                    statCategories: 'Categorías',
-                    statFavs: 'Favoritos',
-                    favsTitle: 'Favoritos',
-                    noResults: 'Sin resultados 😕',
-                    copied: '✅ ¡Copiado!',
-                    keyCopied: '✅ ¡Clave copiada!',
-                    cat_all: '🌍 Todos',
-                    cat_brookhaven: '🏡 Brookhaven',
-                    cat_mm2: '🔪 MM2',
-                    cat_megamansion: '🏠 MegaMansion',
-                    cat_lava: '🌋 Lava Floor',
-                    cat_arab: '🚗 Ciudad Árabe',
-                    cat_wallhop: '🧱 Wallhop',
-                    cat_spider: '🕷️ Spider',
-                    cat_mafia: '🔫 Mafia',
-                    cat_survive: '🔪 Survive Killer',
-                    cat_fling: '🤸 Fling Things',
-                    cat_studio: '🎬 Studio Lite',
-                    cat_teamwork: '🧩 Teamwork',
-                    cat_flee: '🏃 Flee Facility',
-                    cat_escape: '🌋 Escape Lava',
-                    cat_train: '🚂 Tren',
-                    cat_steal: '💰 Robar',
-                },
-                fr: {
-                    loading: 'ScriptsDelta',
-                    siteTitle: 'ScriptsDelta',
-                    siteSubtitle: 'Scripts Roblox - Dev Abdullah',
-                    searchPlaceholder: '🔍 Recherche rapide...',
-                    statScripts: 'Total Scripts',
-                    statCategories: 'Catégories',
-                    statFavs: 'Favoris',
-                    favsTitle: 'Favoris',
-                    noResults: 'Aucun résultat 😕',
-                    copied: '✅ Copié!',
-                    keyCopied: '✅ Clé copiée!',
-                    cat_all: '🌍 Toutes',
-                    cat_brookhaven: '🏡 Brookhaven',
-                    cat_mm2: '🔪 MM2',
-                    cat_megamansion: '🏠 MegaMansion',
-                    cat_lava: '🌋 Lava Floor',
-                    cat_arab: '🚗 Ville Arabe',
-                    cat_wallhop: '🧱 Wallhop',
-                    cat_spider: '🕷️ Spider',
-                    cat_mafia: '🔫 Mafia',
-                    cat_survive: '🔪 Survive Killer',
-                    cat_fling: '🤸 Fling Things',
-                    cat_studio: '🎬 Studio Lite',
-                    cat_teamwork: '🧩 Teamwork',
-                    cat_flee: '🏃 Flee Facility',
-                    cat_escape: '🌋 Escape Lava',
-                    cat_train: '🚂 Train',
-                    cat_steal: '💰 Vol',
-                },
-                pt: {
-                    loading: 'ScriptsDelta',
-                    siteTitle: 'ScriptsDelta',
-                    siteSubtitle: 'Scripts 
+            };
+            var langNames = { ar: 'العربية 🇸🇦', en: 'English 🇺🇸' };
+            var langFlags = { ar: 'AR', en: 'EN' };
+
+            var currentCat = 'cat_all';
+            var favorites = JSON.parse(localStorage.getItem('sdfavs') || '[]');
+            var currentLang = localStorage.getItem('sdlang') || 'ar';
+
+            function $(s) { return document.querySelector(s); }
+
+            function $$(s) { return document.querySelectorAll(s); }
+            var loadingScreen = $('#loadingScreen');
+            var loaderFill = $('#loaderFill');
+            var progressBar = $('#progressBar');
+            var toast = $('#toast');
+            var backTop = $('#backTop');
+            var tabsContainer = $('#tabsContainer');
+            var contentArea = $('#contentArea');
+            var searchInput = $('#searchInput');
+            var langBtn = $('#langBtn');
+            var langDrop = $('#langDrop');
+            var langFlag = $('#langFlag');
+            var statScripts = $('#statScripts');
+            var statCats = $('#statCats');
+            var statFavs = $('#statFavs');
+            var favsSection = $('#favsSection');
+            var favsContent = $('#favsContent');
+
+            function t(key) { return (translations[currentLang] && translations[currentLang][key]) || key; }
+
+            function showToast(msg) {
+                toast.textContent = msg;
+                toast.classList.add('show');
+                clearTimeout(toast._timer);
+                toast._timer = setTimeout(function() { toast.classList.remove('show'); }, 2000);
+            }
+
+            function copyText(text) {
+                if (!text || text.length === 0) {
+                    showToast('❌ لا يوجد نص للنسخ');
+                    return;
+                }
+                try {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(text).then(function() {
+                            showToast(t('copied'));
+                        }).catch(function(err) {
+                            fallbackCopy(text);
+                        });
+                    } else {
+                        fallbackCopy(text);
+                    }
+                } catch (e) {
+                    fallbackCopy(text);
+                }
+            }
+
+            function fallbackCopy(text) {
+                try {
+                    var ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.position = 'fixed';
+                    ta.style.left = '-9999px';
+                    ta.style.top = '-9999px';
+                    ta.style.opacity = '0';
+                    ta.style.zIndex = '-1';
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    ta.setSelectionRange(0, text.length);
+                    var success = document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    if (success) {
+                        showToast(t('copied'));
+                    } else {
+                        showToast('❌ فشل النسخ');
+                    }
+                } catch (e) {
+                    showToast('❌ المتصفح لا يدعم النسخ');
+                }
+            }
+
+            function toggleFav(name, code) {
+                var idx = -1;
+                for (var i = 0; i < favorites.length; i++) { if (favorites[i].code === code) { idx = i; break; } }
+                if (idx >= 0) favorites.splice(idx, 1);
+                else favorites.push({ name: name, code: code });
+                localStorage.setItem('sdfavs', JSON.stringify(favorites));
+                updateStats();
+                renderAll();
+            }
+
+            function isFav(code) {
+                for (var i = 0; i < favorites.length; i++) { if (favorites[i].code === code) return true; }
+                return false;
+            }
+
+            function esc(s) { var d = document.createElement('div');
+                d.textContent = s; return d.innerHTML; }
+
+            function escAttr(s) { return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g,
+                    '&gt;').replace(/'/g, '&#39;'); }
+
+            function buildCardHTML(s, i) {
+                var fav = isFav(s.code);
+                var en = esc(s.name);
+                var ec = escAttr(s.code);
+                var html = '<div class="script-card" style="animation-delay:' + (i * 0.03) + 's">';
+                html += '<div class="name"><span class="dot"></span>' + en;
+                if (s.isKey) html += ' <span class="key-tag">KEY</span>';
+                html += '</div>';
+                if (!s.isKey) {
+                    html += '<div class="code-box">' + esc(s.code) + '</div>';
+                    html += '<div class="actions">';
+                    html += '<button class="btn btn-copy" data-code="' + ec + '" onclick="window._copyScript(this)">📋 ' +
+                        (currentLang === 'ar' ? 'نسخ' : 'Copy') + '</button>';
+                    html += '<button class="btn btn-fav' + (fav ? ' on' : '') + '" data-name="' + ec +
+                        '" data-code="' + ec + '" onclick="window._toggleFav(this)">' + (fav ? '⭐' : '☆') + ' ' + (
+                            currentLang === 'ar' ? 'حفظ' : 'Save') + '</button>';
+                    html += '</div>';
+                } else {
+                    html +=
+                        '<div class="actions"><button class="btn btn-copy" data-code="1234" onclick="window._copyScript(this)">📋 ' +
+                        (currentLang === 'ar' ? 'نسخ المفتاح' : 'Copy Key') + '</button></div>';
+                }
+                html += '</div>';
+                return html;
+            }
+
+            function renderAll() {
+                var cats = [];
+                for (var i = 0; i < catKeys.length; i++) {
+                    for (var j = 0; j < scriptsData.length; j++) {
+                        if (scriptsData[j].cat === catKeys[i]) { cats.push(catKeys[i]); break; }
+                    }
+                }
+                var tabsHtml = '';
+                for (var k = 0; k < cats.length; k++) {
+                    tabsHtml += '<button class="tab' + (cats[k] === currentCat ? ' active' : '') + '" data-cat="' + cats[
+                        k] + '">' + t(cats[k]) + '</button>';
+                }
+                tabsContainer.innerHTML = tabsHtml;
+
+                var filtered = [];
+                for (var m = 0; m < scriptsData.length; m++) {
+                    if (scriptsData[m].cat === currentCat) filtered.push(scriptsData[m]);
+                }
+                var contentHtml = '<div class="cat-title">📂 ' + t(currentCat) + ' <span class="count-badge">' + filtered
+                    .length + '</span></div>';
+                for (var n = 0; n < filtered.length; n++) { contentHtml += buildCardHTML(filtered[n], n); }
+                if (filtered.length === 0) contentHtml += '<p style="text-align:center;padding:30px;color:#a0a0c0;">' + t(
+                    'noResults') + '</p>';
+                contentArea.innerHTML = contentHtml;
+
+                if (favorites.length > 0) {
+                    favsSection.classList.add('show');
+                    var favHtml = '';
+                    for (var p = 0; p < favorites.length; p++) {
+                        var fcode = favorites[p].code;
+                        var fname = favorites[p].name;
+                        var ec2 = escAttr(fcode);
+                        favHtml += '<div class="script-card" style="animation-delay:' + (p * 0.03) + 's">';
+                        favHtml += '<div class="name"><span class="dot"></span>' + esc(fname) + '</div>';
+                        favHtml += '<div class="code-box">' + esc(fcode) + '</div>';
+                        favHtml += '<div class="actions">';
+                        favHtml += '<button class="btn btn-copy" data-code="' + ec2 +
+                            '" onclick="window._copyScript(this)">📋 ' + (currentLang === 'ar' ? 'نسخ' : 'Copy') +
+                            '</button>';
+                        favHtml += '<button class="btn btn-fav on" data-name="' + ec2 + '" data-code="' + ec2 +
+                            '" onclick="window._toggleFav(this)">⭐ ' + (currentLang === 'ar' ? 'إزالة' : 'Remove') +
+                            '</button>';
+                        favHtml += '</div></div>';
+                    }
+                    favsContent.innerHTML = favHtml;
+                } else { favsSection.classList.remove('show');
+                    favsContent.innerHTML = ''; }
+            }
+
+            function updateStats() {
+                statScripts.textContent = scriptsData.length;
+                var cats = [];
+                for (var i = 0; i < catKeys.length; i++) {
+                    for (var j = 0; j < scriptsData.length; j++) {
+                        if (scriptsData[j].cat === catKeys[i]) { cats.push(catKeys[i]); break; }
+                    }
+                }
+                statCats.textContent = cats.length;
+                statFavs.textContent = favorites.length;
+            }
+
+            function filterScripts(q) {
+                if (!q.trim()) { renderAll(); return; }
+                var lq = q.toLowerCase().trim();
+                var results = [];
+                for (var i = 0; i < scriptsData.length; i++) {
+                    var s = scriptsData[i];
+                    if (s.name.toLowerCase().indexOf(lq) >= 0 || s.code.toLowerCase().indexOf(lq) >= 0 || (t(s.cat) || '')
+                        .toLowerCase().indexOf(lq) >= 0) {
+                        results.push(s);
+                    }
+                }
+                var html = '<div class="cat-title">🔍 نتائج: "' + esc(lq) + '" <span class="count-badge">' + results
+                    .length + '</span></div>';
+                if (results.length > 0) { for (var j = 0; j < results.length; j++) { html += buildCardHTML(results[j], j); } } else { html +=
+                        '<p style="text-align:center;padding:30px;color:#a0a0c0;">' + t('noResults') + '</p>'; }
+                contentArea.innerHTML = html;
+                favsSection.classList.remove('show');
+                favsContent.innerHTML = '';
+            }
+
+            function updateAllTexts() {
+                document.title = t('siteTitle');
+                $('#siteTitle').textContent = t('siteTitle');
+                $('#siteSub').textContent = t('siteSub');
+                searchInput.placeholder = t('searchPlaceholder');
+                $('#statLbl1').textContent = t('statLbl1');
+                $('#statLbl2').textContent = t('statLbl2');
+                $('#statLbl3').textContent = t('statLbl3');
+                $('#favsTitle').textContent = t('favsTitle');
+                langFlag.textContent = langFlags[currentLang] || 'AR';
+                renderLangDrop();
+                renderAll();
+            }
+
+            function renderLangDrop() {
+                var html = '';
+                var keys = Object.keys(langNames);
+                for (var i = 0; i < keys.length; i++) {
+                    html += '<button data-lang="' + keys[i] + '" class="' + (keys[i] === currentLang ? 'active' : '') +
+                        '">' + langNames[keys[i]] + '</button>';
+                }
+                langDrop.innerHTML = html;
+            }
+
+            window._copyScript = function(btn) {
+                var code = btn.getAttribute('data-code');
+                if (code) {
+                    copyText(code);
+                    btn.classList.add('done');
+                    setTimeout(function() { btn.classList.remove('done'); }, 1500);
+                }
+            };
+            window._toggleFav = function(btn) {
+                var name = btn.getAttribute('data-name');
+                var code = btn.getAttribute('data-code');
+                if (name && code) toggleFav(name, code);
+            };
+
+            tabsContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('tab')) {
+                    currentCat = e.target.getAttribute('data-cat');
+                    searchInput.value = '';
+                    renderAll();
+                    window.scrollTo({ top: 250, behavior: 'smooth' });
+                }
+            });
+            searchInput.addEventListener('input', function() { filterScripts(this.value); });
+            $('#themeBtn').addEventListener('click', function() { showToast('✨ ' + t('siteTitle') + ' | عبدالله'); });
+            langBtn.addEventListener('click', function(e) { e.stopPropagation();
+                langDrop.classList.toggle('show'); });
+            langDrop.addEventListener('click', function(e) {
+                if (e.target.tagName === 'BUTTON') {
+                    var l = e.target.getAttribute('data-lang');
+                    if (l && l !== currentLang) { currentLang = l;
+                        localStorage.setItem('sdlang', l);
+                        updateAllTexts(); }
+                    langDrop.classList.remove('show');
+                }
+            });
+            document.addEventListener('click', function() { langDrop.classList.remove('show'); });
+            window.addEventListener('scroll', function() {
+                var st = window.scrollY;
+                var dh = document.documentElement.scrollHeight - window.innerHeight;
+                progressBar.style.width = dh > 0 ? (st / dh * 100) + '%' : '0%';
+                if (st > 400) backTop.classList.add('visible');
+                else backTop.classList.remove('visible');
+            });
+            backTop.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+            function startLoading() {
+                var duration = 1500;
+                var start = Date.now();
+
+                function update() {
+                    var elapsed = Date.now() - start;
+                    var pct = Math.min((elapsed / duration) * 100, 100);
+                    loaderFill.style.width = pct + '%';
+                    if (elapsed < duration) requestAnimationFrame(update);
+                }
+                requestAnimationFrame(update);
+                setTimeout(function() { loadingScreen.classList.add('hide'); }, duration);
+            }
+
+            function init() {
+                updateStats();
+                updateAllTexts();
+                renderLangDrop();
+                langFlag.textContent = langFlags[currentLang] || 'AR';
+                startLoading();
+            }
+            init();
+        })();
+    </script>
+</body>
+                                                                  </html>
