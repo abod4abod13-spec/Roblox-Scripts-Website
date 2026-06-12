@@ -3,39 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScriptsDelta - عبدالله</title>
+    <title>ScriptsDelta | عبدالله</title>
     <style>
         :root {
-            --bg: #ffffff;
-            --surface: #f8f9fa;
-            --surface2: #e9ecef;
-            --text: #212529;
-            --text2: #495057;
-            --primary: #6c5ce7;
-            --primary-light: #a29bfe;
-            --accent: #fd79a8;
-            --card: #ffffff;
-            --shadow: 0 2px 12px rgba(0,0,0,0.08);
-            --border: #dee2e6;
-            --copy-bg: #e9ecef;
-            --tag-bg: #f1f3f5;
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .dark {
-            --bg: #0f0f1a;
-            --surface: #1a1a2e;
-            --surface2: #16213e;
-            --text: #e4e6eb;
-            --text2: #b0b3b8;
-            --primary: #a29bfe;
-            --primary-light: #6c5ce7;
-            --accent: #fd79a8;
-            --card: #1e1e36;
-            --shadow: 0 2px 16px rgba(0,0,0,0.3);
-            --border: #2a2a4a;
-            --copy-bg: #2a2a4a;
-            --tag-bg: #252545;
+            --bg: #0f0f1e;
+            --surface: rgba(25, 25, 50, 0.85);
+            --surface2: rgba(30, 30, 60, 0.7);
+            --text: #f0e6ff;
+            --text2: #b8b8d0;
+            --primary: #7c5cfc;
+            --primary-glow: rgba(124, 92, 252, 0.5);
+            --accent: #ff6b9d;
+            --accent-glow: rgba(255, 107, 157, 0.4);
+            --gold: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.4);
+            --card: rgba(30, 25, 55, 0.8);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --glass: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --blur: blur(24px);
+            --radius: 20px;
+            --radius-sm: 14px;
+            --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -43,122 +33,535 @@
             padding: 0;
             box-sizing: border-box;
         }
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
-            font-family: 'Segoe UI', 'Tajawal', 'Cairo', sans-serif;
+            font-family: 'Segoe UI', 'Tajawal', 'Cairo', 'Inter', system-ui, sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
             transition: background var(--transition), color var(--transition);
             overflow-x: hidden;
+            background-image:
+                radial-gradient(ellipse at 15% 10%, rgba(124, 92, 252, 0.12) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 90%, rgba(255, 107, 157, 0.10) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 60%);
+            background-attachment: fixed;
         }
 
-        /* Animated background particles */
-        .particles {
+        /* جسيمات متحركة */
+        .particles-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.4;
+            overflow: hidden;
         }
         .particle {
             position: absolute;
             border-radius: 50%;
-            background: var(--primary);
-            animation: floatUp 8s infinite ease-in;
+            animation: floatUp linear infinite;
             opacity: 0;
         }
         @keyframes floatUp {
             0% {
-                transform: translateY(100vh) scale(0);
+                transform: translateY(105vh) scale(0) rotate(0deg);
                 opacity: 0;
             }
-            10% {
-                opacity: 0.6;
+            5% {
+                opacity: 1;
             }
             90% {
-                opacity: 0.2;
+                opacity: 0.5;
             }
             100% {
-                transform: translateY(-10vh) scale(1.5);
+                transform: translateY(-10vh) scale(1.2) rotate(720deg);
                 opacity: 0;
             }
         }
-        .particle:nth-child(odd) {
-            background: var(--accent);
+
+        /* شاشة التحميل */
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #0a0a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .loader-container {
+            position: relative;
+            width: 90px;
+            height: 90px;
+        }
+        .loader-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            animation: spinRing 1.5s linear infinite;
+        }
+        .loader-ring:nth-child(1) {
+            border-top-color: #7c5cfc;
+            border-right-color: #7c5cfc;
+        }
+        .loader-ring:nth-child(2) {
+            inset: 8px;
+            border-bottom-color: #ff6b9d;
+            border-left-color: #ff6b9d;
+            animation-direction: reverse;
+            animation-duration: 1.2s;
+        }
+        .loader-ring:nth-child(3) {
+            inset: 16px;
+            border-top-color: #ffd700;
+            border-right-color: #ffd700;
+            animation-duration: 0.9s;
+        }
+        @keyframes spinRing {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .loader-logo {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            animation: pulseIcon 1.2s ease-in-out infinite;
+        }
+        @keyframes pulseIcon {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+        }
+        .loader-text {
+            margin-top: 24px;
+            font-weight: 700;
+            font-size: 1.15em;
+            background: linear-gradient(135deg, #7c5cfc, #ff6b9d, #ffd700);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 2s infinite;
+            letter-spacing: 1px;
+        }
+        .loader-progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            margin-top: 16px;
+            overflow: hidden;
+        }
+        .loader-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7c5cfc, #ff6b9d, #ffd700);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        @keyframes gradientShift {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* شريط التقدم */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #7c5cfc, #ff6b9d, #ffd700);
+            z-index: 1000;
+            transition: width 0.1s linear;
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 0 12px rgba(124, 92, 252, 0.6);
         }
 
         .container {
-            max-width: 900px;
+            max-width: 960px;
             margin: 0 auto;
             padding: 16px;
             position: relative;
             z-index: 1;
         }
 
-        /* Header */
+        /* الهيدر */
         .header {
             text-align: center;
-            padding: 24px 16px 16px;
-            animation: slideDown 0.6s ease-out;
+            padding: 28px 16px 18px;
+            animation: fadeSlideDown 0.7s ease-out;
         }
-        @keyframes slideDown {
+        @keyframes fadeSlideDown {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
+                transform: translateY(-50px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        .header .logo {
-            font-size: 2.4em;
+        .logo-wrapper {
+            display: inline-block;
+            position: relative;
+            margin-bottom: 6px;
+        }
+        .logo-icon {
+            font-size: 3.2em;
+            display: block;
+            animation: floatIcon 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(124, 92, 252, 0.5));
+        }
+        @keyframes floatIcon {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+        .logo-text {
+            font-size: 2.8em;
             font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            background: linear-gradient(135deg, #7c5cfc, #ff6b9d, #ffd700, #7c5cfc);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: -1px;
+            animation: gradientShift 4s infinite;
+            line-height: 1.2;
         }
-        .header .subtitle {
+        .subtitle {
             font-size: 0.95em;
-            color: var(--text2);
+            color: #b8b8d0;
             margin-top: 4px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
-        .header .badge {
-            display: inline-block;
-            background: var(--primary);
-            color: #fff;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            margin-top: 8px;
-            font-weight: 600;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%,
-            100% {
-                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.4);
-            }
-            50% {
-                box-shadow: 0 0 0 12px rgba(108, 92, 231, 0);
-            }
-        }
-
-        /* Top bar */
-        .top-bar {
+        .badge-row {
             display: flex;
             gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--glass);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            border: 1px solid var(--glass-border);
+            color: #f0e6ff;
+            padding: 7px 15px;
+            border-radius: 22px;
+            font-size: 0.78em;
+            font-weight: 600;
+            transition: all var(--transition);
+            letter-spacing: 0.3px;
+        }
+        .badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(124, 92, 252, 0.25);
+            border-color: rgba(124, 92, 252, 0.5);
+        }
+        .badge.dev {
+            background: linear-gradient(135deg, #7c5cfc, #6a4de6);
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 18px rgba(124, 92, 252, 0.4);
+        }
+        .badge.gold {
+            background: linear-gradient(135deg, #ffd700, #ffb800);
+            color: #1a1a2e;
+            border: none;
+            font-weight: 800;
+        }
+
+        /* شريط البحث */
+        .top-bar {
+            display: flex;
+            gap: 10px;
             flex-wrap: wrap;
             align-items: center;
             justify-content: center;
-            margin: 12px 0;
-            animation: fadeIn 0.8s ease;
+            margin: 18px 0;
+            animation: fadeSlideDown 0.8s ease-out;
+        }
+        .search-wrapper {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+        .search-wrapper input {
+            width: 100%;
+            padding: 14px 20px;
+            padding-right: 50px;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            background: var(--surface);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            color: #f0e6ff;
+            font-size: 0.95em;
+            transition: all var(--transition);
+            font-family: inherit;
+            letter-spacing: 0.3px;
+        }
+        .search-wrapper input::placeholder {
+            color: #6a6a8a;
+        }
+        .search-wrapper input:focus {
+            outline: none;
+            border-color: #7c5cfc;
+            box-shadow: 0 0 0 5px rgba(124, 92, 252, 0.12), 0 0 25px rgba(124, 92, 252, 0.15);
+            background: rgba(35, 30, 60, 0.9);
+        }
+        .search-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7c5cfc;
+            pointer-events: none;
+            font-size: 1.15em;
+            transition: all var(--transition);
+        }
+        .search-wrapper input:focus~.search-icon {
+            color: #ffd700;
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .icon-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            background: var(--surface);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            cursor: pointer;
+            font-size: 1.25em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+            color: #f0e6ff;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .icon-btn:hover {
+            border-color: #7c5cfc;
+            box-shadow: 0 0 20px rgba(124, 92, 252, 0.3);
+            transform: scale(1.08);
+            background: rgba(35, 30, 60, 0.9);
+        }
+        .icon-btn:active {
+            transform: scale(0.92);
+            transition: transform 0.1s;
+        }
+        .lang-btn {
+            width: auto;
+            padding: 0 16px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.85em;
+            gap: 5px;
+        }
+        .lang-dropdown {
+            position: absolute;
+            top: 56px;
+            right: 0;
+            background: rgba(25, 22, 45, 0.95);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+            z-index: 100;
+            min-width: 190px;
+            max-height: 320px;
+            overflow-y: auto;
+            display: none;
+            flex-direction: column;
+            padding: 8px;
+            animation: scaleIn 0.2s ease;
+        }
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .lang-dropdown.show {
+            display: flex;
+        }
+        .lang-dropdown button {
+            background: transparent;
+            border: none;
+            padding: 11px 15px;
+            text-align: right;
+            cursor: pointer;
+            color: #f0e6ff;
+            font-size: 0.9em;
+            border-radius: 10px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .lang-dropdown button:hover {
+            background: rgba(124, 92, 252, 0.2);
+        }
+        .lang-dropdown button.active {
+            background: #7c5cfc;
+            color: #fff;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(124, 92, 252, 0.4);
+        }
+
+        /* الإحصائيات */
+        .stats-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 18px 0;
+            animation: fadeSlideDown 0.9s ease-out;
+        }
+        .stat-card {
+            background: var(--card);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            min-width: 90px;
+            transition: all var(--transition);
+            cursor: default;
+            flex: 1;
+            max-width: 150px;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #7c5cfc, #ff6b9d);
+            opacity: 0;
+            transition: opacity var(--transition);
+        }
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 40px rgba(124, 92, 252, 0.2);
+            border-color: rgba(124, 92, 252, 0.4);
+        }
+        .stat-num {
+            font-size: 2.1em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #7c5cfc, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+        .stat-lbl {
+            font-size: 0.73em;
+            color: #b8b8d0;
+            font-weight: 500;
+            margin-top: 4px;
+            letter-spacing: 0.3px;
+        }
+
+        /* التصنيفات */
+        .tabs-scroll {
+            overflow-x: auto;
+            padding: 6px 0;
+            margin: 10px 0 16px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            animation: fadeSlideDown 1s ease-out;
+        }
+        .tabs-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: nowrap;
+            padding: 0 4px;
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.82em;
+            transition: all var(--transition);
+            color: #b8b8d0;
+            white-space: nowrap;
+            font-family: inherit;
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            letter-spacing: 0.3px;
+        }
+        .tab-btn:hover {
+            border-color: rgba(124, 92, 252, 0.5);
+            color: #f0e6ff;
+            transform: translateY(-2px);
+            background: rgba(124, 92, 252, 0.1);
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #7c5cfc, #6a4de6);
+            color: #fff;
+            border-color: #7c5cfc;
+            box-shadow: 0 6px 22px rgba(124, 92, 252, 0.45);
+            transform: scale(1.05);
+        }
+
+        /* المحتوى */
+        .content-area {
+            animation: fadeIn 0.5s ease;
         }
         @keyframes fadeIn {
             from {
@@ -168,804 +571,700 @@
                 opacity: 1;
             }
         }
-        .search-wrapper {
-            flex: 1;
-            min-width: 200px;
-            position: relative;
-        }
-        .search-wrapper input {
-            width: 100%;
-            padding: 12px 16px;
-            padding-right: 44px;
-            border-radius: 30px;
-            border: 2px solid var(--border);
-            background: var(--surface);
-            color: var(--text);
-            font-size: 0.95em;
-            transition: all var(--transition);
-            font-family: inherit;
-        }
-        .search-wrapper input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.1);
-        }
-        .search-icon {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text2);
-            pointer-events: none;
-            font-size: 1.1em;
-        }
-        .theme-toggle {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 2px solid var(--border);
-            background: var(--surface);
-            cursor: pointer;
-            font-size: 1.3em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all var(--transition);
-            color: var(--text);
-            flex-shrink: 0;
-        }
-        .theme-toggle:hover {
-            background: var(--surface2);
-            transform: rotate(20deg);
-        }
-
-        /* Stats */
-        .stats-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 12px 0;
-            animation: fadeIn 0.9s ease;
-        }
-        .stat-card {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 12px 18px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            min-width: 80px;
-            transition: transform var(--transition);
-        }
-        .stat-card:hover {
-            transform: translateY(-3px);
-        }
-        .stat-card .num {
-            font-size: 1.6em;
+        .section-title {
+            font-size: 1.15em;
             font-weight: 800;
-            color: var(--primary);
-        }
-        .stat-card .lbl {
-            font-size: 0.7em;
-            color: var(--text2);
-        }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin: 16px 0;
-            justify-content: center;
-            animation: fadeIn 1s ease;
-        }
-        .tab-btn {
-            padding: 10px 18px;
-            border-radius: 25px;
-            border: 2px solid var(--border);
-            background: var(--surface);
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85em;
-            transition: all var(--transition);
-            color: var(--text);
-            white-space: nowrap;
-            font-family: inherit;
-        }
-        .tab-btn:hover {
-            border-color: var(--primary-light);
-            background: var(--surface2);
-        }
-        .tab-btn.active {
-            background: var(--primary);
-            color: #fff;
-            border-color: var(--primary);
-            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.35);
-            transform: scale(1.03);
-        }
-
-        /* Content area */
-        .content-area {
-            animation: fadeIn 1.1s ease;
-        }
-        .category-group {
-            display: none;
-        }
-        .category-group.active {
-            display: block;
-        }
-        .category-title {
-            font-size: 1.1em;
-            font-weight: 700;
-            margin: 16px 0 8px;
-            color: var(--primary);
+            margin: 22px 0 12px;
+            color: #f0e6ff;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
-        .category-title .emoji {
+        .section-title .icon {
             font-size: 1.3em;
+            animation: floatIcon 2.5s ease-in-out infinite;
+        }
+        .script-count {
+            font-size: 0.7em;
+            color: #ffd700;
+            font-weight: 600;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 3px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 215, 0, 0.25);
         }
 
-        /* Script card */
+        /* كرت السكربت */
         .script-card {
             background: var(--card);
-            border-radius: 16px;
-            padding: 14px 16px;
-            margin: 10px 0;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            margin: 12px 0;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
             transition: all var(--transition);
             opacity: 0;
-            transform: translateY(20px);
-            animation: cardIn 0.5s ease forwards;
+            transform: translateY(35px);
+            animation: cardSlideIn 0.5s ease forwards;
+            position: relative;
+            overflow: hidden;
         }
-        @keyframes cardIn {
+        .script-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(124, 92, 252, 0.06) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity var(--transition);
+            pointer-events: none;
+        }
+        .script-card:hover::after {
+            opacity: 1;
+        }
+        @keyframes cardSlideIn {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
         .script-card:hover {
-            border-color: var(--primary-light);
-            box-shadow: 0 6px 24px rgba(108, 92, 231, 0.12);
-            transform: translateY(-2px);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(124, 92, 252, 0.18);
+            border-color: rgba(124, 92, 252, 0.35);
         }
-        .script-card .script-name {
-            font-weight: 700;
-            font-size: 1em;
-            margin-bottom: 6px;
+        .script-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: var(--text);
+            gap: 10px;
+            margin-bottom: 10px;
         }
-        .script-card .script-name .dot {
-            width: 8px;
-            height: 8px;
+        .script-dot {
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            background: var(--accent);
+            background: #ff6b9d;
             flex-shrink: 0;
+            animation: dotGlow 2s infinite;
+            box-shadow: 0 0 12px rgba(255, 107, 157, 0.7);
         }
-        .script-card .script-code {
-            background: var(--surface2);
+        @keyframes dotGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 8px rgba(255, 107, 157, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(255, 107, 157, 1), 0 0 35px rgba(255, 107, 157, 0.5);
+            }
+        }
+        .script-name {
+            font-weight: 700;
+            font-size: 1em;
+            color: #f0e6ff;
+            flex: 1;
+            letter-spacing: 0.2px;
+        }
+        .key-tag {
+            background: linear-gradient(135deg, #ffd700, #ffb800);
+            color: #1a1a2e;
+            padding: 3px 10px;
             border-radius: 10px;
-            padding: 10px 12px;
+            font-size: 0.68em;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+        .code-block {
+            background: rgba(15, 12, 30, 0.7);
+            border-radius: 12px;
+            padding: 12px 14px;
             font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
-            font-size: 0.78em;
+            font-size: 0.77em;
             word-break: break-all;
-            color: var(--text2);
-            max-height: 60px;
+            color: #c8c8e0;
+            max-height: 55px;
             overflow: hidden;
             position: relative;
-            line-height: 1.5;
-            margin-bottom: 8px;
+            line-height: 1.6;
+            margin-bottom: 12px;
             direction: ltr;
             text-align: left;
+            user-select: all;
+            cursor: text;
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
-        .script-card .script-code::after {
+        .code-block::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 20px;
-            background: linear-gradient(transparent, var(--surface2));
+            height: 22px;
             pointer-events: none;
+            background: linear-gradient(transparent, rgba(15, 12, 30, 0.9));
         }
-        .script-card .actions {
+        .actions {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
         .btn {
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 10px 18px;
+            border-radius: 22px;
             border: none;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.8em;
             transition: all var(--transition);
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             font-family: inherit;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.3px;
+        }
+        .btn:active {
+            transform: scale(0.93);
+            transition: transform 0.1s;
         }
         .btn-copy {
-            background: var(--primary);
+            background: linear-gradient(135deg, #7c5cfc, #6a4de6);
             color: #fff;
+            box-shadow: 0 4px 18px rgba(124, 92, 252, 0.35);
         }
         .btn-copy:hover {
-            background: var(--primary-light);
-            transform: scale(1.04);
+            box-shadow: 0 8px 28px rgba(124, 92, 252, 0.5);
+            transform: translateY(-2px);
         }
         .btn-copy.copied {
-            background: #00b894;
+            background: linear-gradient(135deg, #00b894, #00a381);
+            animation: copyPop 0.45s ease;
+        }
+        @keyframes copyPop {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.13);
+            }
         }
         .btn-fav {
-            background: var(--surface2);
-            color: var(--text);
-            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.04);
+            color: #b8b8d0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .btn-fav:hover {
-            background: #ffeaa7;
-            border-color: #fdcb6e;
+            background: rgba(255, 215, 0, 0.12);
+            border-color: rgba(255, 215, 0, 0.5);
+            color: #ffd700;
         }
         .btn-fav.favorited {
-            background: #ffeaa7;
-            border-color: #fdcb6e;
+            background: rgba(255, 215, 0, 0.15);
+            border-color: #ffd700;
+            color: #ffd700;
+            animation: heartBeat 0.5s ease;
+            box-shadow: 0 0 18px rgba(255, 215, 0, 0.25);
         }
-        .tag {
-            display: inline-block;
-            background: var(--tag-bg);
-            color: var(--text2);
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.7em;
-            font-weight: 600;
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #333;
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 0.9em;
-            z-index: 999;
-            transition: transform 0.4s ease;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-        }
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
+        @keyframes heartBeat {
+            0% {
+                transform: scale(1);
+            }
+            30% {
+                transform: scale(1.22);
+            }
+            60% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
 
-        /* Favorites section */
+        /* المفضلة */
         .favs-section {
-            margin-top: 20px;
-            border-top: 2px dashed var(--border);
-            padding-top: 16px;
+            margin-top: 28px;
+            border-top: 2px dashed rgba(255, 255, 255, 0.08);
+            padding-top: 22px;
             display: none;
+            animation: fadeIn 0.7s ease;
         }
         .favs-section.has-favs {
             display: block;
         }
 
-        /* Scrollbar */
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .toast {
+            background: linear-gradient(135deg, #1e1e3a, #2a2a50);
+            color: #fff;
+            padding: 14px 26px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9em;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(124, 92, 252, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(40px);
+            white-space: nowrap;
+            text-align: center;
+            border: 1px solid rgba(124, 92, 252, 0.3);
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* زر العودة */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c5cfc, #6a4de6);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3em;
+            z-index: 99;
+            box-shadow: 0 6px 25px rgba(124, 92, 252, 0.5);
+            transition: all var(--transition);
+            opacity: 0;
+            transform: translateY(35px);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 35px rgba(124, 92, 252, 0.7);
+        }
+
+        /* سكرول بار */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 5px;
         }
         ::-webkit-scrollbar-track {
             background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-            background: var(--border);
+            background: rgba(124, 92, 252, 0.3);
             border-radius: 10px;
         }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(124, 92, 252, 0.5);
+        }
 
-        /* Responsive */
-        @media (max-width: 600px) {
-            .header .logo {
-                font-size: 1.7em;
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 2.1em;
             }
-            .script-card .script-code {
-                font-size: 0.7em;
-            }
-            .tab-btn {
-                padding: 8px 12px;
-                font-size: 0.75em;
-            }
-            .stats-row {
-                gap: 6px;
+            .logo-icon {
+                font-size: 2.5em;
             }
             .stat-card {
-                padding: 8px 12px;
                 min-width: 60px;
+                padding: 12px 14px;
             }
-            .stat-card .num {
-                font-size: 1.2em;
+            .stat-num {
+                font-size: 1.6em;
+            }
+            .tab-btn {
+                padding: 8px 14px;
+                font-size: 0.75em;
+            }
+            .code-block {
+                font-size: 0.7em;
+            }
+            .script-card {
+                padding: 13px 14px;
+            }
+        }
+        @media (max-width: 380px) {
+            .container {
+                padding: 8px;
+            }
+            .logo-text {
+                font-size: 1.7em;
+            }
+            .badge {
+                font-size: 0.66em;
+                padding: 5px 10px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Particles -->
-    <div class="particles" id="particles"></div>
+    <!-- شاشة التحميل -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader-container">
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-logo">📜</div>
+        </div>
+        <div class="loader-text" id="loaderText">ScriptsDelta</div>
+        <div class="loader-progress">
+            <div class="loader-progress-fill" id="loaderProgressFill"></div>
+        </div>
+    </div>
+
+    <!-- جسيمات -->
+    <div class="particles-container" id="particlesContainer"></div>
+
+    <!-- شريط التقدم -->
+    <div class="progress-bar" id="progressBar"></div>
 
     <!-- Toast -->
-    <div class="toast" id="toast"></div>
+    <div class="toast-container"><div class="toast" id="toast"></div></div>
+
+    <!-- العودة للأعلى -->
+    <button class="back-to-top" id="backToTop" title="العودة للأعلى">⬆</button>
 
     <div class="container">
-        <!-- Header -->
+        <!-- الهيدر -->
         <div class="header">
-            <div class="logo">📜 ScriptsDelta</div>
-            <div class="subtitle">تطبيق سكربتات Roblox - المطور عبدالله</div>
-            <div class="badge">الإصدار 1.0</div>
+            <div class="logo-wrapper">
+                <span class="logo-icon">📜</span>
+                <span class="logo-text" id="siteTitle">ScriptsDelta</span>
+            </div>
+            <div class="subtitle" id="siteSubtitle">تطبيق سكربتات Roblox - المطور عبدالله</div>
+            <div class="badge-row">
+                <span class="badge dev">👨‍💻 عبدالله</span>
+                <span class="badge gold">🚀 الإصدار 1.0</span>
+                <span class="badge">🎮 SAD_J82</span>
+                <span class="badge">📱 dark4abod</span>
+            </div>
         </div>
 
-        <!-- Top Bar -->
+        <!-- شريط البحث -->
         <div class="top-bar">
             <div class="search-wrapper">
                 <input type="text" id="searchInput" placeholder="🔍 بحث سريع عن سكربت...">
                 <span class="search-icon">🔎</span>
             </div>
-            <button class="theme-toggle" id="themeToggle" title="تبديل الوضع">🌙</button>
+            <button class="icon-btn" id="themeToggle" title="تغيير المظهر">✨</button>
+            <div style="position:relative;">
+                <button class="icon-btn lang-btn" id="langToggle" title="تغيير اللغة">
+                    🌐 <span id="currentLangFlag">AR</span>
+                </button>
+                <div class="lang-dropdown" id="langDropdown"></div>
+            </div>
         </div>
 
-        <!-- Stats -->
+        <!-- الإحصائيات -->
         <div class="stats-row">
             <div class="stat-card">
-                <div class="num" id="totalScripts">0</div>
-                <div class="lbl">إجمالي السكربتات</div>
+                <div class="stat-num" id="totalScripts">0</div>
+                <div class="stat-lbl" id="statScripts">إجمالي السكربتات</div>
             </div>
             <div class="stat-card">
-                <div class="num" id="totalCategories">0</div>
-                <div class="lbl">تصنيف</div>
+                <div class="stat-num" id="totalCategories">0</div>
+                <div class="stat-lbl" id="statCategories">تصنيف</div>
             </div>
             <div class="stat-card">
-                <div class="num" id="totalFavs">0</div>
-                <div class="lbl">مفضلة</div>
+                <div class="stat-num" id="totalFavs">0</div>
+                <div class="stat-lbl" id="statFavs">مفضلة</div>
             </div>
         </div>
 
-        <!-- Tabs -->
-        <div class="tabs" id="tabsContainer"></div>
+        <!-- التصنيفات -->
+        <div class="tabs-scroll">
+            <div class="tabs" id="tabsContainer"></div>
+        </div>
 
-        <!-- Content -->
+        <!-- المحتوى -->
         <div class="content-area" id="contentArea"></div>
 
-        <!-- Favorites -->
+        <!-- المفضلة -->
         <div class="favs-section" id="favsSection">
-            <div class="category-title"><span class="emoji">⭐</span> المفضلة</div>
+            <div class="section-title"><span class="icon">⭐</span> <span id="favsTitle">المفضلة</span></div>
             <div id="favsContent"></div>
         </div>
     </div>
 
     <script>
         (function() {
-            // ============ DATA ============
+            // ============ البيانات ============
             const scriptsData = [
-                // --- صاحب التطبيق ---
-                { cat: 'عام', name: 'سكربت صاحب التطبيق (Monika)',
+                { cat: 'cat_all', name: 'سكربت صاحب التطبيق (Monika)',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/main/Monika.lua"))()' },
-
-                // --- Brookhaven ---
-                { cat: '🏡 Brookhaven', name: 'XKhazraji',
+                { cat: 'cat_brookhaven', name: 'XKhazraji',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-XKhazraji-58197"))()' },
-                { cat: '🏡 Brookhaven', name: 'تخريب (Map Al-Biout)',
+                { cat: 'cat_brookhaven', name: 'تخريب (Map Al-Biout)',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/n0kc/AtomicHub/main/Map-Al-Biout.lua"))()' },
-                { cat: '🏡 Brookhaven', name: 'منوع (JG Brookhaven)',
+                { cat: 'cat_brookhaven', name: 'منوع (JG Brookhaven)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-New-Update-Script-JG-Brookhaven-93130"))()' },
-                { cat: '🏡 Brookhaven', name: 'اغاني (OXR RECHAT)',
+                { cat: 'cat_brookhaven', name: 'اغاني (OXR RECHAT)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-OXR-RECHAT-207620"))()' },
-                { cat: '🏡 Brookhaven', name: 'اغاني (GhostMusic)',
+                { cat: 'cat_brookhaven', name: 'اغاني (GhostMusic)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-GhostMusic-135281"))()' },
-                { cat: '🏡 Brookhaven', name: 'MOLYN DEVELOPMENT',
+                { cat: 'cat_brookhaven', name: 'MOLYN DEVELOPMENT',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MOLYN-DEVELOPMENT-201480"))()' },
-                { cat: '🏡 Brookhaven', name: 'اغاني (Fe Music)',
+                { cat: 'cat_brookhaven', name: 'اغاني (Fe Music)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-Fe-Music-Script-Tiktok-Songs-Hindi-Songs-Phonk-And-Bhojpuri-210809"))()' },
-
-                // --- MM2 ---
-                { cat: '🔪 MM2', name: 'YARHM',
+                { cat: 'cat_mm2', name: 'YARHM',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-YARHM-12403"))()' },
-                { cat: '🔪 MM2', name: 'GhostHub',
+                { cat: 'cat_mm2', name: 'GhostHub',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Murder-Mystery-2-GhostHub-MM-13413"))()' },
-                { cat: '🔪 MM2', name: 'XhubMM2',
+                { cat: 'cat_mm2', name: 'XhubMM2',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Au0yX/Community/main/XhubMM2"))()' },
-
-                // --- جميع المابات (عام) ---
-                { cat: '🌍 جميع المابات', name: 'VR7',
+                { cat: 'cat_all', name: 'VR7',
                     code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/Hm5011/hussain/refs/heads/main/Mercy%20Script\'))()' },
-                { cat: '🌍 جميع المابات', name: 'Zayn Chat',
+                { cat: 'cat_all', name: 'Zayn Chat',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Zayn-Chat-195426"))()' },
-                { cat: '🌍 جميع المابات', name: 'ADI ANTIBANG SCRIPT',
+                { cat: 'cat_all', name: 'ADI ANTIBANG SCRIPT',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-ADI-ANTIBANG-SCRIPT-129234"))()' },
-                { cat: '🌍 جميع المابات', name: 'تخريب (Kay Hub)',
+                { cat: 'cat_all', name: 'تخريب (Kay Hub)',
                     code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/hdhjvcfik/KAY-HUB-Script1/refs/heads/main/Kaylartop%25allmap\'))()' },
-                { cat: '🌍 جميع المابات', name: 'Anti Bang (1)',
+                { cat: 'cat_all', name: 'Anti Bang (1)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-antibang-script-58378"))()' },
-                { cat: '🌍 جميع المابات', name: 'Anti Bang (2)',
+                { cat: 'cat_all', name: 'Anti Bang (2)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Anti-Bang-48256"))()' },
-                { cat: '🌍 جميع المابات', name: 'c00lgui (F3X)',
+                { cat: 'cat_all', name: 'c00lgui (F3X)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-C00LGUI-F3X-PORT-MADE-BY-LOOPSKIDD-LEAKED-BY-PELUSIN-166496"))()' },
-                { cat: '🌍 جميع المابات', name: 'c00lgui (2)',
+                { cat: 'cat_all', name: 'c00lgui (2)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-c00lgui-212097"))()' },
-                { cat: '🌍 جميع المابات', name: 'سكربت رقصات (AFEM)',
+                { cat: 'cat_all', name: 'سكربت رقصات (AFEM)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"))()' },
-                { cat: '🌍 جميع المابات', name: 'M7 ADMIN',
+                { cat: 'cat_all', name: 'M7 ADMIN',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-M7-ADMIN-202724"))()' },
-                { cat: '🌍 جميع المابات', name: 'c00lgui (TrafficConeHax)',
+                { cat: 'cat_all', name: 'c00lgui (TrafficConeHax)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-TrafficConeHax-f3x-gui-V5-166256"))()' },
-                { cat: '🌍 جميع المابات', name: 'c00lgui (OP GUI F3X)',
+                { cat: 'cat_all', name: 'c00lgui (OP GUI F3X)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MOST-OP-GUI-F3X-MOST-OP-GUI-HAS-FE-BYPASS-AND-BACKDOOR-167144"))()' },
-                { cat: '🌍 جميع المابات', name: 'سكربت رقصات (Gaze)',
+                { cat: 'cat_all', name: 'سكربت رقصات (Gaze)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Gaze-emote-74592"))()' },
-                { cat: '🌍 جميع المابات', name: 'طيران بانواع واشكال',
+                { cat: 'cat_all', name: 'طيران بانواع واشكال',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-flight-of-the-Invincible-59729"))()' },
-                { cat: '🌍 جميع المابات', name: 'تخريب (FH7)',
+                { cat: 'cat_all', name: 'تخريب (FH7)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-FH7-Script-213669"))()' },
-                { cat: '🌍 جميع المابات', name: 'Epik Hub (Zeno & Solara)',
+                { cat: 'cat_all', name: 'Epik Hub',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-epik-hub-zeno-and-solara-26932"))()' },
-                { cat: '🌍 جميع المابات', name: 'هيدلس وكوربلوكس (1)',
+                { cat: 'cat_all', name: 'هيدلس وكوربلوكس (1)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Headless-Korblox-227396"))()' },
-                { cat: '🌍 جميع المابات', name: 'هيدلس وكوربلوكس (2)',
+                { cat: 'cat_all', name: 'هيدلس وكوربلوكس (2)',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Headless-and-Korblox-207744"))()' },
-                { cat: '🌍 جميع المابات', name: 'Anti AFK',
+                { cat: 'cat_all', name: 'Anti AFK',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/evxncodes/mainroblox/main/anti-afk", true))()' },
-                { cat: '🌍 جميع المابات', name: 'ايم بوت وكشف اماكن',
+                { cat: 'cat_all', name: 'ايم بوت وكشف اماكن',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kesicihub/Universal-Aim-Esp-/refs/heads/main/universalaimesp.lua"))()' },
-                { cat: '🌍 جميع المابات', name: 'تخريب (KillGui)',
+                { cat: 'cat_all', name: 'تخريب (KillGui)',
                     code: 'loadstring("\\108\\111\\97\\100\\115\\116\\114\\105\\110\\103\\40\\103\\97\\109\\101\\58\\72\\116\\116\\112\\71\\101\\116\\40\\34\\104\\116\\116\\112\\115\\58\\47\\47\\114\\97\\119\\46\\103\\105\\116\\104\\117\\98\\117\\115\\101\\114\\99\\111\\110\\116\\101\\110\\116\\46\\99\\111\\109\\47\\65\\99\\117\\114\\97\\88\\48\\52\\57\\47\\111\\98\\102\\117\\115\\99\\97\\116\\101\\100\\83\\99\\114\\105\\112\\116\\115\\47\\109\\97\\105\\110\\47\\75\\105\\108\\108\\71\\117\\105\\34\\41\\41\\40\\41\\10")()' },
-                { cat: '🌍 جميع المابات', name: 'عداد FPS',
+                { cat: 'cat_all', name: 'عداد FPS',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MrLamon/MLamon-Hub/refs/heads/main/Protected_4747902775072511.lua.txt"))()' },
-                { cat: '🌍 جميع المابات', name: 'ادمن (Infinite Yield)',
+                { cat: 'cat_all', name: 'ادمن (Infinite Yield)',
                     code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source\'))()' },
-                { cat: '🌍 جميع المابات', name: 'سكربت السرعة (Speed Hub)',
+                { cat: 'cat_all', name: 'سكربت السرعة (Speed Hub)',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kckckckckcc/Speed-hub-update-25/refs/heads/main/Speed%20hub%20%20update%2025"))()' },
-                { cat: '🌍 جميع المابات', name: 'سكربت السرعة - المفتاح: 1234', code: 'المفتاح: 1234', isKey: true },
-
-                // --- MegaMansion ---
-                { cat: '🏠 MegaMansion', name: 'جمع تلقائي فلوس',
+                { cat: 'cat_all', name: 'سكربت السرعة - المفتاح', code: '1234', isKey: true },
+                { cat: 'cat_megamansion', name: 'جمع تلقائي فلوس',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mega-Mansion-Tycoon-CITY!-Auto-Collect-without-gamepass-5216"))()' },
-
-                // --- The Lava Floor / Lava ---
-                { cat: '🌋 Lava Floor', name: 'Auto collect tokens',
+                { cat: 'cat_lava', name: 'Auto collect tokens',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/The-Floor-Is-LAVA!-Auto-collect-tokens-27876"))()' },
-                { cat: '🌋 Lava Floor', name: 'Auto Collect Coin',
+                { cat: 'cat_lava', name: 'Auto Collect Coin',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/The-Floor-Is-LAVA!-The-Floor-Is-LAVA-Script-Auto-Collect-Coin-43814"))()' },
-
-                // --- عرب سيتي ---
-                { cat: '🚗 عرب سيتي', name: 'تخريب',
+                { cat: 'cat_arab', name: 'تخريب',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Lakany/MOLYN-DEVELOPMENT/refs/heads/main/README.md"))()' },
-
-                // --- Wallhop ---
-                { cat: '🧱 Wallhop', name: 'Wallhop VIP',
+                { cat: 'cat_wallhop', name: 'Wallhop VIP',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-WALLHOP-VIP-ALL-GAME-213034"))()' },
-                { cat: '🧱 Wallhop', name: 'Spidi Wallhop',
+                { cat: 'cat_wallhop', name: 'Spidi Wallhop',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Spidi-Wallhop-195373"))()' },
-                { cat: '🧱 Wallhop', name: 'Wallhop Auto v6',
+                { cat: 'cat_wallhop', name: 'Wallhop Auto v6',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Wallhop-Auto-v6-177145"))()' },
-
-                // --- Spider ---
-                { cat: '🕷️ Spider', name: 'سكربت Spider 1',
+                { cat: 'cat_spider', name: 'سكربت Spider 1',
                     code: 'loadstring(game:HttpGet("https://pastebin.com/raw/eDzjAAbK"))()' },
-                { cat: '🕷️ Spider', name: 'Animal Simulator',
+                { cat: 'cat_spider', name: 'Animal Simulator',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/AnimalSimulator.lua"))()' },
-
-                // --- Mafia ---
-                { cat: '🔫 Mafia', name: 'Role Exposer OP',
+                { cat: 'cat_mafia', name: 'Role Exposer OP',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Role-exposer-OP-56533"))()' },
-                { cat: '🔫 Mafia', name: 'ROLE REVEAL ESP',
+                { cat: 'cat_mafia', name: 'ROLE REVEAL ESP',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-ROLE-REVEAL-ESP-TAROT-CARDS-72893"))()' },
-                { cat: '🔫 Mafia', name: 'Open Source',
+                { cat: 'cat_mafia', name: 'Open Source',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Open-Source-60300"))()' },
-                { cat: '🔫 Mafia', name: 'Role Exposer 2',
+                { cat: 'cat_mafia', name: 'Role Exposer 2',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Role-Exposer-53639"))()' },
-
-                // --- Survive the Killer ---
-                { cat: '🔪 Survive the Killer', name: 'Survive Killer OP',
+                { cat: 'cat_survive', name: 'Survive Killer OP',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Survive-the-Killer!-SURVIVE-THE-KILLER-NO-KEY-OP-213287"))()' },
-
-                // --- Fling Things and People ---
-                { cat: '🤸 Fling Things', name: 'Noob Hub',
+                { cat: 'cat_fling', name: 'Noob Hub',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-Noob-hub-203572"))()' },
-                { cat: '🤸 Fling Things', name: 'Player Hub',
+                { cat: 'cat_fling', name: 'Player Hub',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-Player-Hub-208119"))()' },
-                { cat: '🤸 Fling Things', name: 'SAKURAHUB',
+                { cat: 'cat_fling', name: 'SAKURAHUB',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-SAKURAHUB-no-AD-213203"))()' },
-
-                // --- استوديو لايت ---
-                { cat: '🎬 استوديو لايت', name: 'Model Inserter',
+                { cat: 'cat_studio', name: 'Model Inserter',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Studio-Lite-Model-Inserter-NotMines-27264"))()' },
-
-                // --- Teamwork Puzzles ---
-                { cat: '🧩 Teamwork Puzzles', name: 'G0bbyD0llan TP',
+                { cat: 'cat_teamwork', name: 'G0bbyD0llan TP',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Teamwork-Puzzles-G0bbyD0llan-TP-27860"))()' },
-
-                // --- Flee the Facility ---
-                { cat: '🏃 Flee the Facility', name: 'Koala Scripts',
+                { cat: 'cat_flee', name: 'Koala Scripts',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-Koala-Scripts-17343"))()' },
-                { cat: '🏃 Flee the Facility', name: 'CyberCoders Menu II',
+                { cat: 'cat_flee', name: 'CyberCoders Menu II',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-CyberCoders-Menu-II-Flee-The-Facilit-193909"))()' },
-                { cat: '🏃 Flee the Facility', name: 'Best Script',
+                { cat: 'cat_flee', name: 'Best Script',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-best-script-209442"))()' },
-
-                // --- Escape The Lava ---
-                { cat: '🌋 Escape Lava', name: 'Free Products',
+                { cat: 'cat_escape', name: 'Free Products',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Escape-The-Lava-free-products-60574"))()' },
-
-                // --- Dead Rails (القطار) ---
-                { cat: '🚂 القطار', name: 'KiciaHook OP',
+                { cat: 'cat_train', name: 'KiciaHook OP',
                     code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Dead-Rails-Alpha-Dead-Rails-OP-KiciaHook-Script-Fastest-Auto-Farm-35961"))()' },
-                { cat: '🚂 القطار', name: 'سكربت اسطوري (يختم الماب)',
+                { cat: 'cat_train', name: 'سكربت اسطوري (يختم الماب)',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ringtaa/newpacifisct/refs/heads/main/newpacifisct.lua"))()' },
-                { cat: '🚂 القطار', name: 'يجمع باوند (Auto Bond)',
+                { cat: 'cat_train', name: 'يجمع باوند (Auto Bond)',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/thiennrb7/Script/refs/heads/main/autobond"))()' },
-                { cat: '🚂 القطار', name: 'اوتو تلبورت',
+                { cat: 'cat_train', name: 'اوتو تلبورت',
                     code: 'loadstring(game:HttpGet(("https://raw.githubusercontent.com/TwoGunVolley/Eeeee/refs/heads/main/RailsDated.txt")))()' },
-                { cat: '🚂 القطار', name: 'يعطيك كلاس الحصان',
+                { cat: 'cat_train', name: 'يعطيك كلاس الحصان',
                     code: 'loadstring(game:HttpGet("https://pastebin.com/raw/5nu3ni6D"))()' },
-
-                // --- ماب السرقة ---
-                { cat: '💰 السرقة', name: 'سكربت السرقة',
+                { cat: 'cat_steal', name: 'سكربت السرقة',
                     code: 'loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/53325754de16c11fbf8bf78101c1c881.lua"))()' },
             ];
 
-            // Get unique categories in order
-            const catOrder = [
-                'عام',
-                '🏡 Brookhaven',
-                '🔪 MM2',
-                '🌍 جميع المابات',
-                '🏠 MegaMansion',
-                '🌋 Lava Floor',
-                '🚗 عرب سيتي',
-                '🧱 Wallhop',
-                '🕷️ Spider',
-                '🔫 Mafia',
-                '🔪 Survive the Killer',
-                '🤸 Fling Things',
-                '🎬 استوديو لايت',
-                '🧩 Teamwork Puzzles',
-                '🏃 Flee the Facility',
-                '🌋 Escape Lava',
-                '🚂 القطار',
-                '💰 السرقة'
+            const catKeys = ['cat_all', 'cat_brookhaven', 'cat_mm2', 'cat_megamansion', 'cat_lava', 'cat_arab',
+                'cat_wallhop', 'cat_spider', 'cat_mafia', 'cat_survive', 'cat_fling', 'cat_studio', 'cat_teamwork',
+                'cat_flee', 'cat_escape', 'cat_train', 'cat_steal'
             ];
 
-            const categories = catOrder.filter(c => scriptsData.some(s => s.cat === c));
-
-            // ============ STATE ============
-            let currentCat = '🏡 Brookhaven';
-            let favorites = JSON.parse(localStorage.getItem('scriptsdelta_favs') || '[]');
-            let isDark = localStorage.getItem('scriptsdelta_dark') === 'true';
-
-            // ============ DOM REFS ============
-            const $tabsContainer = document.getElementById('tabsContainer');
-            const $contentArea = document.getElementById('contentArea');
-            const $searchInput = document.getElementById('searchInput');
-            const $themeToggle = document.getElementById('themeToggle');
-            const $toast = document.getElementById('toast');
-            const $totalScripts = document.getElementById('totalScripts');
-            const $totalCategories = document.getElementById('totalCategories');
-            const $totalFavs = document.getElementById('totalFavs');
-            const $favsSection = document.getElementById('favsSection');
-            const $favsContent = document.getElementById('favsContent');
-            const $particles = document.getElementById('particles');
-
-            // ============ FUNCTIONS ============
-            function showToast(msg) {
-                $toast.textContent = msg;
-                $toast.classList.add('show');
-                clearTimeout($toast._timeout);
-                $toast._timeout = setTimeout(() => $toast.classList.remove('show'), 2000);
-            }
-
-            function copyToClipboard(text) {
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(text).then(() => showToast('✅ تم النسخ!'));
-                } else {
-                    const ta = document.createElement('textarea');
-                    ta.value = text;
-                    ta.style.position = 'fixed';
-                    ta.style.opacity = '0';
-                    document.body.appendChild(ta);
-                    ta.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(ta);
-                    showToast('✅ تم النسخ!');
-                }
-            }
-
-            function toggleFavorite(name, code) {
-                const idx = favorites.findIndex(f => f.code === code);
-                if (idx >= 0) {
-                    favorites.splice(idx, 1);
-                } else {
-                    favorites.push({ name, code });
-                }
-                localStorage.setItem('scriptsdelta_favs', JSON.stringify(favorites));
-                renderAll();
-                updateStats();
-            }
-
-            function isFavorite(code) {
-                return favorites.some(f => f.code === code);
-            }
-
-            function renderScriptCard(script, index) {
-                const fav = isFavorite(script.code);
-                const isKey = script.isKey;
-                return `
-                <div class="script-card" style="animation-delay: ${index * 0.03}s">
-                    <div class="script-name">
-                        <span class="dot"></span> ${script.name}
-                        ${isKey ? '<span class="tag">🔑 مفتاح</span>' : ''}
-                    </div>
-                    ${!isKey ? `
-                    <div class="script-code">${escapeHTML(script.code)}</div>
-                    <div class="actions">
-                        <button class="btn btn-copy" data-copy="${escapeHTML(script.code)}">📋 نسخ</button>
-                        <button class="btn btn-fav ${fav ? 'favorited' : ''}" data-fav-name="${escapeHTML(script.name)}" data-fav-code="${escapeHTML(script.code)}">
-                            ${fav ? '⭐ مفضل' : '☆ حفظ'}
-                        </button>
-                    </div>` : `
-                    <div class="actions">
-                        <button class="btn btn-copy" data-copy="1234">📋 نسخ المفتاح</button>
-                    </div>`}
-                </div>`;
-            }
-
-            function escapeHTML(str) {
-                const div = document.createElement('div');
-                div.textContent = str;
-                return div.innerHTML;
-            }
-
-            function renderAll() {
-                // Tabs
-                $tabsContainer.innerHTML = categories.map(c =>
-                    `<button class="tab-btn ${c === currentCat ? 'active' : ''}" data-cat="${escapeHTML(c)}">${c}</button>`
-                ).join('');
-
-                // Content
-                const filtered = scriptsData.filter(s => s.cat === currentCat);
-                $contentArea.innerHTML = `
-                    <div class="category-group active">
-                        <div class="category-title"><span class="emoji">📂</span> ${currentCat} (${filtered.length})</div>
-                        ${filtered.map((s, i) => renderScriptCard(s, i)).join('')}
-                    </div>`;
-
-                // Favorites
-                if (favorites.length > 0) {
-                    $favsSection.classList.add('has-favs');
-                    $favsContent.innerHTML = favorites.map((f, i) => `
-                        <div class="script-card" style="animation-delay: ${i * 0.03}s">
-                            <div class="script-name"><span class="dot"></span> ${escapeHTML(f.name)}</div>
-                            <div class="script-code">${escapeHTML(f.code)}</div>
-                            <div class="actions">
-                                <button class="btn btn-copy" data-copy="${escapeHTML(f.code)}">📋 نسخ</button>
-                                <button class="btn btn-fav favorited" data-fav-name="${escapeHTML(f.name)}" data-fav-code="${escapeHTML(f.code)}">⭐ مفضل</button>
-                            </div>
-                        </div>
-                    `).join('');
-                } else {
-                    $favsSection.classList.remove('has-favs');
-                }
-
-                // Bind events
-                bindCardEvents();
-            }
-
-            function bindCardEvents() {
-                document.querySelectorAll('.btn-copy').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const code = this.getAttribute('data-copy');
-                        copyToClipboard(code);
-                        this.classList.add('copied');
-                        setTimeout(() => this.classList.remove('copied'), 1500);
-                    });
-                });
-                document.querySelectorAll('.btn-fav').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const name = this.getAttribute('data-fav-name');
-                        const code = this.getAttribute('data-fav-code');
-                        toggleFavorite(name, code);
-                    });
-                });
-            }
-
-            function updateStats() {
-                $totalScripts.textContent = scriptsData.length;
-                $totalCategories.textContent = categories.length;
-                $totalFavs.textContent = favorites.length;
-            }
-
-            function filterScripts(query) {
-                if (!query.trim()) {
-                    renderAll();
-                    return;
-                }
-                const q = query.toLowerCase().trim();
-                const results = scriptsData.filter(s =>
-                    s.name.toLowerCase().includes(q) ||
-                    s.code.toLowerCase().includes(q) ||
-                    s.cat.toLowerCase().includes(q)
-                );
-                $contentArea.innerHTML = `
-                    <div class="category-group active">
-                        <div class="category-title"><span class="emoji">🔍</span> نتائج البحث: "${escapeHTML(q)}" (${results.length})</div>
-                        ${results.length > 0 ? results.map((s, i) => renderScriptCard(s, i)).join('') : '<p style="text-align:center;color:var(--text2);padding:20px;">لا توجد نتائج 😕</p>'}
-                    </div>`;
-                bindCardEvents();
-            }
-
-            function setTheme(dark) {
-                if (dark) {
-                    document.body.classList.add('dark');
-                    $themeToggle.textContent = '☀️';
-                } else {
-                    document.body.classList.remove('dark');
-                    $themeToggle.textContent = '🌙';
-                }
-                isDark = dark;
-                localStorage.setItem('scriptsdelta_dark', dark);
-            }
-
-            function createParticles() {
-                const colors = ['#6c5ce7', '#a29bfe', '#fd79a8', '#ffeaa7', '#00cec9'];
-                for (let i = 0; i < 25; i++) {
-                    const p = document.createElement('div');
-                    p.classList.add('particle');
-                    p.style.left = Math.random() * 100 + '%';
-                    p.style.width = (Math.random() * 8 + 3) + 'px';
-                    p.style.height = p.style.width;
-                    p.style.animationDuration = (Math.random() * 10 + 6) + 's';
-                    p.style.animationDelay = (Math.random() * 10) + 's';
-                    p.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    $particles.appendChild(p);
-                }
-            }
-
-            // ============ EVENTS ============
-            $tabsContainer.addEventListener('click', function(e) {
-                if (e.target.classList.contains('tab-btn')) {
-                    currentCat = e.target.getAttribute('data-cat');
-                    $searchInput.value = '';
-                    renderAll();
-                }
-            });
-
-            $searchInput.addEventListener('input', function() {
-                const query = this.value;
-                if (query.trim()) {
-                    filterScripts(query);
-                } else {
-                    renderAll();
-                }
-            });
-
-            $themeToggle.addEventListener('click', function() {
-                setTheme(!isDark);
-            });
-
-            // ============ INIT ============
-            function init() {
-                setTheme(isDark);
-                createParticles();
-                updateStats();
-                renderAll();
-            }
-
-            init();
-        })();
-    </script>
-</body>
-  </html>
+            const translations = {
+                ar: {
+                    loading: 'ScriptsDelta',
+                    siteTitle: 'ScriptsDelta',
+                    siteSubtitle: 'تطبيق سكربتات Roblox - المطور عبدالله',
+                    searchPlaceholder: '🔍 بحث سريع عن سكربت...',
+                    statScripts: 'إجمالي السكربتات',
+                    statCategories: 'تصنيف',
+                    statFavs: 'مفضلة',
+                    favsTitle: 'المفضلة',
+                    noResults: 'لا توجد نتائج 😕',
+                    copied: '✅ تم النسخ!',
+                    keyCopied: '✅ تم نسخ المفتاح!',
+                    cat_all: '🌍 جميع المابات',
+                    cat_brookhaven: '🏡 Brookhaven',
+                    cat_mm2: '🔪 MM2',
+                    cat_megamansion: '🏠 MegaMansion',
+                    cat_lava: '🌋 Lava Floor',
+                    cat_arab: '🚗 عرب سيتي',
+                    cat_wallhop: '🧱 Wallhop',
+                    cat_spider: '🕷️ Spider',
+                    cat_mafia: '🔫 Mafia',
+                    cat_survive: '🔪 Survive Killer',
+                    cat_fling: '🤸 Fling Things',
+                    cat_studio: '🎬 استوديو لايت',
+                    cat_teamwork: '🧩 Teamwork',
+                    cat_flee: '🏃 Flee Facility',
+                    cat_escape: '🌋 Escape Lava',
+                    cat_train: '🚂 القطار',
+                    cat_steal: '💰 السرقة',
+                },
+                en: {
+                    loading: 'ScriptsDelta',
+                    siteTitle: 'ScriptsDelta',
+                    siteSubtitle: 'Roblox Scripts - Dev Abdullah',
+                    searchPlaceholder: '🔍 Quick search...',
+                    statScripts: 'Total Scripts',
+                    statCategories: 'Categories',
+                    statFavs: 'Favorites',
+                    favsTitle: 'Favorites',
+                    noResults: 'No results 😕',
+                    copied: '✅ Copied!',
+                    keyCopied: '✅ Key copied!',
+                    cat_all: '🌍 All Maps',
+                    cat_brookhaven: '🏡 Brookhaven',
+                    cat_mm2: '🔪 MM2',
+                    cat_megamansion: '🏠 MegaMansion',
+                    cat_lava: '🌋 Lava Floor',
+                    cat_arab: '🚗 Arab City',
+                    cat_wallhop: '🧱 Wallhop',
+                    cat_spider: '🕷️ Spider',
+                    cat_mafia: '🔫 Mafia',
+                    cat_survive: '🔪 Survive Killer',
+                    cat_fling: '🤸 Fling Things',
+                    cat_studio: '🎬 Studio Lite',
+                    cat_teamwork: '🧩 Teamwork',
+                    cat_flee: '🏃 Flee Facility',
+                    cat_escape: '🌋 Escape Lava',
+                    cat_train: '🚂 Train',
+                    cat_steal: '💰 Steal',
+                },
+                es: {
+                    loading: 'ScriptsDelta',
+                    siteTitle: 'ScriptsDelta',
+                    siteSubtitle: 'Scripts Roblox - Dev Abdullah',
+                    searchPlaceholder: '🔍 Búsqueda rápida...',
+                    statScripts: 'Total Scripts',
+                    statCategories: 'Categorías',
+                    statFavs: 'Favoritos',
+                    favsTitle: 'Favoritos',
+                    noResults: 'Sin resultados 😕',
+                    copied: '✅ ¡Copiado!',
+                    keyCopied: '✅ ¡Clave copiada!',
+                    cat_all: '🌍 Todos',
+                    cat_brookhaven: '🏡 Brookhaven',
+                    cat_mm2: '🔪 MM2',
+                    cat_megamansion: '🏠 MegaMansion',
+                    cat_lava: '🌋 Lava Floor',
+                    cat_arab: '🚗 Ciudad Árabe',
+                    cat_wallhop: '🧱 Wallhop',
+                    cat_spider: '🕷️ Spider',
+                    cat_mafia: '🔫 Mafia',
+                    cat_survive: '🔪 Survive Killer',
+                    cat_fling: '🤸 Fling Things',
+                    cat_studio: '🎬 Studio Lite',
+                    cat_teamwork: '🧩 Teamwork',
+                    cat_flee: '🏃 Flee Facility',
+                    cat_escape: '🌋 Escape Lava',
+                    cat_train: '🚂 Tren',
+                    cat_steal: '💰 Robar',
+                },
+                fr: {
+                    loading: 'ScriptsDelta',
+                    siteTitle: 'ScriptsDelta',
+                    siteSubtitle: 'Scripts Roblox - Dev Abdullah',
+                    searchPlaceholder: '🔍 Recherche rapide...',
+                    statScripts: 'Total Scripts',
+                    statCategories: 'Catégories',
+                    statFavs: 'Favoris',
+                    favsTitle: 'Favoris',
+                    noResults: 'Aucun résultat 😕',
+                    copied: '✅ Copié!',
+                    keyCopied: '✅ Clé copiée!',
+                    cat_all: '🌍 Toutes',
+                    cat_brookhaven: '🏡 Brookhaven',
+                    cat_mm2: '🔪 MM2',
+                    cat_megamansion: '🏠 MegaMansion',
+                    cat_lava: '🌋 Lava Floor',
+                    cat_arab: '🚗 Ville Arabe',
+                    cat_wallhop: '🧱 Wallhop',
+                    cat_spider: '🕷️ Spider',
+                    cat_mafia: '🔫 Mafia',
+                    cat_survive: '🔪 Survive Killer',
+                    cat_fling: '🤸 Fling Things',
+                    cat_studio: '🎬 Studio Lite',
+                    cat_teamwork: '🧩 Teamwork',
+                    cat_flee: '🏃 Flee Facility',
+                    cat_escape: '🌋 Escape Lava',
+                    cat_train: '🚂 Train',
+                    cat_steal: '💰 Vol',
+                },
+                pt: {
+                    loading: 'ScriptsDelta',
+                    siteTitle: 'ScriptsDelta',
+                    siteSubtitle: 'Scripts 
