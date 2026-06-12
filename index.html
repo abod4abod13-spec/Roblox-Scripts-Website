@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScriptsDelta - عبدالله</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --surface: #f8f9fa;
+            --surface2: #e9ecef;
+            --text: #212529;
+            --text2: #495057;
+            --primary: #6c5ce7;
+            --primary-light: #a29bfe;
+            --accent: #fd79a8;
+            --card: #ffffff;
+            --shadow: 0 2px 12px rgba(0,0,0,0.08);
+            --border: #dee2e6;
+            --copy-bg: #e9ecef;
+            --tag-bg: #f1f3f5;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark {
+            --bg: #0f0f1a;
+            --surface: #1a1a2e;
+            --surface2: #16213e;
+            --text: #e4e6eb;
+            --text2: #b0b3b8;
+            --primary: #a29bfe;
+            --primary-light: #6c5ce7;
+            --accent: #fd79a8;
+            --card: #1e1e36;
+            --shadow: 0 2px 16px rgba(0,0,0,0.3);
+            --border: #2a2a4a;
+            --copy-bg: #2a2a4a;
+            --tag-bg: #252545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Tajawal', 'Cairo', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background var(--transition), color var(--transition);
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: floatUp 8s infinite ease-in;
+            opacity: 0;
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+        .particle:nth-child(odd) {
+            background: var(--accent);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 24px 16px 16px;
+            animation: slideDown 0.6s ease-out;
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .header .logo {
+            font-size: 2.4em;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+        .header .subtitle {
+            font-size: 0.95em;
+            color: var(--text2);
+            margin-top: 4px;
+        }
+        .header .badge {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-top: 8px;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 12px rgba(108, 92, 231, 0);
+            }
+        }
+
+        /* Top bar */
+        .top-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin: 12px 0;
+            animation: fadeIn 0.8s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .search-wrapper {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+        .search-wrapper input {
+            width: 100%;
+            padding: 12px 16px;
+            padding-right: 44px;
+            border-radius: 30px;
+            border: 2px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            font-size: 0.95em;
+            transition: all var(--transition);
+            font-family: inherit;
+        }
+        .search-wrapper input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.1);
+        }
+        .search-icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text2);
+            pointer-events: none;
+            font-size: 1.1em;
+        }
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+            color: var(--text);
+            flex-shrink: 0;
+        }
+        .theme-toggle:hover {
+            background: var(--surface2);
+            transform: rotate(20deg);
+        }
+
+        /* Stats */
+        .stats-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 12px 0;
+            animation: fadeIn 0.9s ease;
+        }
+        .stat-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 12px 18px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            min-width: 80px;
+            transition: transform var(--transition);
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+        .stat-card .num {
+            font-size: 1.6em;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .stat-card .lbl {
+            font-size: 0.7em;
+            color: var(--text2);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+            justify-content: center;
+            animation: fadeIn 1s ease;
+        }
+        .tab-btn {
+            padding: 10px 18px;
+            border-radius: 25px;
+            border: 2px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85em;
+            transition: all var(--transition);
+            color: var(--text);
+            white-space: nowrap;
+            font-family: inherit;
+        }
+        .tab-btn:hover {
+            border-color: var(--primary-light);
+            background: var(--surface2);
+        }
+        .tab-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.35);
+            transform: scale(1.03);
+        }
+
+        /* Content area */
+        .content-area {
+            animation: fadeIn 1.1s ease;
+        }
+        .category-group {
+            display: none;
+        }
+        .category-group.active {
+            display: block;
+        }
+        .category-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            margin: 16px 0 8px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .category-title .emoji {
+            font-size: 1.3em;
+        }
+
+        /* Script card */
+        .script-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin: 10px 0;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: all var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardIn 0.5s ease forwards;
+        }
+        @keyframes cardIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .script-card:hover {
+            border-color: var(--primary-light);
+            box-shadow: 0 6px 24px rgba(108, 92, 231, 0.12);
+            transform: translateY(-2px);
+        }
+        .script-card .script-name {
+            font-weight: 700;
+            font-size: 1em;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+        }
+        .script-card .script-name .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+        .script-card .script-code {
+            background: var(--surface2);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
+            font-size: 0.78em;
+            word-break: break-all;
+            color: var(--text2);
+            max-height: 60px;
+            overflow: hidden;
+            position: relative;
+            line-height: 1.5;
+            margin-bottom: 8px;
+            direction: ltr;
+            text-align: left;
+        }
+        .script-card .script-code::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(transparent, var(--surface2));
+            pointer-events: none;
+        }
+        .script-card .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8em;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: inherit;
+        }
+        .btn-copy {
+            background: var(--primary);
+            color: #fff;
+        }
+        .btn-copy:hover {
+            background: var(--primary-light);
+            transform: scale(1.04);
+        }
+        .btn-copy.copied {
+            background: #00b894;
+        }
+        .btn-fav {
+            background: var(--surface2);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-fav:hover {
+            background: #ffeaa7;
+            border-color: #fdcb6e;
+        }
+        .btn-fav.favorited {
+            background: #ffeaa7;
+            border-color: #fdcb6e;
+        }
+        .tag {
+            display: inline-block;
+            background: var(--tag-bg);
+            color: var(--text2);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: 600;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9em;
+            z-index: 999;
+            transition: transform 0.4s ease;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Favorites section */
+        .favs-section {
+            margin-top: 20px;
+            border-top: 2px dashed var(--border);
+            padding-top: 16px;
+            display: none;
+        }
+        .favs-section.has-favs {
+            display: block;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header .logo {
+                font-size: 1.7em;
+            }
+            .script-card .script-code {
+                font-size: 0.7em;
+            }
+            .tab-btn {
+                padding: 8px 12px;
+                font-size: 0.75em;
+            }
+            .stats-row {
+                gap: 6px;
+            }
+            .stat-card {
+                padding: 8px 12px;
+                min-width: 60px;
+            }
+            .stat-card .num {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">📜 ScriptsDelta</div>
+            <div class="subtitle">تطبيق سكربتات Roblox - المطور عبدالله</div>
+            <div class="badge">الإصدار 1.0</div>
+        </div>
+
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="🔍 بحث سريع عن سكربت...">
+                <span class="search-icon">🔎</span>
+            </div>
+            <button class="theme-toggle" id="themeToggle" title="تبديل الوضع">🌙</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="num" id="totalScripts">0</div>
+                <div class="lbl">إجمالي السكربتات</div>
+            </div>
+            <div class="stat-card">
+                <div class="num" id="totalCategories">0</div>
+                <div class="lbl">تصنيف</div>
+            </div>
+            <div class="stat-card">
+                <div class="num" id="totalFavs">0</div>
+                <div class="lbl">مفضلة</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs" id="tabsContainer"></div>
+
+        <!-- Content -->
+        <div class="content-area" id="contentArea"></div>
+
+        <!-- Favorites -->
+        <div class="favs-section" id="favsSection">
+            <div class="category-title"><span class="emoji">⭐</span> المفضلة</div>
+            <div id="favsContent"></div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ============ DATA ============
+            const scriptsData = [
+                // --- صاحب التطبيق ---
+                { cat: 'عام', name: 'سكربت صاحب التطبيق (Monika)',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/main/Monika.lua"))()' },
+
+                // --- Brookhaven ---
+                { cat: '🏡 Brookhaven', name: 'XKhazraji',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-XKhazraji-58197"))()' },
+                { cat: '🏡 Brookhaven', name: 'تخريب (Map Al-Biout)',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/n0kc/AtomicHub/main/Map-Al-Biout.lua"))()' },
+                { cat: '🏡 Brookhaven', name: 'منوع (JG Brookhaven)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-New-Update-Script-JG-Brookhaven-93130"))()' },
+                { cat: '🏡 Brookhaven', name: 'اغاني (OXR RECHAT)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-OXR-RECHAT-207620"))()' },
+                { cat: '🏡 Brookhaven', name: 'اغاني (GhostMusic)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-GhostMusic-135281"))()' },
+                { cat: '🏡 Brookhaven', name: 'MOLYN DEVELOPMENT',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MOLYN-DEVELOPMENT-201480"))()' },
+                { cat: '🏡 Brookhaven', name: 'اغاني (Fe Music)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-Fe-Music-Script-Tiktok-Songs-Hindi-Songs-Phonk-And-Bhojpuri-210809"))()' },
+
+                // --- MM2 ---
+                { cat: '🔪 MM2', name: 'YARHM',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-YARHM-12403"))()' },
+                { cat: '🔪 MM2', name: 'GhostHub',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Murder-Mystery-2-GhostHub-MM-13413"))()' },
+                { cat: '🔪 MM2', name: 'XhubMM2',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Au0yX/Community/main/XhubMM2"))()' },
+
+                // --- جميع المابات (عام) ---
+                { cat: '🌍 جميع المابات', name: 'VR7',
+                    code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/Hm5011/hussain/refs/heads/main/Mercy%20Script\'))()' },
+                { cat: '🌍 جميع المابات', name: 'Zayn Chat',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Zayn-Chat-195426"))()' },
+                { cat: '🌍 جميع المابات', name: 'ADI ANTIBANG SCRIPT',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-ADI-ANTIBANG-SCRIPT-129234"))()' },
+                { cat: '🌍 جميع المابات', name: 'تخريب (Kay Hub)',
+                    code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/hdhjvcfik/KAY-HUB-Script1/refs/heads/main/Kaylartop%25allmap\'))()' },
+                { cat: '🌍 جميع المابات', name: 'Anti Bang (1)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-antibang-script-58378"))()' },
+                { cat: '🌍 جميع المابات', name: 'Anti Bang (2)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Anti-Bang-48256"))()' },
+                { cat: '🌍 جميع المابات', name: 'c00lgui (F3X)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-C00LGUI-F3X-PORT-MADE-BY-LOOPSKIDD-LEAKED-BY-PELUSIN-166496"))()' },
+                { cat: '🌍 جميع المابات', name: 'c00lgui (2)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-c00lgui-212097"))()' },
+                { cat: '🌍 جميع المابات', name: 'سكربت رقصات (AFEM)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"))()' },
+                { cat: '🌍 جميع المابات', name: 'M7 ADMIN',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-M7-ADMIN-202724"))()' },
+                { cat: '🌍 جميع المابات', name: 'c00lgui (TrafficConeHax)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-TrafficConeHax-f3x-gui-V5-166256"))()' },
+                { cat: '🌍 جميع المابات', name: 'c00lgui (OP GUI F3X)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MOST-OP-GUI-F3X-MOST-OP-GUI-HAS-FE-BYPASS-AND-BACKDOOR-167144"))()' },
+                { cat: '🌍 جميع المابات', name: 'سكربت رقصات (Gaze)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Gaze-emote-74592"))()' },
+                { cat: '🌍 جميع المابات', name: 'طيران بانواع واشكال',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-flight-of-the-Invincible-59729"))()' },
+                { cat: '🌍 جميع المابات', name: 'تخريب (FH7)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-FH7-Script-213669"))()' },
+                { cat: '🌍 جميع المابات', name: 'Epik Hub (Zeno & Solara)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-epik-hub-zeno-and-solara-26932"))()' },
+                { cat: '🌍 جميع المابات', name: 'هيدلس وكوربلوكس (1)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Headless-Korblox-227396"))()' },
+                { cat: '🌍 جميع المابات', name: 'هيدلس وكوربلوكس (2)',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Headless-and-Korblox-207744"))()' },
+                { cat: '🌍 جميع المابات', name: 'Anti AFK',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/evxncodes/mainroblox/main/anti-afk", true))()' },
+                { cat: '🌍 جميع المابات', name: 'ايم بوت وكشف اماكن',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kesicihub/Universal-Aim-Esp-/refs/heads/main/universalaimesp.lua"))()' },
+                { cat: '🌍 جميع المابات', name: 'تخريب (KillGui)',
+                    code: 'loadstring("\\108\\111\\97\\100\\115\\116\\114\\105\\110\\103\\40\\103\\97\\109\\101\\58\\72\\116\\116\\112\\71\\101\\116\\40\\34\\104\\116\\116\\112\\115\\58\\47\\47\\114\\97\\119\\46\\103\\105\\116\\104\\117\\98\\117\\115\\101\\114\\99\\111\\110\\116\\101\\110\\116\\46\\99\\111\\109\\47\\65\\99\\117\\114\\97\\88\\48\\52\\57\\47\\111\\98\\102\\117\\115\\99\\97\\116\\101\\100\\83\\99\\114\\105\\112\\116\\115\\47\\109\\97\\105\\110\\47\\75\\105\\108\\108\\71\\117\\105\\34\\41\\41\\40\\41\\10")()' },
+                { cat: '🌍 جميع المابات', name: 'عداد FPS',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MrLamon/MLamon-Hub/refs/heads/main/Protected_4747902775072511.lua.txt"))()' },
+                { cat: '🌍 جميع المابات', name: 'ادمن (Infinite Yield)',
+                    code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source\'))()' },
+                { cat: '🌍 جميع المابات', name: 'سكربت السرعة (Speed Hub)',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kckckckckcc/Speed-hub-update-25/refs/heads/main/Speed%20hub%20%20update%2025"))()' },
+                { cat: '🌍 جميع المابات', name: 'سكربت السرعة - المفتاح: 1234', code: 'المفتاح: 1234', isKey: true },
+
+                // --- MegaMansion ---
+                { cat: '🏠 MegaMansion', name: 'جمع تلقائي فلوس',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mega-Mansion-Tycoon-CITY!-Auto-Collect-without-gamepass-5216"))()' },
+
+                // --- The Lava Floor / Lava ---
+                { cat: '🌋 Lava Floor', name: 'Auto collect tokens',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/The-Floor-Is-LAVA!-Auto-collect-tokens-27876"))()' },
+                { cat: '🌋 Lava Floor', name: 'Auto Collect Coin',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/The-Floor-Is-LAVA!-The-Floor-Is-LAVA-Script-Auto-Collect-Coin-43814"))()' },
+
+                // --- عرب سيتي ---
+                { cat: '🚗 عرب سيتي', name: 'تخريب',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Lakany/MOLYN-DEVELOPMENT/refs/heads/main/README.md"))()' },
+
+                // --- Wallhop ---
+                { cat: '🧱 Wallhop', name: 'Wallhop VIP',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-WALLHOP-VIP-ALL-GAME-213034"))()' },
+                { cat: '🧱 Wallhop', name: 'Spidi Wallhop',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Spidi-Wallhop-195373"))()' },
+                { cat: '🧱 Wallhop', name: 'Wallhop Auto v6',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Wallhop-Auto-v6-177145"))()' },
+
+                // --- Spider ---
+                { cat: '🕷️ Spider', name: 'سكربت Spider 1',
+                    code: 'loadstring(game:HttpGet("https://pastebin.com/raw/eDzjAAbK"))()' },
+                { cat: '🕷️ Spider', name: 'Animal Simulator',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/AnimalSimulator.lua"))()' },
+
+                // --- Mafia ---
+                { cat: '🔫 Mafia', name: 'Role Exposer OP',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Role-exposer-OP-56533"))()' },
+                { cat: '🔫 Mafia', name: 'ROLE REVEAL ESP',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-ROLE-REVEAL-ESP-TAROT-CARDS-72893"))()' },
+                { cat: '🔫 Mafia', name: 'Open Source',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Open-Source-60300"))()' },
+                { cat: '🔫 Mafia', name: 'Role Exposer 2',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Role-Exposer-53639"))()' },
+
+                // --- Survive the Killer ---
+                { cat: '🔪 Survive the Killer', name: 'Survive Killer OP',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Survive-the-Killer!-SURVIVE-THE-KILLER-NO-KEY-OP-213287"))()' },
+
+                // --- Fling Things and People ---
+                { cat: '🤸 Fling Things', name: 'Noob Hub',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-Noob-hub-203572"))()' },
+                { cat: '🤸 Fling Things', name: 'Player Hub',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-Player-Hub-208119"))()' },
+                { cat: '🤸 Fling Things', name: 'SAKURAHUB',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-SAKURAHUB-no-AD-213203"))()' },
+
+                // --- استوديو لايت ---
+                { cat: '🎬 استوديو لايت', name: 'Model Inserter',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Studio-Lite-Model-Inserter-NotMines-27264"))()' },
+
+                // --- Teamwork Puzzles ---
+                { cat: '🧩 Teamwork Puzzles', name: 'G0bbyD0llan TP',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Teamwork-Puzzles-G0bbyD0llan-TP-27860"))()' },
+
+                // --- Flee the Facility ---
+                { cat: '🏃 Flee the Facility', name: 'Koala Scripts',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-Koala-Scripts-17343"))()' },
+                { cat: '🏃 Flee the Facility', name: 'CyberCoders Menu II',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-CyberCoders-Menu-II-Flee-The-Facilit-193909"))()' },
+                { cat: '🏃 Flee the Facility', name: 'Best Script',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-best-script-209442"))()' },
+
+                // --- Escape The Lava ---
+                { cat: '🌋 Escape Lava', name: 'Free Products',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Escape-The-Lava-free-products-60574"))()' },
+
+                // --- Dead Rails (القطار) ---
+                { cat: '🚂 القطار', name: 'KiciaHook OP',
+                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Dead-Rails-Alpha-Dead-Rails-OP-KiciaHook-Script-Fastest-Auto-Farm-35961"))()' },
+                { cat: '🚂 القطار', name: 'سكربت اسطوري (يختم الماب)',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ringtaa/newpacifisct/refs/heads/main/newpacifisct.lua"))()' },
+                { cat: '🚂 القطار', name: 'يجمع باوند (Auto Bond)',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/thiennrb7/Script/refs/heads/main/autobond"))()' },
+                { cat: '🚂 القطار', name: 'اوتو تلبورت',
+                    code: 'loadstring(game:HttpGet(("https://raw.githubusercontent.com/TwoGunVolley/Eeeee/refs/heads/main/RailsDated.txt")))()' },
+                { cat: '🚂 القطار', name: 'يعطيك كلاس الحصان',
+                    code: 'loadstring(game:HttpGet("https://pastebin.com/raw/5nu3ni6D"))()' },
+
+                // --- ماب السرقة ---
+                { cat: '💰 السرقة', name: 'سكربت السرقة',
+                    code: 'loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/53325754de16c11fbf8bf78101c1c881.lua"))()' },
+            ];
+
+            // Get unique categories in order
+            const catOrder = [
+                'عام',
+                '🏡 Brookhaven',
+                '🔪 MM2',
+                '🌍 جميع المابات',
+                '🏠 MegaMansion',
+                '🌋 Lava Floor',
+                '🚗 عرب سيتي',
+                '🧱 Wallhop',
+                '🕷️ Spider',
+                '🔫 Mafia',
+                '🔪 Survive the Killer',
+                '🤸 Fling Things',
+                '🎬 استوديو لايت',
+                '🧩 Teamwork Puzzles',
+                '🏃 Flee the Facility',
+                '🌋 Escape Lava',
+                '🚂 القطار',
+                '💰 السرقة'
+            ];
+
+            const categories = catOrder.filter(c => scriptsData.some(s => s.cat === c));
+
+            // ============ STATE ============
+            let currentCat = '🏡 Brookhaven';
+            let favorites = JSON.parse(localStorage.getItem('scriptsdelta_favs') || '[]');
+            let isDark = localStorage.getItem('scriptsdelta_dark') === 'true';
+
+            // ============ DOM REFS ============
+            const $tabsContainer = document.getElementById('tabsContainer');
+            const $contentArea = document.getElementById('contentArea');
+            const $searchInput = document.getElementById('searchInput');
+            const $themeToggle = document.getElementById('themeToggle');
+            const $toast = document.getElementById('toast');
+            const $totalScripts = document.getElementById('totalScripts');
+            const $totalCategories = document.getElementById('totalCategories');
+            const $totalFavs = document.getElementById('totalFavs');
+            const $favsSection = document.getElementById('favsSection');
+            const $favsContent = document.getElementById('favsContent');
+            const $particles = document.getElementById('particles');
+
+            // ============ FUNCTIONS ============
+            function showToast(msg) {
+                $toast.textContent = msg;
+                $toast.classList.add('show');
+                clearTimeout($toast._timeout);
+                $toast._timeout = setTimeout(() => $toast.classList.remove('show'), 2000);
+            }
+
+            function copyToClipboard(text) {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text).then(() => showToast('✅ تم النسخ!'));
+                } else {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.position = 'fixed';
+                    ta.style.opacity = '0';
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    showToast('✅ تم النسخ!');
+                }
+            }
+
+            function toggleFavorite(name, code) {
+                const idx = favorites.findIndex(f => f.code === code);
+                if (idx >= 0) {
+                    favorites.splice(idx, 1);
+                } else {
+                    favorites.push({ name, code });
+                }
+                localStorage.setItem('scriptsdelta_favs', JSON.stringify(favorites));
+                renderAll();
+                updateStats();
+            }
+
+            function isFavorite(code) {
+                return favorites.some(f => f.code === code);
+            }
+
+            function renderScriptCard(script, index) {
+                const fav = isFavorite(script.code);
+                const isKey = script.isKey;
+                return `
+                <div class="script-card" style="animation-delay: ${index * 0.03}s">
+                    <div class="script-name">
+                        <span class="dot"></span> ${script.name}
+                        ${isKey ? '<span class="tag">🔑 مفتاح</span>' : ''}
+                    </div>
+                    ${!isKey ? `
+                    <div class="script-code">${escapeHTML(script.code)}</div>
+                    <div class="actions">
+                        <button class="btn btn-copy" data-copy="${escapeHTML(script.code)}">📋 نسخ</button>
+                        <button class="btn btn-fav ${fav ? 'favorited' : ''}" data-fav-name="${escapeHTML(script.name)}" data-fav-code="${escapeHTML(script.code)}">
+                            ${fav ? '⭐ مفضل' : '☆ حفظ'}
+                        </button>
+                    </div>` : `
+                    <div class="actions">
+                        <button class="btn btn-copy" data-copy="1234">📋 نسخ المفتاح</button>
+                    </div>`}
+                </div>`;
+            }
+
+            function escapeHTML(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+
+            function renderAll() {
+                // Tabs
+                $tabsContainer.innerHTML = categories.map(c =>
+                    `<button class="tab-btn ${c === currentCat ? 'active' : ''}" data-cat="${escapeHTML(c)}">${c}</button>`
+                ).join('');
+
+                // Content
+                const filtered = scriptsData.filter(s => s.cat === currentCat);
+                $contentArea.innerHTML = `
+                    <div class="category-group active">
+                        <div class="category-title"><span class="emoji">📂</span> ${currentCat} (${filtered.length})</div>
+                        ${filtered.map((s, i) => renderScriptCard(s, i)).join('')}
+                    </div>`;
+
+                // Favorites
+                if (favorites.length > 0) {
+                    $favsSection.classList.add('has-favs');
+                    $favsContent.innerHTML = favorites.map((f, i) => `
+                        <div class="script-card" style="animation-delay: ${i * 0.03}s">
+                            <div class="script-name"><span class="dot"></span> ${escapeHTML(f.name)}</div>
+                            <div class="script-code">${escapeHTML(f.code)}</div>
+                            <div class="actions">
+                                <button class="btn btn-copy" data-copy="${escapeHTML(f.code)}">📋 نسخ</button>
+                                <button class="btn btn-fav favorited" data-fav-name="${escapeHTML(f.name)}" data-fav-code="${escapeHTML(f.code)}">⭐ مفضل</button>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    $favsSection.classList.remove('has-favs');
+                }
+
+                // Bind events
+                bindCardEvents();
+            }
+
+            function bindCardEvents() {
+                document.querySelectorAll('.btn-copy').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const code = this.getAttribute('data-copy');
+                        copyToClipboard(code);
+                        this.classList.add('copied');
+                        setTimeout(() => this.classList.remove('copied'), 1500);
+                    });
+                });
+                document.querySelectorAll('.btn-fav').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const name = this.getAttribute('data-fav-name');
+                        const code = this.getAttribute('data-fav-code');
+                        toggleFavorite(name, code);
+                    });
+                });
+            }
+
+            function updateStats() {
+                $totalScripts.textContent = scriptsData.length;
+                $totalCategories.textContent = categories.length;
+                $totalFavs.textContent = favorites.length;
+            }
+
+            function filterScripts(query) {
+                if (!query.trim()) {
+                    renderAll();
+                    return;
+                }
+                const q = query.toLowerCase().trim();
+                const results = scriptsData.filter(s =>
+                    s.name.toLowerCase().includes(q) ||
+                    s.code.toLowerCase().includes(q) ||
+                    s.cat.toLowerCase().includes(q)
+                );
+                $contentArea.innerHTML = `
+                    <div class="category-group active">
+                        <div class="category-title"><span class="emoji">🔍</span> نتائج البحث: "${escapeHTML(q)}" (${results.length})</div>
+                        ${results.length > 0 ? results.map((s, i) => renderScriptCard(s, i)).join('') : '<p style="text-align:center;color:var(--text2);padding:20px;">لا توجد نتائج 😕</p>'}
+                    </div>`;
+                bindCardEvents();
+            }
+
+            function setTheme(dark) {
+                if (dark) {
+                    document.body.classList.add('dark');
+                    $themeToggle.textContent = '☀️';
+                } else {
+                    document.body.classList.remove('dark');
+                    $themeToggle.textContent = '🌙';
+                }
+                isDark = dark;
+                localStorage.setItem('scriptsdelta_dark', dark);
+            }
+
+            function createParticles() {
+                const colors = ['#6c5ce7', '#a29bfe', '#fd79a8', '#ffeaa7', '#00cec9'];
+                for (let i = 0; i < 25; i++) {
+                    const p = document.createElement('div');
+                    p.classList.add('particle');
+                    p.style.left = Math.random() * 100 + '%';
+                    p.style.width = (Math.random() * 8 + 3) + 'px';
+                    p.style.height = p.style.width;
+                    p.style.animationDuration = (Math.random() * 10 + 6) + 's';
+                    p.style.animationDelay = (Math.random() * 10) + 's';
+                    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    $particles.appendChild(p);
+                }
+            }
+
+            // ============ EVENTS ============
+            $tabsContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('tab-btn')) {
+                    currentCat = e.target.getAttribute('data-cat');
+                    $searchInput.value = '';
+                    renderAll();
+                }
+            });
+
+            $searchInput.addEventListener('input', function() {
+                const query = this.value;
+                if (query.trim()) {
+                    filterScripts(query);
+                } else {
+                    renderAll();
+                }
+            });
+
+            $themeToggle.addEventListener('click', function() {
+                setTheme(!isDark);
+            });
+
+            // ============ INIT ============
+            function init() {
+                setTheme(isDark);
+                createParticles();
+                updateStats();
+                renderAll();
+            }
+
+            init();
+        })();
+    </script>
+</body>
+  </html>
