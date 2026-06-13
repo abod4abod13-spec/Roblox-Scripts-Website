@@ -72,6 +72,7 @@
         .badge { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 18px; font-size: 0.73em; color: #c0c0d8; font-weight: 600; }
         .badge.dev { background: #7c5cfc; color: #fff; border: none; }
         .badge.gold { background: #ffd700; color: #1a1a2e; border: none; font-weight: 700; }
+        .badge.owner { background: linear-gradient(135deg, #ff6b9d, #ff8e53); color: #fff; border: none; font-weight: 700; }
         .search-bar { display: flex; gap: 8px; margin: 14px 0; flex-wrap: wrap; }
         .search-bar input {
             flex: 1; min-width: 180px; padding: 12px 16px;
@@ -120,8 +121,11 @@
         .tab { padding: 8px 16px; border-radius: 22px; white-space: nowrap; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); cursor: pointer; font-weight: 600; font-size: 0.78em; color: #a0a0c0; transition: 0.3s; font-family: inherit; }
         .tab:hover { border-color: rgba(124,92,252,0.3); color: #fff; }
         .tab.active { background: #7c5cfc; color: #fff; border-color: #7c5cfc; box-shadow: 0 4px 16px rgba(124,92,252,0.3); }
+        .tab.owner-tab { border-color: rgba(255,107,157,0.3); }
+        .tab.owner-tab.active { background: linear-gradient(135deg, #ff6b9d, #ff8e53); border-color: #ff6b9d; box-shadow: 0 4px 16px rgba(255,107,157,0.4); }
         .cat-title { font-size: 1.05em; font-weight: 700; margin: 16px 0 10px; display: flex; align-items: center; gap: 8px; }
         .count-badge { font-size: 0.65em; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2); color: #ffd700; padding: 2px 8px; border-radius: 10px; }
+        .count-badge.owner { background: rgba(255,107,157,0.15); border: 1px solid rgba(255,107,157,0.3); color: #ff6b9d; }
         .script-card {
             background: var(--card); border: 1px solid var(--border);
             border-radius: 16px; padding: 14px; margin: 10px 0;
@@ -130,9 +134,14 @@
         }
         @keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
         .script-card:hover { border-color: rgba(124,92,252,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+        .script-card.owner-card { border-left: 3px solid #ff6b9d; }
+        .script-card.owner-card:hover { border-color: rgba(255,107,157,0.5); box-shadow: 0 8px 25px rgba(255,107,157,0.15); }
         .script-card .name { font-weight: 700; font-size: 0.95em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff6b9d; flex-shrink: 0; }
+        .dot.owner-dot { background: #ff8e53; animation: dotGlow 1.5s infinite; }
+        @keyframes dotGlow { 0%,100% { box-shadow: 0 0 4px #ff8e53; } 50% { box-shadow: 0 0 14px #ff8e53, 0 0 20px #ff6b9d; } }
         .key-tag { background: #ffd700; color: #1a1a2e; padding: 2px 8px; border-radius: 8px; font-size: 0.65em; font-weight: 700; }
+        .owner-tag { background: linear-gradient(135deg, #ff6b9d, #ff8e53); color: #fff; padding: 2px 8px; border-radius: 8px; font-size: 0.6em; font-weight: 700; }
         .code-box {
             background: #0e0e22; border-radius: 10px; padding: 10px;
             font-family: 'Courier New', monospace; font-size: 0.72em;
@@ -148,6 +157,9 @@
         .btn-copy { background: #7c5cfc; color: #fff; }
         .btn-copy:hover { background: #6a4de6; }
         .btn-copy.done { background: #00b894; }
+        .btn-copy.owner-copy { background: linear-gradient(135deg, #ff6b9d, #ff8e53); }
+        .btn-copy.owner-copy:hover { opacity: 0.9; }
+        .btn-copy.owner-copy.done { background: #00b894; }
         .btn-fav { background: rgba(255,255,255,0.04); color: #a0a0c0; border: 1px solid rgba(255,255,255,0.1); }
         .btn-fav:hover { background: rgba(255,215,0,0.1); border-color: rgba(255,215,0,0.3); color: #ffd700; }
         .btn-fav.on { background: rgba(255,215,0,0.1); border-color: #ffd700; color: #ffd700; }
@@ -199,6 +211,7 @@
             <div class="sub" id="siteSub">تطبيق سكربتات Roblox - المطور عبدالله</div>
             <div class="badges">
                 <span class="badge dev">👨‍💻 عبدالله</span>
+                <span class="badge owner">👑 صاحب الموقع</span>
                 <span class="badge gold">🚀 v1.0</span>
                 <span class="badge">🎮 SAD_J82</span>
                 <span class="badge">📱 dark4abod</span>
@@ -232,8 +245,21 @@
     <script>
         (function() {
             var scriptsData = [
-                { cat: 'cat_all', name: 'سكربت صاحب التطبيق (Monika)',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/main/Monika.lua"))()' },
+                { cat: 'cat_owner', name: 'سكربت صاحب التطبيق (Monika)',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/main/Monika.lua"))()',
+                    isOwner: true },
+                { cat: 'cat_owner', name: 'اداة تنقل الى اي مكان',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/TPPlayerToll.lua"))()',
+                    isOwner: true },
+                { cat: 'cat_owner', name: 'تنقل الى لاعب عبر اسمه',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7TPPLAER.lua"))()',
+                    isOwner: true },
+                { cat: 'cat_owner', name: 'كشف لاعبين ESP',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/ESPPLAYER.lua"))()',
+                    isOwner: true },
+                { cat: 'cat_owner', name: 'واجهه SSV7 المميزه',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7GUI.lua"))()',
+                    isOwner: true },
                 { cat: 'cat_all', name: 'VR7',
                     code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/Hm5011/hussain/refs/heads/main/Mercy%20Script\'))()' },
                 { cat: 'cat_all', name: 'Zayn Chat',
@@ -363,9 +389,9 @@
                     code: 'loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/53325754de16c11fbf8bf78101c1c881.lua"))()' },
             ];
 
-            var catKeys = ['cat_all', 'cat_brookhaven', 'cat_mm2', 'cat_megamansion', 'cat_lava', 'cat_arab', 'cat_wallhop',
-                'cat_spider', 'cat_mafia', 'cat_survive', 'cat_fling', 'cat_studio', 'cat_teamwork', 'cat_flee',
-                'cat_escape', 'cat_train', 'cat_steal'
+            var catKeys = ['cat_owner', 'cat_all', 'cat_brookhaven', 'cat_mm2', 'cat_megamansion', 'cat_lava', 'cat_arab',
+                'cat_wallhop', 'cat_spider', 'cat_mafia', 'cat_survive', 'cat_fling', 'cat_studio', 'cat_teamwork',
+                'cat_flee', 'cat_escape', 'cat_train', 'cat_steal'
             ];
 
             var translations = {
@@ -379,6 +405,7 @@
                     favsTitle: 'المفضلة',
                     noResults: 'لا توجد نتائج',
                     copied: '✅ تم النسخ!',
+                    cat_owner: '👑 سكربتات صاحب الموقع',
                     cat_all: '🌍 جميع المابات',
                     cat_brookhaven: '🏡 Brookhaven',
                     cat_mm2: '🔪 MM2',
@@ -407,6 +434,7 @@
                     favsTitle: 'Favorites',
                     noResults: 'No results',
                     copied: '✅ Copied!',
+                    cat_owner: '👑 Owner Scripts',
                     cat_all: '🌍 All Maps',
                     cat_brookhaven: '🏡 Brookhaven',
                     cat_mm2: '🔪 MM2',
@@ -429,7 +457,7 @@
             var langNames = { ar: 'العربية 🇸🇦', en: 'English 🇺🇸' };
             var langFlags = { ar: 'AR', en: 'EN' };
 
-            var currentCat = 'cat_all';
+            var currentCat = 'cat_owner';
             var favorites = JSON.parse(localStorage.getItem('sdfavs') || '[]');
             var currentLang = localStorage.getItem('sdlang') || 'ar';
 
@@ -463,23 +491,13 @@
             }
 
             function copyText(text) {
-                if (!text || text.length === 0) {
-                    showToast('❌ لا يوجد نص للنسخ');
-                    return;
-                }
+                if (!text || text.length === 0) { showToast('❌ لا يوجد نص للنسخ'); return; }
                 try {
                     if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(text).then(function() {
-                            showToast(t('copied'));
-                        }).catch(function(err) {
-                            fallbackCopy(text);
-                        });
-                    } else {
-                        fallbackCopy(text);
-                    }
-                } catch (e) {
-                    fallbackCopy(text);
-                }
+                        navigator.clipboard.writeText(text).then(function() { showToast(t('copied')); }).catch(
+                            function() { fallbackCopy(text); });
+                    } else { fallbackCopy(text); }
+                } catch (e) { fallbackCopy(text); }
             }
 
             function fallbackCopy(text) {
@@ -497,14 +515,9 @@
                     ta.setSelectionRange(0, text.length);
                     var success = document.execCommand('copy');
                     document.body.removeChild(ta);
-                    if (success) {
-                        showToast(t('copied'));
-                    } else {
-                        showToast('❌ فشل النسخ');
-                    }
-                } catch (e) {
-                    showToast('❌ المتصفح لا يدعم النسخ');
-                }
+                    if (success) showToast(t('copied'));
+                    else showToast('❌ فشل النسخ');
+                } catch (e) { showToast('❌ المتصفح لا يدعم النسخ'); }
             }
 
             function toggleFav(name, code) {
@@ -517,10 +530,7 @@
                 renderAll();
             }
 
-            function isFav(code) {
-                for (var i = 0; i < favorites.length; i++) { if (favorites[i].code === code) return true; }
-                return false;
-            }
+            function isFav(code) { for (var i = 0; i < favorites.length; i++) { if (favorites[i].code === code) return true; } return false; }
 
             function esc(s) { var d = document.createElement('div');
                 d.textContent = s; return d.innerHTML; }
@@ -532,15 +542,20 @@
                 var fav = isFav(s.code);
                 var en = esc(s.name);
                 var ec = escAttr(s.code);
-                var html = '<div class="script-card" style="animation-delay:' + (i * 0.03) + 's">';
-                html += '<div class="name"><span class="dot"></span>' + en;
-                if (s.isKey) html += ' <span class="key-tag">KEY</span>';
-                html += '</div>';
+                var isOwner = s.isOwner || s.cat === 'cat_owner';
+                var cardClass = isOwner ? ' owner-card' : '';
+                var dotClass = isOwner ? ' owner-dot' : '';
+                var copyClass = isOwner ? ' owner-copy' : '';
+                var tagHtml = isOwner ? ' <span class="owner-tag">صاحب الموقع</span>' : (s.isKey ?
+                    ' <span class="key-tag">KEY</span>' : '');
+                var html = '<div class="script-card' + cardClass + '" style="animation-delay:' + (i * 0.03) + 's">';
+                html += '<div class="name"><span class="dot' + dotClass + '"></span>' + en + tagHtml + '</div>';
                 if (!s.isKey) {
                     html += '<div class="code-box">' + esc(s.code) + '</div>';
                     html += '<div class="actions">';
-                    html += '<button class="btn btn-copy" data-code="' + ec + '" onclick="window._copyScript(this)">📋 ' +
-                        (currentLang === 'ar' ? 'نسخ' : 'Copy') + '</button>';
+                    html += '<button class="btn btn-copy' + copyClass + '" data-code="' + ec +
+                        '" onclick="window._copyScript(this)">📋 ' + (currentLang === 'ar' ? 'نسخ' : 'Copy') +
+                        '</button>';
                     html += '<button class="btn btn-fav' + (fav ? ' on' : '') + '" data-name="' + ec +
                         '" data-code="' + ec + '" onclick="window._toggleFav(this)">' + (fav ? '⭐' : '☆') + ' ' + (
                             currentLang === 'ar' ? 'حفظ' : 'Save') + '</button>';
@@ -563,8 +578,9 @@
                 }
                 var tabsHtml = '';
                 for (var k = 0; k < cats.length; k++) {
-                    tabsHtml += '<button class="tab' + (cats[k] === currentCat ? ' active' : '') + '" data-cat="' + cats[
-                        k] + '">' + t(cats[k]) + '</button>';
+                    var isOwnerTab = cats[k] === 'cat_owner';
+                    tabsHtml += '<button class="tab' + (cats[k] === currentCat ? ' active' : '') + (isOwnerTab ?
+                        ' owner-tab' : '') + '" data-cat="' + cats[k] + '">' + t(cats[k]) + '</button>';
                 }
                 tabsContainer.innerHTML = tabsHtml;
 
@@ -572,8 +588,10 @@
                 for (var m = 0; m < scriptsData.length; m++) {
                     if (scriptsData[m].cat === currentCat) filtered.push(scriptsData[m]);
                 }
-                var contentHtml = '<div class="cat-title">📂 ' + t(currentCat) + ' <span class="count-badge">' + filtered
-                    .length + '</span></div>';
+                var isOwnerCat = currentCat === 'cat_owner';
+                var contentHtml = '<div class="cat-title">' + (isOwnerCat ? '👑' : '📂') + ' ' + t(currentCat) +
+                    ' <span class="count-badge' + (isOwnerCat ? ' owner' : '') + '">' + filtered.length +
+                    '</span></div>';
                 for (var n = 0; n < filtered.length; n++) { contentHtml += buildCardHTML(filtered[n], n); }
                 if (filtered.length === 0) contentHtml += '<p style="text-align:center;padding:30px;color:#a0a0c0;">' + t(
                     'noResults') + '</p>';
@@ -622,9 +640,7 @@
                 for (var i = 0; i < scriptsData.length; i++) {
                     var s = scriptsData[i];
                     if (s.name.toLowerCase().indexOf(lq) >= 0 || s.code.toLowerCase().indexOf(lq) >= 0 || (t(s.cat) || '')
-                        .toLowerCase().indexOf(lq) >= 0) {
-                        results.push(s);
-                    }
+                        .toLowerCase().indexOf(lq) >= 0) results.push(s);
                 }
                 var html = '<div class="cat-title">🔍 نتائج: "' + esc(lq) + '" <span class="count-badge">' + results
                     .length + '</span></div>';
@@ -661,11 +677,9 @@
 
             window._copyScript = function(btn) {
                 var code = btn.getAttribute('data-code');
-                if (code) {
-                    copyText(code);
+                if (code) { copyText(code);
                     btn.classList.add('done');
-                    setTimeout(function() { btn.classList.remove('done'); }, 1500);
-                }
+                    setTimeout(function() { btn.classList.remove('done'); }, 1500); }
             };
             window._toggleFav = function(btn) {
                 var name = btn.getAttribute('data-name');
@@ -674,25 +688,21 @@
             };
 
             tabsContainer.addEventListener('click', function(e) {
-                if (e.target.classList.contains('tab')) {
-                    currentCat = e.target.getAttribute('data-cat');
+                if (e.target.classList.contains('tab')) { currentCat = e.target.getAttribute('data-cat');
                     searchInput.value = '';
                     renderAll();
-                    window.scrollTo({ top: 250, behavior: 'smooth' });
-                }
+                    window.scrollTo({ top: 250, behavior: 'smooth' }); }
             });
             searchInput.addEventListener('input', function() { filterScripts(this.value); });
             $('#themeBtn').addEventListener('click', function() { showToast('✨ ' + t('siteTitle') + ' | عبدالله'); });
             langBtn.addEventListener('click', function(e) { e.stopPropagation();
                 langDrop.classList.toggle('show'); });
             langDrop.addEventListener('click', function(e) {
-                if (e.target.tagName === 'BUTTON') {
-                    var l = e.target.getAttribute('data-lang');
-                    if (l && l !== currentLang) { currentLang = l;
+                if (e.target.tagName === 'BUTTON') { var l = e.target.getAttribute('data-lang'); if (l && l !==
+                        currentLang) { currentLang = l;
                         localStorage.setItem('sdlang', l);
                         updateAllTexts(); }
-                    langDrop.classList.remove('show');
-                }
+                    langDrop.classList.remove('show'); }
             });
             document.addEventListener('click', function() { langDrop.classList.remove('show'); });
             window.addEventListener('scroll', function() {
@@ -708,25 +718,20 @@
                 var duration = 1500;
                 var start = Date.now();
 
-                function update() {
-                    var elapsed = Date.now() - start;
+                function update() { var elapsed = Date.now() - start;
                     var pct = Math.min((elapsed / duration) * 100, 100);
-                    loaderFill.style.width = pct + '%';
-                    if (elapsed < duration) requestAnimationFrame(update);
-                }
+                    loaderFill.style.width = pct + '%'; if (elapsed < duration) requestAnimationFrame(update); }
                 requestAnimationFrame(update);
                 setTimeout(function() { loadingScreen.classList.add('hide'); }, duration);
             }
 
-            function init() {
-                updateStats();
+            function init() { updateStats();
                 updateAllTexts();
                 renderLangDrop();
                 langFlag.textContent = langFlags[currentLang] || 'AR';
-                startLoading();
-            }
+                startLoading(); }
             init();
         })();
     </script>
 </body>
-                                                                  </html>
+    </html>
