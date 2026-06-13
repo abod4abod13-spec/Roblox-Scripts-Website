@@ -131,17 +131,36 @@
             border-radius: 16px; padding: 14px; margin: 10px 0;
             transition: 0.3s; opacity: 0; transform: translateY(20px);
             animation: cardIn 0.4s ease forwards;
+            position: relative; overflow: visible;
         }
         @keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
         .script-card:hover { border-color: rgba(124,92,252,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
         .script-card.owner-card { border-left: 3px solid #ff6b9d; }
         .script-card.owner-card:hover { border-color: rgba(255,107,157,0.5); box-shadow: 0 8px 25px rgba(255,107,157,0.15); }
-        .script-card .name { font-weight: 700; font-size: 0.95em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .script-card .name { font-weight: 700; font-size: 0.95em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff6b9d; flex-shrink: 0; }
         .dot.owner-dot { background: #ff8e53; animation: dotGlow 1.5s infinite; }
         @keyframes dotGlow { 0%,100% { box-shadow: 0 0 4px #ff8e53; } 50% { box-shadow: 0 0 14px #ff8e53, 0 0 20px #ff6b9d; } }
         .key-tag { background: #ffd700; color: #1a1a2e; padding: 2px 8px; border-radius: 8px; font-size: 0.65em; font-weight: 700; }
         .owner-tag { background: linear-gradient(135deg, #ff6b9d, #ff8e53); color: #fff; padding: 2px 8px; border-radius: 8px; font-size: 0.6em; font-weight: 700; }
+        .new-tag {
+            background: linear-gradient(135deg, #00cec9, #00b894);
+            color: #fff; padding: 3px 10px; border-radius: 10px;
+            font-size: 0.62em; font-weight: 800; letter-spacing: 0.5px;
+            animation: newPulse 1.5s infinite;
+            display: inline-flex; align-items: center; gap: 3px;
+        }
+        @keyframes newPulse {
+            0%,100% { box-shadow: 0 0 0 0 rgba(0,206,201,0.5); }
+            50% { box-shadow: 0 0 0 8px rgba(0,206,201,0); }
+        }
+        .features-box {
+            background: rgba(0,206,201,0.06); border: 1px solid rgba(0,206,201,0.2);
+            border-radius: 10px; padding: 8px 12px; margin-bottom: 10px;
+            font-size: 0.7em; color: #81ecec; line-height: 1.6;
+        }
+        .features-box .feat-title { font-weight: 700; color: #00cec9; margin-bottom: 4px; }
+        .features-box span { display: inline-block; background: rgba(0,206,201,0.1); padding: 2px 8px; border-radius: 6px; margin: 2px 3px; }
         .code-box {
             background: #0e0e22; border-radius: 10px; padding: 10px;
             font-family: 'Courier New', monospace; font-size: 0.72em;
@@ -248,6 +267,10 @@
                 { cat: 'cat_owner', name: 'سكربت صاحب التطبيق (Monika)',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/main/Monika.lua"))()',
                     isOwner: true },
+                { cat: 'cat_owner', name: 'سكربت كشف اماكن ESP مميز',
+                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7ESP.lua"))()',
+                    isOwner: true, isNew: true,
+                    features: ['🎨 تغيير ألوان الكشف', '👁️ رؤية اللاعبين عبر الجدران', '📏 تحديد المسافات', '⚡ أداء سريع بدون لاق', '🔧 تخصيص كامل للواجهة'] },
                 { cat: 'cat_owner', name: 'اداة تنقل الى اي مكان',
                     code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/TPPlayerToll.lua"))()',
                     isOwner: true },
@@ -546,10 +569,17 @@
                 var cardClass = isOwner ? ' owner-card' : '';
                 var dotClass = isOwner ? ' owner-dot' : '';
                 var copyClass = isOwner ? ' owner-copy' : '';
-                var tagHtml = isOwner ? ' <span class="owner-tag">صاحب الموقع</span>' : (s.isKey ?
-                    ' <span class="key-tag">KEY</span>' : '');
+                var tagHtml = '';
+                if (s.isNew) tagHtml += ' <span class="new-tag">🔥 جديد</span>';
+                if (isOwner && !s.isNew) tagHtml += ' <span class="owner-tag">صاحب الموقع</span>';
+                if (s.isKey) tagHtml += ' <span class="key-tag">KEY</span>';
                 var html = '<div class="script-card' + cardClass + '" style="animation-delay:' + (i * 0.03) + 's">';
                 html += '<div class="name"><span class="dot' + dotClass + '"></span>' + en + tagHtml + '</div>';
+                if (s.features && s.features.length > 0) {
+                    html += '<div class="features-box"><div class="feat-title">✨ مميزات السكربت:</div>';
+                    for (var f = 0; f < s.features.length; f++) { html += '<span>' + s.features[f] + '</span> '; }
+                    html += '</div>';
+                }
                 if (!s.isKey) {
                     html += '<div class="code-box">' + esc(s.code) + '</div>';
                     html += '<div class="actions">';
