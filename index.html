@@ -3,45 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScriptsDelta v4 | عبدالله</title>
+    <title>ScriptsDelta v5 | عبدالله</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --bg: #060612;
-            --surface: #0f0f22;
-            --surface2: #181830;
-            --text: #eaeaf5;
-            --text2: #b0b0cc;
-            --primary: #7c5cfc;
-            --accent: #ff6b9d;
-            --gold: #ffd700;
             --card: #12122a;
-            --border: rgba(255,255,255,0.05);
-            --font: 'Cairo', 'Tajawal', sans-serif;
+            --border: #2a2a45;
+            --text: #e8e8f0;
+            --sub: #a0a0c0;
+            --font: 'Cairo', sans-serif;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
         body {
             font-family: var(--font);
             background: var(--bg);
+            background-image: radial-gradient(ellipse at 20% 10%, rgba(124,92,252,0.12) 0%, transparent 50%),
+                              radial-gradient(ellipse at 80% 90%, rgba(255,107,157,0.08) 0%, transparent 50%);
+            background-attachment: fixed;
             color: var(--text);
             min-height: 100vh;
-            background-image:
-                radial-gradient(ellipse at 15% 8%, rgba(124,92,252,0.15) 0%, transparent 55%),
-                radial-gradient(ellipse at 85% 92%, rgba(255,107,157,0.12) 0%, transparent 55%),
-                radial-gradient(ellipse at 50% 50%, rgba(255,215,0,0.06) 0%, transparent 60%);
-            background-attachment: fixed;
         }
+
         #loadingScreen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #050510; z-index: 99999;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
-            transition: opacity 0.5s, visibility 0.5s;
+            transition: opacity 0.4s, visibility 0.4s;
         }
         #loadingScreen.hide { opacity: 0; visibility: hidden; pointer-events: none; }
         .loader-spin {
-            width: 55px; height: 55px;
+            width: 44px; height: 44px;
             border: 3px solid rgba(255,255,255,0.08);
             border-top-color: #7c5cfc;
             border-right-color: #ff6b9d;
@@ -49,180 +42,140 @@
             animation: spin 0.8s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .loader-msg {
-            color: #b0b0cc; margin-top: 18px;
-            font-weight: 700; font-size: 1em;
-            letter-spacing: 0.5px;
-        }
-        .loader-bar { width: 200px; height: 3px; background: rgba(255,255,255,0.06); border-radius: 10px; margin-top: 14px; overflow: hidden; }
+        .loader-msg { color: #a0a0c0; margin-top: 14px; font-weight: 700; font-size: 0.9em; font-family: var(--font); }
+        .loader-bar { width: 170px; height: 3px; background: rgba(255,255,255,0.06); border-radius: 10px; margin-top: 10px; overflow: hidden; }
         .loader-bar-fill { height: 100%; background: linear-gradient(90deg, #7c5cfc, #ff6b9d, #ffd700); border-radius: 10px; width: 0%; transition: width 0.3s; }
-        #progressBar {
-            position: fixed; top: 0; left: 0; height: 3px;
-            background: linear-gradient(90deg, #7c5cfc, #ff6b9d, #ffd700);
-            z-index: 1000; width: 0%; transition: width 0.1s;
-            box-shadow: 0 0 12px rgba(124,92,252,0.5);
-        }
-        .container { max-width: 920px; margin: 0 auto; padding: 14px; }
-        .header { text-align: center; padding: 28px 10px 18px; }
-        .header .icon { font-size: 3.4em; animation: float 3s ease-in-out infinite; display: block; }
-        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+
+        .container { max-width: 920px; margin: 0 auto; padding: 10px 12px; }
+        .header { text-align: center; padding: 20px 10px 12px; animation: fadeDown 0.6s ease; }
+        @keyframes fadeDown { from { opacity: 0; transform: translateY(-18px); } to { opacity: 1; transform: translateY(0); } }
+        .header .icon { font-size: 2.6em; animation: float 2.8s ease-in-out infinite; display: block; }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .header h1 {
-            font-size: 2.8em; font-weight: 900;
-            background: linear-gradient(135deg, #7c5cfc, #ff6b9d, #ffd700, #7c5cfc);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: grad 3.5s infinite;
-            letter-spacing: -1px;
-            line-height: 1.3;
+            font-size: 2em; font-weight: 900; letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #7c5cfc, #ff6b9d, #ffd700);
+            background-size: 200% 200%;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; animation: grad 3s infinite; line-height: 1.2;
         }
         @keyframes grad { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-        .header .sub {
-            color: #b0b0cc; font-size: 0.95em;
-            margin-top: 4px; font-weight: 500;
-            letter-spacing: 0.4px;
-        }
-        .badges { display: flex; gap: 7px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
-        .badge { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 6px 14px; border-radius: 20px; font-size: 0.74em; color: #c0c0d8; font-weight: 600; letter-spacing: 0.3px; }
-        .badge.dev { background: #7c5cfc; color: #fff; border: none; font-weight: 700; }
-        .badge.gold { background: linear-gradient(135deg, #ffd700, #ffb800); color: #1a1a2e; border: none; font-weight: 800; }
-        .badge.owner { background: linear-gradient(135deg, #ff6b9d, #ff8e53); color: #fff; border: none; font-weight: 700; }
-        .badge.ver { background: linear-gradient(135deg, #00cec9, #00b894); color: #fff; border: none; font-weight: 700; }
-        .search-bar { display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+        .header .sub { color: var(--sub); font-size: 0.78em; font-weight: 500; margin-top: 1px; }
+        .badges { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; margin-top: 7px; }
+        .badge { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 3px 10px; border-radius: 12px; font-size: 0.65em; color: #c0c0d8; font-weight: 600; }
+        .badge.dev { background: #7c5cfc; color: #fff; border: none; }
+        .badge.ver { background: #00b894; color: #fff; border: none; font-weight: 700; }
+
+        .search-bar { display: flex; gap: 6px; margin: 10px 0; animation: fadeDown 0.7s ease; }
         .search-bar input {
-            flex: 1; min-width: 180px; padding: 13px 18px;
-            border-radius: 28px; border: 2px solid rgba(255,255,255,0.06);
-            background: var(--surface); color: var(--text);
-            font-size: 0.92em; font-family: var(--font);
-            transition: 0.3s; letter-spacing: 0.3px;
+            flex: 1; padding: 9px 13px; border-radius: 18px;
+            border: 2px solid var(--border); background: var(--card);
+            color: #fff; font-size: 0.78em; font-family: var(--font);
+            transition: 0.25s;
         }
-        .search-bar input:focus { outline: none; border-color: #7c5cfc; box-shadow: 0 0 0 5px rgba(124,92,252,0.1); }
-        .search-bar input::placeholder { color: #5a5a7a; }
-        .icon-btn {
-            width: 46px; height: 46px; border-radius: 50%;
-            background: var(--surface); border: 2px solid rgba(255,255,255,0.06);
-            color: var(--text); cursor: pointer; font-size: 1.2em;
-            display: flex; align-items: center; justify-content: center;
-            transition: 0.3s; flex-shrink: 0;
+        .search-bar input:focus { outline: none; border-color: #7c5cfc; box-shadow: 0 0 0 3px rgba(124,92,252,0.1); }
+        .search-bar input::placeholder { color: #5a5a7a; font-size: 0.9em; }
+
+        .stats { display: flex; gap: 6px; margin: 10px 0; animation: fadeDown 0.8s ease; }
+        .stat {
+            flex: 1; text-align: center; background: var(--card);
+            border: 1px solid var(--border); border-radius: 12px;
+            padding: 9px 5px; transition: 0.2s;
         }
-        .icon-btn:hover { border-color: #7c5cfc; background: var(--surface2); transform: scale(1.05); }
-        .lang-btn { width: auto; padding: 0 16px; border-radius: 24px; font-weight: 700; font-size: 0.82em; gap: 5px; }
-        .lang-drop {
-            position: absolute; top: 54px; right: 0;
-            background: #151535; border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-            z-index: 100; min-width: 180px; max-height: 260px;
-            overflow-y: auto; display: none; flex-direction: column; padding: 8px;
-        }
-        .lang-drop.show { display: flex; }
-        .lang-drop button {
-            background: none; border: none; padding: 11px 16px;
-            text-align: right; cursor: pointer; color: #c0c0d8;
-            font-size: 0.88em; border-radius: 12px; font-family: var(--font);
+        .stat:hover { transform: translateY(-2px); border-color: rgba(124,92,252,0.3); }
+        .stat .num { font-size: 1.4em; font-weight: 900; background: linear-gradient(135deg, #7c5cfc, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .stat .lbl { font-size: 0.6em; color: #888; font-weight: 500; }
+
+        .tabs-wrap { overflow-x: auto; margin: 7px 0 10px; white-space: nowrap; animation: fadeDown 0.9s ease; }
+        .tabs-wrap::-webkit-scrollbar { display: none; }
+        .tab {
+            display: inline-block; padding: 5px 12px; border-radius: 16px;
+            background: var(--card); border: 2px solid var(--border);
+            cursor: pointer; font-size: 0.68em; color: #a0a0c0;
+            margin-left: 4px; font-family: var(--font); font-weight: 600;
             transition: 0.2s;
         }
-        .lang-drop button:hover { background: rgba(124,92,252,0.2); }
-        .lang-drop button.active { background: #7c5cfc; color: #fff; font-weight: 700; }
-        .stats { display: flex; gap: 10px; margin: 16px 0; flex-wrap: wrap; }
-        .stat {
-            flex: 1; min-width: 70px; text-align: center;
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 18px; padding: 14px 10px; transition: 0.3s;
-        }
-        .stat:hover { transform: translateY(-4px); border-color: rgba(124,92,252,0.35); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
-        .stat .num { font-size: 2em; font-weight: 900; background: linear-gradient(135deg, #7c5cfc, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .stat .lbl { font-size: 0.7em; color: #b0b0cc; margin-top: 3px; font-weight: 500; letter-spacing: 0.3px; }
-        .tabs-wrap { overflow-x: auto; padding: 4px 0; margin: 8px 0 16px; }
-        .tabs-wrap::-webkit-scrollbar { display: none; }
-        .tabs { display: flex; gap: 7px; flex-wrap: nowrap; }
-        .tab { padding: 9px 18px; border-radius: 24px; white-space: nowrap; background: rgba(255,255,255,0.02); border: 2px solid rgba(255,255,255,0.05); cursor: pointer; font-weight: 700; font-size: 0.8em; color: #b0b0cc; transition: 0.3s; font-family: var(--font); letter-spacing: 0.3px; }
-        .tab:hover { border-color: rgba(124,92,252,0.35); color: #fff; background: rgba(124,92,252,0.08); }
-        .tab.active { background: #7c5cfc; color: #fff; border-color: #7c5cfc; box-shadow: 0 6px 20px rgba(124,92,252,0.4); }
-        .tab.owner-tab { border-color: rgba(255,107,157,0.25); }
-        .tab.owner-tab.active { background: linear-gradient(135deg, #ff6b9d, #ff8e53); border-color: #ff6b9d; box-shadow: 0 6px 20px rgba(255,107,157,0.4); }
-        .cat-title { font-size: 1.1em; font-weight: 800; margin: 18px 0 12px; display: flex; align-items: center; gap: 10px; letter-spacing: 0.4px; }
-        .count-badge { font-size: 0.67em; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2); color: #ffd700; padding: 3px 10px; border-radius: 12px; font-weight: 600; }
-        .count-badge.owner { background: rgba(255,107,157,0.15); border: 1px solid rgba(255,107,157,0.3); color: #ff6b9d; }
+        .tab:hover { border-color: rgba(124,92,252,0.4); color: #fff; }
+        .tab.active { background: #7c5cfc; color: #fff; border-color: #7c5cfc; }
+        .tab.owner.active { background: linear-gradient(135deg, #ff6b9d, #ff8e53); border-color: #ff6b9d; }
+
+        .cat-title { font-size: 0.9em; font-weight: 700; margin: 12px 0 7px; }
+
         .script-card {
             background: var(--card); border: 1px solid var(--border);
-            border-radius: 18px; padding: 16px; margin: 12px 0;
-            transition: 0.3s; opacity: 0; transform: translateY(20px);
-            animation: cardIn 0.4s ease forwards;
+            border-radius: 13px; padding: 10px 12px; margin: 6px 0;
+            transition: 0.2s; opacity: 0; transform: translateY(12px);
+            animation: cardUp 0.35s ease forwards;
         }
-        @keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
-        .script-card:hover { border-color: rgba(124,92,252,0.35); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-        .script-card.owner-card { border-right: 4px solid #ff6b9d; }
-        .script-card .name { font-weight: 700; font-size: 0.98em; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; letter-spacing: 0.3px; }
-        .dot { width: 9px; height: 9px; border-radius: 50%; background: #ff6b9d; flex-shrink: 0; box-shadow: 0 0 8px rgba(255,107,157,0.5); }
-        .key-tag { background: #ffd700; color: #1a1a2e; padding: 3px 10px; border-radius: 10px; font-size: 0.67em; font-weight: 800; letter-spacing: 0.3px; }
-        .owner-tag { background: linear-gradient(135deg, #ff6b9d, #ff8e53); color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 0.62em; font-weight: 800; letter-spacing: 0.3px; }
-        .new-tag { background: linear-gradient(135deg, #00cec9, #00b894); color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 0.62em; font-weight: 800; animation: newPulse 1.5s infinite; }
-        .hot-tag { background: linear-gradient(135deg, #e17055, #d63031); color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 0.62em; font-weight: 800; animation: hotPulse 1s infinite; }
-        .pro-tag { background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 0.62em; font-weight: 800; }
-        .updated-tag { background: linear-gradient(135deg, #fdcb6e, #f39c12); color: #1a1a2e; padding: 3px 10px; border-radius: 10px; font-size: 0.62em; font-weight: 800; animation: updatePulse 2s infinite; }
-        @keyframes newPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(0,206,201,0.5); } 50% { box-shadow: 0 0 0 10px rgba(0,206,201,0); } }
-        @keyframes hotPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(214,48,49,0.6); } 50% { box-shadow: 0 0 0 12px rgba(214,48,49,0); } }
-        @keyframes updatePulse { 0%,100% { box-shadow: 0 0 0 0 rgba(253,203,110,0.5); } 50% { box-shadow: 0 0 0 8px rgba(253,203,110,0); } }
-        .features-box {
-            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 12px; padding: 10px 14px; margin-bottom: 10px;
-            font-size: 0.72em; color: #dfe6e9; line-height: 1.9;
+        @keyframes cardUp { to { opacity: 1; transform: translateY(0); } }
+        .script-card:hover { border-color: rgba(124,92,252,0.3); transform: translateY(-2px); }
+        .script-card.owner { border-right: 3px solid #ff6b9d; }
+        .script-card.mm2 { border-right: 3px solid #e74c3c; }
+        .script-name {
+            font-weight: 700; font-size: 0.8em; margin-bottom: 4px;
+            display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
+            line-height: 1.3;
         }
-        .features-box .feat-title { font-weight: 700; color: #ffd700; margin-bottom: 5px; }
-        .features-box span { display: inline-block; background: rgba(255,255,255,0.04); padding: 3px 10px; border-radius: 8px; margin: 2px 3px; }
-        .warning-box {
-            background: rgba(255,215,0,0.06); border: 1px solid rgba(255,215,0,0.2);
-            border-radius: 10px; padding: 7px 12px; margin-bottom: 10px;
-            font-size: 0.7em; color: #ffeaa7; line-height: 1.6;
-        }
-        .desc-text { font-size: 0.8em; color: #dfe6e9; margin-bottom: 8px; line-height: 1.5; }
+        .dot { width: 6px; height: 6px; border-radius: 50%; background: #ff6b9d; flex-shrink: 0; box-shadow: 0 0 5px rgba(255,107,157,0.5); }
+        .dot.mm2 { background: #e74c3c; box-shadow: 0 0 7px rgba(231,76,60,0.7); animation: dotPulse 1s infinite; }
+        @keyframes dotPulse { 0%,100% { box-shadow: 0 0 5px rgba(231,76,60,0.5); } 50% { box-shadow: 0 0 14px rgba(231,76,60,1); } }
+        .tag { display: inline-block; padding: 2px 6px; border-radius: 6px; font-size: 0.55em; font-weight: 700; letter-spacing: 0.1px; }
+        .tag.owner { background: linear-gradient(135deg, #ff6b9d, #ff8e53); color: #fff; }
+        .tag.new { background: #00b894; color: #fff; animation: tagPulse 1.5s infinite; }
+        .tag.hot { background: #e74c3c; color: #fff; animation: tagPulse 1s infinite; }
+        .tag.pro { background: #6c5ce7; color: #fff; }
+        .tag.updated { background: #f39c12; color: #1a1a2e; animation: tagPulse 2s infinite; }
+        .tag.exclusive { background: #c0392b; color: #fff; animation: tagPulse 1.3s infinite; }
+        @keyframes tagPulse { 0%,100% { box-shadow: 0 0 0 0 currentColor; } 50% { box-shadow: 0 0 0 5px transparent; } }
+        .desc { font-size: 0.68em; color: #b0b0d0; margin-bottom: 4px; line-height: 1.4; }
+        .features { font-size: 0.63em; color: #81ecec; margin-bottom: 4px; line-height: 1.5; }
+        .warning { font-size: 0.6em; color: #ffeaa7; margin-bottom: 4px; background: rgba(255,215,0,0.05); padding: 3px 6px; border-radius: 5px; border: 1px solid rgba(255,215,0,0.1); }
         .code-box {
-            background: #08081a; border-radius: 12px; padding: 12px;
-            font-family: 'Courier New', monospace; font-size: 0.73em;
-            word-break: break-all; color: #c0c0d8; max-height: 50px;
-            overflow: hidden; position: relative; line-height: 1.6;
-            margin-bottom: 12px; direction: ltr; text-align: left;
-            user-select: all; cursor: text; border: 1px solid rgba(255,255,255,0.04);
+            background: #08081a; padding: 6px 8px; border-radius: 7px;
+            font-family: 'Courier New', monospace; font-size: 0.6em;
+            word-break: break-all; color: #c0c0d0; max-height: 34px;
+            overflow: hidden; margin-bottom: 6px; direction: ltr;
+            text-align: left; border: 1px solid rgba(255,255,255,0.03);
         }
-        .code-box::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 18px; background: linear-gradient(transparent, #08081a); }
-        .actions { display: flex; gap: 7px; flex-wrap: wrap; }
-        .btn { padding: 9px 18px; border-radius: 22px; border: none; cursor: pointer; font-weight: 700; font-size: 0.77em; display: flex; align-items: center; gap: 5px; font-family: var(--font); transition: 0.3s; letter-spacing: 0.3px; }
+        .actions { display: flex; gap: 4px; }
+        .btn {
+            padding: 5px 11px; border-radius: 13px; border: none;
+            cursor: pointer; font-weight: 700; font-size: 0.65em;
+            font-family: var(--font); transition: 0.2s; letter-spacing: 0.1px;
+        }
         .btn:active { transform: scale(0.93); }
-        .btn-copy { background: #7c5cfc; color: #fff; box-shadow: 0 4px 15px rgba(124,92,252,0.3); }
-        .btn-copy:hover { background: #6a4de6; box-shadow: 0 6px 20px rgba(124,92,252,0.45); }
-        .btn-copy.done { background: #00b894; }
-        .btn-fav { background: rgba(255,255,255,0.03); color: #b0b0cc; border: 1px solid rgba(255,255,255,0.08); }
-        .btn-fav:hover { background: rgba(255,215,0,0.1); border-color: rgba(255,215,0,0.35); color: #ffd700; }
-        .btn-fav.on { background: rgba(255,215,0,0.12); border-color: #ffd700; color: #ffd700; }
-        .favs-section { margin-top: 24px; border-top: 2px dashed rgba(255,255,255,0.06); padding-top: 18px; display: none; }
+        .btn-copy { background: #7c5cfc; color: #fff; }
+        .btn-copy:hover { background: #6a4de6; }
+        .btn-copy.mm2 { background: #e74c3c; }
+        .btn-copy.mm2:hover { background: #c0392b; }
+        .btn-fav { background: rgba(255,255,255,0.03); color: #a0a0c0; border: 1px solid var(--border); }
+        .btn-fav:hover { border-color: #ffd700; color: #ffd700; }
+        .btn-fav.on { background: rgba(255,215,0,0.08); border-color: #ffd700; color: #ffd700; }
+        .favs-section { margin-top: 14px; border-top: 1px dashed var(--border); padding-top: 10px; display: none; animation: fadeDown 0.4s ease; }
         .favs-section.show { display: block; }
         #toast {
-            position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(90px);
-            background: #1e1e3a; color: #fff; padding: 13px 26px;
-            border-radius: 28px; font-weight: 700; font-size: 0.88em;
-            z-index: 9999; transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%) translateY(80px);
+            background: #1e1e3a; color: #fff; padding: 9px 18px;
+            border-radius: 18px; font-size: 0.74em; font-weight: 600; font-family: var(--font);
+            z-index: 999; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 1px solid rgba(124,92,252,0.3); pointer-events: none;
-            letter-spacing: 0.4px;
         }
         #toast.show { transform: translateX(-50%) translateY(0); }
         #backTop {
-            position: fixed; bottom: 24px; right: 18px; width: 44px; height: 44px;
+            position: fixed; bottom: 14px; right: 12px; width: 34px; height: 34px;
             border-radius: 50%; background: #7c5cfc; color: #fff; border: none;
-            cursor: pointer; font-size: 1.2em; z-index: 99;
-            opacity: 0; transform: translateY(25px); transition: 0.3s;
+            cursor: pointer; font-size: 0.85em; z-index: 99;
+            opacity: 0; transform: translateY(20px); transition: 0.3s;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 6px 20px rgba(124,92,252,0.5);
+            box-shadow: 0 3px 12px rgba(124,92,252,0.4);
         }
-        #backTop.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-        #backTop:not(.visible) { pointer-events: none; }
-        #backTop:hover { transform: translateY(-4px) scale(1.08); box-shadow: 0 10px 28px rgba(124,92,252,0.65); }
+        #backTop.visible { opacity: 1; transform: translateY(0); }
+        #backTop:hover { transform: translateY(-3px) scale(1.05); }
         @media (max-width: 600px) {
-            .header h1 { font-size: 2em; }
-            .stat { min-width: 55px; padding: 10px 8px; }
-            .stat .num { font-size: 1.5em; }
-            .tab { padding: 7px 13px; font-size: 0.72em; }
-            .code-box { font-size: 0.66em; }
+            .header h1 { font-size: 1.6em; }
+            .stat .num { font-size: 1.1em; }
+            .tab { padding: 4px 9px; font-size: 0.62em; }
+            .script-name { font-size: 0.74em; }
+            .code-box { font-size: 0.55em; }
         }
     </style>
 </head>
@@ -230,39 +183,28 @@
 
     <div id="loadingScreen">
         <div class="loader-spin"></div>
-        <div class="loader-msg">ScriptsDelta v4</div>
+        <div class="loader-msg">ScriptsDelta v5</div>
         <div class="loader-bar"><div class="loader-bar-fill" id="loaderFill"></div></div>
     </div>
 
-    <div id="progressBar"></div>
     <div id="toast"></div>
-    <button id="backTop" title="العودة للأعلى">⬆</button>
+    <button id="backTop" onclick="scrollTo(0,0)">⬆</button>
 
     <div class="container">
         <div class="header">
             <div class="icon">📜</div>
             <h1>ScriptsDelta</h1>
-            <div class="sub">تطبيق سكربتات Roblox - المطور عبدالله</div>
+            <div class="sub">تطبيق سكربتات Roblox • المطور عبدالله</div>
             <div class="badges">
                 <span class="badge dev">👨‍💻 عبدالله</span>
-                <span class="badge owner">👑 صاحب الموقع</span>
-                <span class="badge ver">🚀 v4.0</span>
-                <span class="badge gold">💎 Premium</span>
+                <span class="badge ver">v5.0</span>
                 <span class="badge">🎮 SAD_J82</span>
                 <span class="badge">📱 dark4abod</span>
             </div>
         </div>
 
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="🔍 ابحث عن أي سكربت بسرعة...">
-            <button class="icon-btn" id="themeBtn" title="تأثير">✨</button>
-            <div style="position:relative;">
-                <button class="icon-btn lang-btn" id="langBtn">🌐 <span id="langFlag">AR</span></button>
-                <div class="lang-drop" id="langDrop">
-                    <button class="active" onclick="changeLang('ar')">العربية 🇸🇦</button>
-                    <button onclick="changeLang('en')">English 🇺🇸</button>
-                </div>
-            </div>
+            <input type="text" id="searchInput" placeholder="🔍 ابحث عن أي سكربت..." oninput="filterScripts(this.value)">
         </div>
 
         <div class="stats">
@@ -271,7 +213,7 @@
             <div class="stat"><div class="num" id="statFavs">0</div><div class="lbl">المفضلة</div></div>
         </div>
 
-        <div class="tabs-wrap"><div class="tabs" id="tabsContainer"></div></div>
+        <div class="tabs-wrap" id="tabsContainer"></div>
         <div id="contentArea"></div>
 
         <div class="favs-section" id="favsSection">
@@ -281,324 +223,240 @@
     </div>
 
     <script>
-        var scriptsData = [
-            { cat: 'owner', name: 'سكربت صاحب التطبيق (Monika)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/main/Monika.lua"))()', tag: 'owner' },
-            { cat: 'owner', name: '🎯 SSV7 Aimbot Pro v2', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7AimBot.lua"))()', tag: 'hot', desc: 'الايمبوت اللي يخليك محترف! 🔥 جربه وهتشكرني! 💯', features: '🎯 تصويب ذكي تلقائي | 👥 يدعم كل اللاعبين | 🧠 اختيار رأس/صدر/بطن | 🔴 هايلايت على الهدف | ⚡ سرعة فائقة بدون تأخير | 📱 يعمل على كل الأجهزة' },
-            { cat: 'owner', name: 'سكربت كشف اماكن ESP مميز', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7ESP.lua"))()', tag: 'new', features: '🎨 تغيير ألوان الكشف | 👁️ رؤية اللاعبين عبر الجدران | 📏 تحديد المسافات بدقة | ⚡ أداء سريع بدون لاق | 🔧 تخصيص كامل للواجهة' },
-            { cat: 'owner', name: 'سكربت تتبع اي شخص', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Tracker.lua"))()', tag: 'pro', features: '🕵️ تتبع أي لاعب تلقائياً | 🗺️ تحديد موقعه على الخريطة | 👣 متابعة حركته لحظة بلحظة | 📊 عرض إحصائيات اللاعب | 🎯 خيارات تتبع متعددة | 🔔 تنبيه عند اقتراب الهدف' },
-            { cat: 'owner', name: 'سكربت كشف كل شيء بالماب', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Killer.lua"))()', tag: 'pro', features: '🔍 كشف جميع الأدوات بالماب | 📜 عرض السكربتات الموجودة | 🖥️ كشف واجهات المستخدم | ⚙️ عرض خصائص العناصر | 📋 قائمة بكل شيء في الماب', warning: '⚠️ ملاحظة: قد يحذف زر القفز والمشي مؤقتاً - اخرج وادخل الماب وكل شيء يرجع طبيعي' },
-            { cat: 'owner', name: '🛡️ SSV7 Anti Cheat Bypass', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7AntiCheat.lua"))()', tag: 'hot', desc: 'تخطي أقوى أنظمة الحماية في روبلوكس! 🔓 العب براحتك بدون خوف من الباند 💪', features: '🛡️ تخطي anti-cheat | 🔓 تجاوز كشف السكربتات | 🕶️ وضع خفي لا يكتشف | 🛑 حماية من التبليغ | ⚡ تحديث تلقائي مستمر | 🎮 يعمل على كل الألعاب' },
-            { cat: 'owner', name: '📷 SSV7 Camera Free', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7CameraFree.lua"))()', tag: 'new', desc: 'كاميرا حرة كاملة! 🎥 صور ووثق أي لحظة من أي زاوية 📸', features: '🎥 كاميرا حرة 360 درجة | 📸 تصوير من أي زاوية | 🔍 زووم غير محدود | ✨ تحكم سلس بالماوس | 🎬 تسجيل مشاهد احترافية | 🌍 استكشاف الماب بالكامل' },
-            { cat: 'owner', name: '🌈 SSV7 Chams', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Chams.lua"))()', tag: 'pro', desc: 'خليك تشوف اللاعبين بألوانك المفضلة! 🎨 كشف تشامز احترافي بجودة عالية', features: '🌈 تلوين اللاعبين حسب الرغبة | 👁️ رؤية عبر الجدران بوضوح | 🎨 ألوان متعددة وقابلة للتخصيص | ⚡ أداء عالي بدون لاق | 🔧 تحكم كامل بالإعدادات | 📱 متوافق مع كل الأجهزة' },
-            { cat: 'owner', name: '🤫 SSV7 Silent Aim', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7SlientAim.lua"))()', tag: 'hot', desc: 'أقوى سكربت تصويب صامت! 🔫 محد راح يعرف إنك تستخدمه حتى! 🤐', features: '🤫 تصويب صامت تماماً | 🔫 إصابة دقيقة 100% | 👻 غير قابل للكشف | 🎯 استهداف تلقائي ذكي | ⚡ سرعة استجابة فورية | 🛡️ آمن تماماً من الباند' },
-            { cat: 'owner', name: '☠️ SSV7 Kill All', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Killall.lua"))()', tag: 'hot', desc: 'اقتل كل اللاعبين بضغطة زر واحدة! 💀 أقوى أداة قتل جماعي في روبلوكس ⚡', features: '💀 قتل جميع اللاعبين فوراً | ⚡ زر واحد ينهي الكل | 🎯 تحديد أهداف معينة | 🔥 تأثيرات مرئية مرعبة | 🛡️ حماية من الـ kick | ⚠️ استخدمه بحذر!' },
-            { cat: 'owner', name: '📍 اداة تنقل الى اي مكان', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/TPPlayerToll.lua"))()', tag: 'updated', desc: 'تم التحديث! ✨ الأداة تبقى معك دائمة حتى بعد الموت! تنقل فوري وسريع 🚀', features: '📍 تنقل فوري لأي مكان | ♻️ الأداة تبقى معك حتى بعد الموت | ⚡ سرعة تنقل فائقة | 🗺️ حفظ المواقع المفضلة | 🔄 تحديث دائم ومستمر | 📱 يعمل على كل الأجهزة' },
-            { cat: 'owner', name: 'تنقل الى لاعب عبر اسمه', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7TPPLAER.lua"))()', tag: 'owner' },
-            { cat: 'owner', name: 'كشف لاعبين ESP', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/ESPPLAYER.lua"))()', tag: 'owner' },
-            { cat: 'owner', name: 'واجهه SSV7 المميزه', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7GUI.lua"))()', tag: 'owner' },
-            { cat: 'all', name: 'VR7', code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/Hm5011/hussain/refs/heads/main/Mercy%20Script\'))()' },
-            { cat: 'all', name: 'Zayn Chat', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Zayn-Chat-195426"))()' },
-            { cat: 'all', name: 'ADI ANTIBANG SCRIPT', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-ADI-ANTIBANG-SCRIPT-129234"))()' },
-            { cat: 'all', name: 'تخريب (Kay Hub)', code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/hdhjvcfik/KAY-HUB-Script1/refs/heads/main/Kaylartop%25allmap\'))()' },
-            { cat: 'all', name: 'Anti Bang (1)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-antibang-script-58378"))()' },
-            { cat: 'all', name: 'Anti Bang (2)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Anti-Bang-48256"))()' },
-            { cat: 'all', name: 'c00lgui (F3X)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-C00LGUI-F3X-PORT-MADE-BY-LOOPSKIDD-LEAKED-BY-PELUSIN-166496"))()' },
-            { cat: 'all', name: 'c00lgui (2)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-c00lgui-212097"))()' },
-            { cat: 'all', name: 'سكربت رقصات (AFEM)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"))()' },
-            { cat: 'all', name: 'M7 ADMIN', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-M7-ADMIN-202724"))()' },
-            { cat: 'all', name: 'c00lgui (TrafficConeHax)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-TrafficConeHax-f3x-gui-V5-166256"))()' },
-            { cat: 'all', name: 'c00lgui (OP GUI F3X)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MOST-OP-GUI-F3X-MOST-OP-GUI-HAS-FE-BYPASS-AND-BACKDOOR-167144"))()' },
-            { cat: 'all', name: 'سكربت رقصات (Gaze)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Gaze-emote-74592"))()' },
-            { cat: 'all', name: 'طيران بانواع واشكال', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-flight-of-the-Invincible-59729"))()' },
-            { cat: 'all', name: 'تخريب (FH7)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-FH7-Script-213669"))()' },
-            { cat: 'all', name: 'Epik Hub', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-epik-hub-zeno-and-solara-26932"))()' },
-            { cat: 'all', name: 'هيدلس وكوربلوكس (1)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Headless-Korblox-227396"))()' },
-            { cat: 'all', name: 'هيدلس وكوربلوكس (2)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Headless-and-Korblox-207744"))()' },
-            { cat: 'all', name: 'Anti AFK', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/evxncodes/mainroblox/main/anti-afk", true))()' },
-            { cat: 'all', name: 'ايم بوت وكشف اماكن', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kesicihub/Universal-Aim-Esp-/refs/heads/main/universalaimesp.lua"))()' },
-            { cat: 'all', name: 'تخريب (KillGui)', code: 'loadstring("\\108\\111\\97\\100\\115\\116\\114\\105\\110\\103\\40\\103\\97\\109\\101\\58\\72\\116\\116\\112\\71\\101\\116\\40\\34\\104\\116\\116\\112\\115\\58\\47\\47\\114\\97\\119\\46\\103\\105\\116\\104\\117\\98\\117\\115\\101\\114\\99\\111\\110\\116\\101\\110\\116\\46\\99\\111\\109\\47\\65\\99\\117\\114\\97\\88\\48\\52\\57\\47\\111\\98\\102\\117\\115\\99\\97\\116\\101\\100\\83\\99\\114\\105\\112\\116\\115\\47\\109\\97\\105\\110\\47\\75\\105\\108\\108\\71\\117\\105\\34\\41\\41\\40\\41\\10")()' },
-            { cat: 'all', name: 'عداد FPS', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MrLamon/MLamon-Hub/refs/heads/main/Protected_4747902775072511.lua.txt"))()' },
-            { cat: 'all', name: 'ادمن (Infinite Yield)', code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source\'))()' },
-            { cat: 'all', name: 'سكربت السرعة (Speed Hub)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kckckckckcc/Speed-hub-update-25/refs/heads/main/Speed%20hub%20%20update%2025"))()' },
-            { cat: 'all', name: 'سكربت السرعة - المفتاح', code: '1234', isKey: true },
-            { cat: 'brookhaven', name: 'XKhazraji', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-XKhazraji-58197"))()' },
-            { cat: 'brookhaven', name: 'تخريب (Map Al-Biout)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/n0kc/AtomicHub/main/Map-Al-Biout.lua"))()' },
-            { cat: 'brookhaven', name: 'منوع (JG Brookhaven)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-New-Update-Script-JG-Brookhaven-93130"))()' },
-            { cat: 'brookhaven', name: 'اغاني (OXR RECHAT)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-OXR-RECHAT-207620"))()' },
-            { cat: 'brookhaven', name: 'اغاني (GhostMusic)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-GhostMusic-135281"))()' },
-            { cat: 'brookhaven', name: 'MOLYN DEVELOPMENT', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MOLYN-DEVELOPMENT-201480"))()' },
-            { cat: 'brookhaven', name: 'اغاني (Fe Music)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-Fe-Music-Script-Tiktok-Songs-Hindi-Songs-Phonk-And-Bhojpuri-210809"))()' },
-            { cat: 'mm2', name: 'YARHM', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-YARHM-12403"))()' },
-            { cat: 'mm2', name: 'GhostHub', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Murder-Mystery-2-GhostHub-MM-13413"))()' },
-            { cat: 'mm2', name: 'XhubMM2', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Au0yX/Community/main/XhubMM2"))()' },
-            { cat: 'megamansion', name: 'جمع تلقائي فلوس', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mega-Mansion-Tycoon-CITY!-Auto-Collect-without-gamepass-5216"))()' },
-            { cat: 'lava', name: 'Auto collect tokens', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/The-Floor-Is-LAVA!-Auto-collect-tokens-27876"))()' },
-            { cat: 'lava', name: 'Auto Collect Coin', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/The-Floor-Is-LAVA!-The-Floor-Is-LAVA-Script-Auto-Collect-Coin-43814"))()' },
-            { cat: 'arab', name: 'تخريب', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Lakany/MOLYN-DEVELOPMENT/refs/heads/main/README.md"))()' },
-            { cat: 'wallhop', name: 'Wallhop VIP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-WALLHOP-VIP-ALL-GAME-213034"))()' },
-            { cat: 'wallhop', name: 'Spidi Wallhop', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Spidi-Wallhop-195373"))()' },
-            { cat: 'wallhop', name: 'Wallhop Auto v6', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Wallhop-Auto-v6-177145"))()' },
-            { cat: 'spider', name: 'سكربت Spider 1', code: 'loadstring(game:HttpGet("https://pastebin.com/raw/eDzjAAbK"))()' },
-            { cat: 'spider', name: 'Animal Simulator', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/AnimalSimulator.lua"))()' },
-            { cat: 'mafia', name: 'Role Exposer OP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Role-exposer-OP-56533"))()' },
-            { cat: 'mafia', name: 'ROLE REVEAL ESP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-ROLE-REVEAL-ESP-TAROT-CARDS-72893"))()' },
-            { cat: 'mafia', name: 'Open Source', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Open-Source-60300"))()' },
-            { cat: 'mafia', name: 'Role Exposer 2', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Role-Exposer-53639"))()' },
-            { cat: 'survive', name: 'Survive Killer OP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Survive-the-Killer!-SURVIVE-THE-KILLER-NO-KEY-OP-213287"))()' },
-            { cat: 'fling', name: 'Noob Hub', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-Noob-hub-203572"))()' },
-            { cat: 'fling', name: 'Player Hub', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-Player-Hub-208119"))()' },
-            { cat: 'fling', name: 'SAKURAHUB', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-SAKURAHUB-no-AD-213203"))()' },
-            { cat: 'studio', name: 'Model Inserter', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Studio-Lite-Model-Inserter-NotMines-27264"))()' },
-            { cat: 'teamwork', name: 'G0bbyD0llan TP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Teamwork-Puzzles-G0bbyD0llan-TP-27860"))()' },
-            { cat: 'flee', name: 'Koala Scripts', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-Koala-Scripts-17343"))()' },
-            { cat: 'flee', name: 'CyberCoders Menu II', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-CyberCoders-Menu-II-Flee-The-Facilit-193909"))()' },
-            { cat: 'flee', name: 'Best Script', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-best-script-209442"))()' },
-            { cat: 'escape', name: 'Free Products', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Escape-The-Lava-free-products-60574"))()' },
-            { cat: 'train', name: 'KiciaHook OP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Dead-Rails-Alpha-Dead-Rails-OP-KiciaHook-Script-Fastest-Auto-Farm-35961"))()' },
-            { cat: 'train', name: 'سكربت اسطوري (يختم الماب)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ringtaa/newpacifisct/refs/heads/main/newpacifisct.lua"))()' },
-            { cat: 'train', name: 'يجمع باوند (Auto Bond)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/thiennrb7/Script/refs/heads/main/autobond"))()' },
-            { cat: 'train', name: 'اوتو تلبورت', code: 'loadstring(game:HttpGet(("https://raw.githubusercontent.com/TwoGunVolley/Eeeee/refs/heads/main/RailsDated.txt")))()' },
-            { cat: 'train', name: 'يعطيك كلاس الحصان', code: 'loadstring(game:HttpGet("https://pastebin.com/raw/5nu3ni6D"))()' },
-            { cat: 'steal', name: 'سكربت السرقة', code: 'loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/53325754de16c11fbf8bf78101c1c881.lua"))()' }
+        var S = [
+            { c: 'owner', n: '🔪 SSV7 MM2 - قاتل الغموض الأسطوري', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7MM2.lua"))()', t: 'exclusive', d: 'أقوى سكربت MM2! إيم بوت • ESP • سبيد • حماية كاملة • كشف القاتل والسكين', f: '🎯 إيم بوت 100% | 👁️ ESP كشف | 🏃 سبيد بوست | 🛡️ حماية | 🔪 كشف السكين | 👻 كشف الشريف | 💰 جمع كوينز | ⚡ تحديث مستمر', mm2: 1 },
+            { c: 'mm2', n: '🔪 SSV7 MM2 - قاتل الغموض الأسطوري', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7MM2.lua"))()', t: 'exclusive', d: 'أقوى سكربت MM2! إيم بوت • ESP • سبيد • حماية كاملة • كشف القاتل والسكين', f: '🎯 إيم بوت 100% | 👁️ ESP كشف | 🏃 سبيد بوست | 🛡️ حماية | 🔪 كشف السكين | 👻 كشف الشريف | 💰 جمع كوينز | ⚡ تحديث مستمر', mm2: 1 },
+            { c: 'owner', n: 'سكربت صاحب التطبيق (Monika)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/main/Monika.lua"))()', t: 'owner' },
+            { c: 'owner', n: '🎯 SSV7 Aimbot Pro v2', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7AimBot.lua"))()', t: 'hot', d: 'الايمبوت اللي يخليك محترف! 🔥 تصويب ذكي وسريع', f: '🎯 تصويب ذكي | 👥 كل اللاعبين | 🧠 رأس/صدر/بطن | 🔴 هايلايت | ⚡ سريع' },
+            { c: 'owner', n: 'سكربت كشف اماكن ESP مميز', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7ESP.lua"))()', t: 'new', f: '🎨 تغيير الألوان | 👁️ رؤية عبر الجدران | 📏 تحديد المسافات | ⚡ بدون لاق | 🔧 تخصيص كامل' },
+            { c: 'owner', n: 'سكربت تتبع اي شخص', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Tracker.lua"))()', t: 'pro', f: '🕵️ تتبع تلقائي | 🗺️ موقع على الخريطة | 👣 متابعة لحظة بلحظة | 📊 إحصائيات | 🔔 تنبيهات' },
+            { c: 'owner', n: 'سكربت كشف كل شيء بالماب', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Killer.lua"))()', t: 'pro', f: '🔍 كشف الأدوات | 📜 السكربتات | 🖥️ الواجهات | ⚙️ خصائص العناصر | 📋 قائمة كاملة', w: '⚠️ قد يحذف زر القفز مؤقتاً - اخرج وادخل الماب يرجع طبيعي' },
+            { c: 'owner', n: '🛡️ SSV7 Anti Cheat Bypass', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7AntiCheat.lua"))()', t: 'hot', d: 'تخطي أقوى أنظمة الحماية! 🔓 العب براحتك بدون خوف', f: '🛡️ تخطي anti-cheat | 🔓 تجاوز الكشف | 🕶️ وضع خفي | 🛑 حماية التبليغ | ⚡ تحديث تلقائي' },
+            { c: 'owner', n: '📷 SSV7 Camera Free', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7CameraFree.lua"))()', t: 'new', f: '🎥 كاميرا 360° | 📸 أي زاوية | 🔍 زووم غير محدود | ✨ تحكم سلس | 🎬 تسجيل احترافي' },
+            { c: 'owner', n: '🌈 SSV7 Chams', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Chams.lua"))()', t: 'pro', d: 'خليك تشوف اللاعبين بألوانك! 🎨', f: '🌈 تلوين اللاعبين | 👁️ رؤية عبر الجدران | 🎨 ألوان متعددة | ⚡ أداء عالي | 🔧 تحكم كامل' },
+            { c: 'owner', n: '🤫 SSV7 Silent Aim', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7SlientAim.lua"))()', t: 'hot', d: 'تصويب صامت محد يدري عنك! 🤐', f: '🤫 تصويب صامت | 🔫 دقة 100% | 👻 غير قابل للكشف | 🛡️ آمن | ⚡ استجابة فورية' },
+            { c: 'owner', n: '☠️ SSV7 Kill All', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Killall.lua"))()', t: 'hot', d: 'اقتل الكل بضغطة زر! 💀', f: '💀 قتل جماعي | ⚡ زر واحد | 🎯 تحديد أهداف | 🔥 تأثيرات مرعبة | 🛡️ حماية من الكيك' },
+            { c: 'owner', n: '📍 اداة تنقل الى اي مكان', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/TPPlayerToll.lua"))()', t: 'updated', d: 'الأداة تبقى معك حتى بعد الموت! 🚀', f: '📍 تنقل فوري | ♻️ يبقى بعد الموت | ⚡ سرعة فائقة | 🗺️ حفظ المواقع | 🔄 تحديث مستمر' },
+            { c: 'owner', n: 'تنقل الى لاعب عبر اسمه', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7TPPLAER.lua"))()', t: 'owner' },
+            { c: 'owner', n: 'كشف لاعبين ESP', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/ESPPLAYER.lua"))()', t: 'owner' },
+            { c: 'owner', n: 'واجهه SSV7 المميزه', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7GUI.lua"))()', t: 'owner' },
+            { c: 'all', n: 'VR7', code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/Hm5011/hussain/refs/heads/main/Mercy%20Script\'))()' },
+            { c: 'all', n: 'Zayn Chat', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Zayn-Chat-195426"))()' },
+            { c: 'all', n: 'ADI ANTIBANG SCRIPT', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-ADI-ANTIBANG-SCRIPT-129234"))()' },
+            { c: 'all', n: 'تخريب (Kay Hub)', code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/hdhjvcfik/KAY-HUB-Script1/refs/heads/main/Kaylartop%25allmap\'))()' },
+            { c: 'all', n: 'Anti Bang (1)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-antibang-script-58378"))()' },
+            { c: 'all', n: 'Anti Bang (2)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Anti-Bang-48256"))()' },
+            { c: 'all', n: 'c00lgui (F3X)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-C00LGUI-F3X-PORT-MADE-BY-LOOPSKIDD-LEAKED-BY-PELUSIN-166496"))()' },
+            { c: 'all', n: 'c00lgui (2)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-c00lgui-212097"))()' },
+            { c: 'all', n: 'سكربت رقصات (AFEM)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"))()' },
+            { c: 'all', n: 'M7 ADMIN', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-M7-ADMIN-202724"))()' },
+            { c: 'all', n: 'c00lgui (TrafficConeHax)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-TrafficConeHax-f3x-gui-V5-166256"))()' },
+            { c: 'all', n: 'c00lgui (OP GUI F3X)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MOST-OP-GUI-F3X-MOST-OP-GUI-HAS-FE-BYPASS-AND-BACKDOOR-167144"))()' },
+            { c: 'all', n: 'سكربت رقصات (Gaze)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Gaze-emote-74592"))()' },
+            { c: 'all', n: 'طيران بانواع واشكال', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-flight-of-the-Invincible-59729"))()' },
+            { c: 'all', n: 'تخريب (FH7)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-FH7-Script-213669"))()' },
+            { c: 'all', n: 'Epik Hub', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-epik-hub-zeno-and-solara-26932"))()' },
+            { c: 'all', n: 'هيدلس وكوربلوكس (1)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Headless-Korblox-227396"))()' },
+            { c: 'all', n: 'هيدلس وكوربلوكس (2)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Headless-and-Korblox-207744"))()' },
+            { c: 'all', n: 'Anti AFK', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/evxncodes/mainroblox/main/anti-afk", true))()' },
+            { c: 'all', n: 'ايم بوت وكشف اماكن', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kesicihub/Universal-Aim-Esp-/refs/heads/main/universalaimesp.lua"))()' },
+            { c: 'all', n: 'تخريب (KillGui)', code: 'loadstring("\\108\\111\\97\\100\\115\\116\\114\\105\\110\\103\\40\\103\\97\\109\\101\\58\\72\\116\\116\\112\\71\\101\\116\\40\\34\\104\\116\\116\\112\\115\\58\\47\\47\\114\\97\\119\\46\\103\\105\\116\\104\\117\\98\\117\\115\\101\\114\\99\\111\\110\\116\\101\\110\\116\\46\\99\\111\\109\\47\\65\\99\\117\\114\\97\\88\\48\\52\\57\\47\\111\\98\\102\\117\\115\\99\\97\\116\\101\\100\\83\\99\\114\\105\\112\\116\\115\\47\\109\\97\\105\\110\\47\\75\\105\\108\\108\\71\\117\\105\\34\\41\\41\\40\\41\\10")()' },
+            { c: 'all', n: 'عداد FPS', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MrLamon/MLamon-Hub/refs/heads/main/Protected_4747902775072511.lua.txt"))()' },
+            { c: 'all', n: 'ادمن (Infinite Yield)', code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source\'))()' },
+            { c: 'all', n: 'سكربت السرعة (Speed Hub)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kckckckckcc/Speed-hub-update-25/refs/heads/main/Speed%20hub%20%20update%2025"))()' },
+            { c: 'all', n: 'سكربت السرعة - المفتاح', code: '1234', k: 1 },
+            { c: 'brookhaven', n: 'XKhazraji', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-XKhazraji-58197"))()' },
+            { c: 'brookhaven', n: 'تخريب (Map Al-Biout)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/n0kc/AtomicHub/main/Map-Al-Biout.lua"))()' },
+            { c: 'brookhaven', n: 'منوع (JG Brookhaven)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-New-Update-Script-JG-Brookhaven-93130"))()' },
+            { c: 'brookhaven', n: 'اغاني (OXR RECHAT)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-OXR-RECHAT-207620"))()' },
+            { c: 'brookhaven', n: 'اغاني (GhostMusic)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-GhostMusic-135281"))()' },
+            { c: 'brookhaven', n: 'MOLYN DEVELOPMENT', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MOLYN-DEVELOPMENT-201480"))()' },
+            { c: 'brookhaven', n: 'اغاني (Fe Music)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-Fe-Music-Script-Tiktok-Songs-Hindi-Songs-Phonk-And-Bhojpuri-210809"))()' },
+            { c: 'mm2', n: 'YARHM', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-YARHM-12403"))()' },
+            { c: 'mm2', n: 'GhostHub', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Murder-Mystery-2-GhostHub-MM-13413"))()' },
+            { c: 'mm2', n: 'XhubMM2', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Au0yX/Community/main/XhubMM2"))()' },
+            { c: 'megamansion', n: 'جمع تلقائي فلوس', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mega-Mansion-Tycoon-CITY!-Auto-Collect-without-gamepass-5216"))()' },
+            { c: 'lava', n: 'Auto collect tokens', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/The-Floor-Is-LAVA!-Auto-collect-tokens-27876"))()' },
+            { c: 'lava', n: 'Auto Collect Coin', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/The-Floor-Is-LAVA!-The-Floor-Is-LAVA-Script-Auto-Collect-Coin-43814"))()' },
+            { c: 'arab', n: 'تخريب', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Lakany/MOLYN-DEVELOPMENT/refs/heads/main/README.md"))()' },
+            { c: 'wallhop', n: 'Wallhop VIP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-WALLHOP-VIP-ALL-GAME-213034"))()' },
+            { c: 'wallhop', n: 'Spidi Wallhop', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Spidi-Wallhop-195373"))()' },
+            { c: 'wallhop', n: 'Wallhop Auto v6', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Wallhop-Auto-v6-177145"))()' },
+            { c: 'spider', n: 'سكربت Spider 1', code: 'loadstring(game:HttpGet("https://pastebin.com/raw/eDzjAAbK"))()' },
+            { c: 'spider', n: 'Animal Simulator', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/AnimalSimulator.lua"))()' },
+            { c: 'mafia', n: 'Role Exposer OP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Role-exposer-OP-56533"))()' },
+            { c: 'mafia', n: 'ROLE REVEAL ESP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-ROLE-REVEAL-ESP-TAROT-CARDS-72893"))()' },
+            { c: 'mafia', n: 'Open Source', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Open-Source-60300"))()' },
+            { c: 'mafia', n: 'Role Exposer 2', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Role-Exposer-53639"))()' },
+            { c: 'survive', n: 'Survive Killer OP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Survive-the-Killer!-SURVIVE-THE-KILLER-NO-KEY-OP-213287"))()' },
+            { c: 'fling', n: 'Noob Hub', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-Noob-hub-203572"))()' },
+            { c: 'fling', n: 'Player Hub', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-Player-Hub-208119"))()' },
+            { c: 'fling', n: 'SAKURAHUB', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-SAKURAHUB-no-AD-213203"))()' },
+            { c: 'studio', n: 'Model Inserter', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Studio-Lite-Model-Inserter-NotMines-27264"))()' },
+            { c: 'teamwork', n: 'G0bbyD0llan TP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Teamwork-Puzzles-G0bbyD0llan-TP-27860"))()' },
+            { c: 'flee', n: 'Koala Scripts', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-Koala-Scripts-17343"))()' },
+            { c: 'flee', n: 'CyberCoders Menu II', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-CyberCoders-Menu-II-Flee-The-Facilit-193909"))()' },
+            { c: 'flee', n: 'Best Script', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-best-script-209442"))()' },
+            { c: 'escape', n: 'Free Products', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Escape-The-Lava-free-products-60574"))()' },
+            { c: 'train', n: 'KiciaHook OP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Dead-Rails-Alpha-Dead-Rails-OP-KiciaHook-Script-Fastest-Auto-Farm-35961"))()' },
+            { c: 'train', n: 'سكربت اسطوري (يختم الماب)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ringtaa/newpacifisct/refs/heads/main/newpacifisct.lua"))()' },
+            { c: 'train', n: 'يجمع باوند (Auto Bond)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/thiennrb7/Script/refs/heads/main/autobond"))()' },
+            { c: 'train', n: 'اوتو تلبورت', code: 'loadstring(game:HttpGet(("https://raw.githubusercontent.com/TwoGunVolley/Eeeee/refs/heads/main/RailsDated.txt")))()' },
+            { c: 'train', n: 'يعطيك كلاس الحصان', code: 'loadstring(game:HttpGet("https://pastebin.com/raw/5nu3ni6D"))()' },
+            { c: 'steal', n: 'سكربت السرقة', code: 'loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/53325754de16c11fbf8bf78101c1c881.lua"))()' }
         ];
 
         var cats = [
-            { key: 'owner', name: '👑 سكربتات صاحب الموقع', icon: '👑' },
-            { key: 'all', name: '🌍 جميع المابات', icon: '📂' },
-            { key: 'brookhaven', name: '🏡 Brookhaven', icon: '📂' },
-            { key: 'mm2', name: '🔪 MM2', icon: '📂' },
-            { key: 'megamansion', name: '🏠 MegaMansion', icon: '📂' },
-            { key: 'lava', name: '🌋 Lava Floor', icon: '📂' },
-            { key: 'arab', name: '🚗 عرب سيتي', icon: '📂' },
-            { key: 'wallhop', name: '🧱 Wallhop', icon: '📂' },
-            { key: 'spider', name: '🕷️ Spider', icon: '📂' },
-            { key: 'mafia', name: '🔫 Mafia', icon: '📂' },
-            { key: 'survive', name: '🔪 Survive Killer', icon: '📂' },
-            { key: 'fling', name: '🤸 Fling Things', icon: '📂' },
-            { key: 'studio', name: '🎬 استوديو لايت', icon: '📂' },
-            { key: 'teamwork', name: '🧩 Teamwork', icon: '📂' },
-            { key: 'flee', name: '🏃 Flee the Facility', icon: '📂' },
-            { key: 'escape', name: '🌋 Escape Lava', icon: '📂' },
-            { key: 'train', name: '🚂 القطار', icon: '📂' },
-            { key: 'steal', name: '💰 السرقة', icon: '📂' }
+            { k: 'owner', n: '👑 سكربتات صاحب الموقع' },{ k: 'all', n: '🌍 جميع المابات' },{ k: 'brookhaven', n: '🏡 Brookhaven' },
+            { k: 'mm2', n: '🔪 MM2' },{ k: 'megamansion', n: '🏠 MegaMansion' },{ k: 'lava', n: '🌋 Lava Floor' },
+            { k: 'arab', n: '🚗 عرب سيتي' },{ k: 'wallhop', n: '🧱 Wallhop' },{ k: 'spider', n: '🕷️ Spider' },
+            { k: 'mafia', n: '🔫 Mafia' },{ k: 'survive', n: '🔪 Survive Killer' },{ k: 'fling', n: '🤸 Fling Things' },
+            { k: 'studio', n: '🎬 استوديو لايت' },{ k: 'teamwork', n: '🧩 Teamwork' },{ k: 'flee', n: '🏃 Flee the Facility' },
+            { k: 'escape', n: '🌋 Escape Lava' },{ k: 'train', n: '🚂 القطار' },{ k: 'steal', n: '💰 السرقة' }
         ];
 
-        var currentCat = 'owner';
-        var favorites = JSON.parse(localStorage.getItem('sdfavs') || '[]');
-        var currentLang = 'ar';
+        var cur = 'owner', favs = JSON.parse(localStorage.getItem('sfv') || '[]');
 
         function esc(s) { var d = document.createElement('div');
             d.textContent = s; return d.innerHTML; }
 
-        function showToast(msg) {
+        function toast(m) {
             var t = document.getElementById('toast');
-            t.textContent = msg;
+            t.textContent = m;
             t.classList.add('show');
-            clearTimeout(t._timer);
-            t._timer = setTimeout(function() { t.classList.remove('show'); }, 2200);
+            clearTimeout(t._t);
+            t._t = setTimeout(function() { t.classList.remove('show'); }, 1800);
         }
 
-        function copyText(text) {
-            if (!text) return;
-            try {
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(text).then(function() { showToast('✅ تم النسخ بنجاح!'); }).catch(
-                        function() { fallbackCopy(text); });
-                } else { fallbackCopy(text); }
-            } catch (e) { fallbackCopy(text); }
-        }
-
-        function fallbackCopy(text) {
+        function cp(txt) {
+            if (!txt) return;
+            if (navigator.clipboard) { navigator.clipboard.writeText(txt).then(function() { toast('✅ تم النسخ!'); }); return; }
             var ta = document.createElement('textarea');
-            ta.value = text;
-            ta.style.position = 'fixed';
-            ta.style.left = '-9999px';
-            ta.style.opacity = '0';
+            ta.value = txt;
+            ta.style.cssText = 'position:fixed;left:-9999px';
             document.body.appendChild(ta);
             ta.select();
-            try { document.execCommand('copy');
-                showToast('✅ تم النسخ بنجاح!'); } catch (e) { showToast('❌ فشل النسخ - حاول يدوياً'); }
+            document.execCommand('copy');
             document.body.removeChild(ta);
+            toast('✅ تم النسخ!');
         }
 
-        function toggleFav(name, code) {
-            var idx = -1;
-            for (var i = 0; i < favorites.length; i++) { if (favorites[i].code === code) { idx = i; break; } }
-            if (idx >= 0) favorites.splice(idx, 1);
-            else favorites.push({ name: name, code: code });
-            localStorage.setItem('sdfavs', JSON.stringify(favorites));
-            renderAll();
+        function tf(n, c) {
+            var i = -1;
+            for (var j = 0; j < favs.length; j++) { if (favs[j].c === c) { i = j; break; } }
+            if (i >= 0) favs.splice(i, 1);
+            else favs.push({ n: n, c: c });
+            localStorage.setItem('sfv', JSON.stringify(favs));
+            r();
         }
 
-        function isFav(code) { for (var i = 0; i < favorites.length; i++) { if (favorites[i].code === code) return true; } return false; }
+        function isF(c) { for (var i = 0; i < favs.length; i++) { if (favs[i].c === c) return 1; } return 0; }
 
-        function getTagHTML(tag) {
-            if (tag === 'owner') return ' <span class="owner-tag">صاحب الموقع</span>';
-            if (tag === 'new') return ' <span class="new-tag">🔥 جديد</span>';
-            if (tag === 'hot') return ' <span class="hot-tag">💥 الأكثر طلباً</span>';
-            if (tag === 'pro') return ' <span class="pro-tag">⭐ Pro</span>';
-            if (tag === 'updated') return ' <span class="updated-tag">🔄 تم التحديث</span>';
-            return '';
+        function tag(t) {
+            var m = '';
+            if (t === 'exclusive') m = '<span class="tag exclusive">💎 حصري</span> <span class="tag owner">👑 صاحب الموقع</span> <span class="tag hot">💥 الأعلى طلباً</span>';
+            else if (t === 'owner') m = '<span class="tag owner">👑 صاحب الموقع</span>';
+            else if (t === 'new') m = '<span class="tag new">🔥 جديد</span>';
+            else if (t === 'hot') m = '<span class="tag hot">💥 الأكثر طلباً</span>';
+            else if (t === 'pro') m = '<span class="tag pro">⭐ Pro</span>';
+            else if (t === 'updated') m = '<span class="tag updated">🔄 تم التحديث</span>';
+            return m;
         }
 
-        function buildCard(s, i) {
-            var fav = isFav(s.code);
-            var tagHTML = s.tag ? getTagHTML(s.tag) : '';
-            if (!s.tag && s.isKey) tagHTML = ' <span class="key-tag">🔑 KEY</span>';
-            var isOwner = s.cat === 'owner';
-            var cardClass = isOwner ? ' owner-card' : '';
-            var h = '<div class="script-card' + cardClass + '" style="animation-delay:' + (i * 0.035) + 's">';
-            h += '<div class="name"><span class="dot"></span>' + esc(s.name) + tagHTML + '</div>';
-            if (s.desc) h += '<div class="desc-text">' + s.desc + '</div>';
-            if (s.warning) h += '<div class="warning-box">' + s.warning + '</div>';
-            if (s.features) h += '<div class="features-box"><span class="feat-title">✨ مميزات السكربت:</span><br>' + s
-                .features + '</div>';
-            if (!s.isKey) {
+        function card(s, i) {
+            var fv = isF(s.code);
+            var tg = s.t ? tag(s.t) : (s.k ? '<span class="tag" style="background:#ffd700;color:#1a1a2e;">🔑 KEY</span>' : '');
+            var cl = s.mm2 ? ' mm2' : (s.c === 'owner' ? ' owner' : '');
+            var dotCl = s.mm2 ? ' mm2' : '';
+            var btnCl = s.mm2 ? ' mm2' : '';
+            var h = '<div class="script-card' + cl + '" style="animation-delay:' + (i * 0.03) + 's">';
+            h += '<div class="script-name"><span class="dot' + dotCl + '"></span>' + esc(s.n) + ' ' + tg + '</div>';
+            if (s.d) h += '<div class="desc">' + s.d + '</div>';
+            if (s.w) h += '<div class="warning">' + s.w + '</div>';
+            if (s.f) h += '<div class="features">✨ ' + s.f + '</div>';
+            if (!s.k) {
                 h += '<div class="code-box">' + esc(s.code) + '</div>';
                 h += '<div class="actions">';
-                h += '<button class="btn btn-copy" onclick="var c=this.getAttribute(\'data-code\');copyText(c);this.classList.add(\'done\');setTimeout(function(t){t.classList.remove(\'done\')},1600,this)" data-code="' +
-                    s.code.replace(/"/g, '&quot;').replace(/'/g, '&#39;') + '">📋 نسخ</button>';
-                h += '<button class="btn btn-fav' + (fav ? ' on' : '') +
-                    '" onclick="toggleFav(this.getAttribute(\'data-name\'),this.getAttribute(\'data-code\'))" data-name="' +
-                    esc(s.name).replace(/"/g, '&quot;') + '" data-code="' + s.code.replace(/"/g, '&quot;').replace(/'/g,
-                        '&#39;') + '">' + (fav ? '⭐' : '☆') + ' حفظ</button>';
+                h += '<button class="btn btn-copy' + btnCl + '" onclick="cp(this.getAttribute(\'data-code\'))" data-code="' + s.code.replace(/"/g, '&quot;') + '">📋 نسخ</button>';
+                h += '<button class="btn btn-fav' + (fv ? ' on' : '') + '" onclick="tf(\'' + esc(s.n).replace(/'/g, "\\'") + '\',\'' + s.code.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\')">' + (fv ? '⭐' : '☆') + '</button>';
                 h += '</div>';
             } else {
-                h +=
-                    '<div class="actions"><button class="btn btn-copy" onclick="copyText(\'1234\');this.classList.add(\'done\');setTimeout(function(t){t.classList.remove(\'done\')},1600,this)">📋 نسخ المفتاح</button></div>';
+                h += '<div class="actions"><button class="btn btn-copy" onclick="cp(\'1234\')">📋 نسخ المفتاح</button></div>';
             }
             h += '</div>';
             return h;
         }
 
-        function renderAll() {
-            var tabsHTML = '';
+        function r() {
+            var th = '';
             for (var i = 0; i < cats.length; i++) {
-                var c = cats[i];
-                var hasScripts = false;
-                for (var j = 0; j < scriptsData.length; j++) { if (scriptsData[j].cat === c.key) { hasScripts = true; break; } }
-                if (hasScripts) {
-                    tabsHTML += '<button class="tab' + (c.key === currentCat ? ' active' : '') + (c.key === 'owner' ?
-                        ' owner-tab' : '') + '" onclick="switchCat(\'' + c.key + '\')">' + c.name + '</button>';
+                var hs = 0;
+                for (var j = 0; j < S.length; j++) { if (S[j].c === cats[i].k) { hs = 1; break; } }
+                if (hs) th += '<span class="tab' + (cats[i].k === cur ? ' active' : '') + (cats[i].k === 'owner' ? ' owner' : '') + '" onclick="sc(\'' + cats[i].k + '\')">' + cats[i].n + '</span>';
+            }
+            document.getElementById('tabsContainer').innerHTML = th;
+            var fl = [];
+            for (var k = 0; k < S.length; k++) { if (S[k].c === cur) fl.push(S[k]); }
+            var cn = cur;
+            for (var x = 0; x < cats.length; x++) { if (cats[x].k === cur) { cn = cats[x].n; break; } }
+            var ch = '<div class="cat-title">' + (cur === 'owner' ? '👑 ' : '📂 ') + cn + ' (' + fl.length + ')</div>';
+            for (var m = 0; m < fl.length; m++) { ch += card(fl[m], m); }
+            if (fl.length === 0) ch += '<p style="text-align:center;padding:20px;color:#888;">لا توجد نتائج</p>';
+            document.getElementById('contentArea').innerHTML = ch;
+            var fs = document.getElementById('favsSection'), fc = document.getElementById('favsContent');
+            if (favs.length > 0) {
+                fs.classList.add('show');
+                var fh = '';
+                for (var p = 0; p < favs.length; p++) {
+                    fh += '<div class="script-card" style="animation-delay:' + (p * 0.03) + 's">';
+                    fh += '<div class="script-name"><span class="dot"></span>' + esc(favs[p].n) + '</div>';
+                    fh += '<div class="code-box">' + esc(favs[p].c) + '</div>';
+                    fh += '<div class="actions">';
+                    fh += '<button class="btn btn-copy" onclick="cp(this.getAttribute(\'data-code\'))" data-code="' + favs[p].c.replace(/"/g, '&quot;') + '">📋 نسخ</button>';
+                    fh += '<button class="btn btn-fav on" onclick="tf(\'' + esc(favs[p].n).replace(/'/g, "\\'") + '\',\'' + favs[p].c.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\')">⭐</button>';
+                    fh += '</div></div>';
                 }
-            }
-            document.getElementById('tabsContainer').innerHTML = tabsHTML;
-
-            var filtered = [];
-            for (var k = 0; k < scriptsData.length; k++) { if (scriptsData[k].cat === currentCat) filtered.push(
-                scriptsData[k]); }
-            var catInfo = null;
-            for (var m = 0; m < cats.length; m++) { if (cats[m].key === currentCat) { catInfo = cats[m]; break; } }
-            var contentHTML = '<div class="cat-title">' + (catInfo ? catInfo.icon : '📂') + ' ' + (catInfo ? catInfo.name :
-                currentCat) + ' <span class="count-badge' + (currentCat === 'owner' ? ' owner' : '') + '">' + filtered
-                .length + '</span></div>';
-            for (var n = 0; n < filtered.length; n++) { contentHTML += buildCard(filtered[n], n); }
-            if (filtered.length === 0) contentHTML +=
-                '<p style="text-align:center;padding:35px;color:#b0b0cc;font-size:1em;">لا توجد نتائج 😕</p>';
-            document.getElementById('contentArea').innerHTML = contentHTML;
-
-            var favSection = document.getElementById('favsSection');
-            var favContent = document.getElementById('favsContent');
-            if (favorites.length > 0) {
-                favSection.classList.add('show');
-                var favHTML = '';
-                for (var p = 0; p < favorites.length; p++) {
-                    favHTML += '<div class="script-card" style="animation-delay:' + (p * 0.035) + 's">';
-                    favHTML += '<div class="name"><span class="dot"></span>' + esc(favorites[p].name) + '</div>';
-                    favHTML += '<div class="code-box">' + esc(favorites[p].code) + '</div>';
-                    favHTML += '<div class="actions">';
-                    favHTML +=
-                        '<button class="btn btn-copy" onclick="var c=this.getAttribute(\'data-code\');copyText(c);this.classList.add(\'done\');setTimeout(function(t){t.classList.remove(\'done\')},1600,this)" data-code="' +
-                        favorites[p].code.replace(/"/g, '&quot;').replace(/'/g, '&#39;') + '">📋 نسخ</button>';
-                    favHTML +=
-                        '<button class="btn btn-fav on" onclick="toggleFav(this.getAttribute(\'data-name\'),this.getAttribute(\'data-code\'))" data-name="' +
-                        esc(favorites[p].name).replace(/"/g, '&quot;') + '" data-code="' + favorites[p].code.replace(/"/g,
-                            '&quot;').replace(/'/g, '&#39;') + '">⭐ إزالة</button>';
-                    favHTML += '</div></div>';
-                }
-                favContent.innerHTML = favHTML;
-            } else {
-                favSection.classList.remove('show');
-                favContent.innerHTML = '';
-            }
-
-            document.getElementById('statScripts').textContent = scriptsData.length;
-            var catCount = 0;
-            for (var q = 0; q < cats.length; q++) {
-                for (var r = 0; r < scriptsData.length; r++) { if (scriptsData[r].cat === cats[q].key) { catCount++; break; } }
-            }
-            document.getElementById('statCats').textContent = catCount;
-            document.getElementById('statFavs').textContent = favorites.length;
+                fc.innerHTML = fh;
+            } else { fs.classList.remove('show');
+                fc.innerHTML = ''; }
+            document.getElementById('statScripts').textContent = S.length;
+            var cc = 0;
+            for (var q = 0; q < cats.length; q++) { for (var rr = 0; rr < S.length; rr++) { if (S[rr].c === cats[q].k) { cc++; break; } } }
+            document.getElementById('statCats').textContent = cc;
+            document.getElementById('statFavs').textContent = favs.length;
         }
 
-        function switchCat(cat) {
-            currentCat = cat;
+        function sc(c) { cur = c;
             document.getElementById('searchInput').value = '';
-            renderAll();
-            window.scrollTo({ top: 280, behavior: 'smooth' });
-        }
+            r(); }
 
         function filterScripts(q) {
-            if (!q.trim()) { renderAll(); return; }
-            var lq = q.toLowerCase().trim();
-            var results = [];
-            for (var i = 0; i < scriptsData.length; i++) {
-                var s = scriptsData[i];
-                if (s.name.toLowerCase().indexOf(lq) >= 0 || s.code.toLowerCase().indexOf(lq) >= 0) results.push(s);
-            }
-            var contentHTML = '<div class="cat-title">🔍 نتائج البحث: "' + esc(lq) + '" <span class="count-badge">' + results
-                .length + '</span></div>';
-            if (results.length > 0) { for (var j = 0; j < results.length; j++) { contentHTML += buildCard(results[j], j); } } else
-                contentHTML += '<p style="text-align:center;padding:35px;color:#b0b0cc;">لا توجد نتائج 😕</p>';
-            document.getElementById('contentArea').innerHTML = contentHTML;
+            if (!q.trim()) { r(); return; }
+            var lq = q.toLowerCase().trim(), rs = [];
+            for (var i = 0; i < S.length; i++) { if (S[i].n.toLowerCase().indexOf(lq) >= 0 || S[i].code.toLowerCase().indexOf(lq) >= 0) rs.push(S[i]); }
+            var ch = '<div class="cat-title">🔍 نتائج: "' + esc(lq) + '" (' + rs.length + ')</div>';
+            if (rs.length > 0) { for (var j = 0; j < rs.length; j++) { ch += card(rs[j], j); } } else ch += '<p style="text-align:center;padding:20px;color:#888;">لا توجد نتائج</p>';
+            document.getElementById('contentArea').innerHTML = ch;
             document.getElementById('favsSection').classList.remove('show');
             document.getElementById('favsContent').innerHTML = '';
         }
 
-        function changeLang(lang) {
-            currentLang = lang;
-            localStorage.setItem('sdlang', lang);
-            document.getElementById('langFlag').textContent = lang === 'ar' ? 'AR' : 'EN';
-            var btns = document.querySelectorAll('#langDrop button');
-            for (var i = 0; i < btns.length; i++) { btns[i].classList.remove('active'); if (btns[i].getAttribute(
-                    'onclick').indexOf("'" + lang + "'") >= 0) btns[i].classList.add('active'); }
-            document.getElementById('langDrop').classList.remove('show');
-        }
-
-        document.getElementById('searchInput').addEventListener('input', function() { filterScripts(this.value); });
-        document.getElementById('themeBtn').addEventListener('click', function() { showToast(
-                '✨ ScriptsDelta v4 | عبدالله | Premium 💎'); });
-        document.getElementById('langBtn').addEventListener('click', function(e) { e.stopPropagation();
-            document.getElementById('langDrop').classList.toggle('show'); });
-        document.addEventListener('click', function() { document.getElementById('langDrop').classList.remove('show'); });
         window.addEventListener('scroll', function() {
-            var st = window.scrollY;
-            var dh = document.documentElement.scrollHeight - window.innerHeight;
-            document.getElementById('progressBar').style.width = dh > 0 ? (st / dh * 100) + '%' : '0%';
             var bt = document.getElementById('backTop');
-            if (st > 400) bt.classList.add('visible');
+            if (window.scrollY > 400) bt.classList.add('visible');
             else bt.classList.remove('visible');
         });
-        document.getElementById('backTop').addEventListener('click', function() { window.scrollTo({ top: 0,
-                behavior: 'smooth' }); });
 
         function startLoading() {
-            var duration = 1500;
-            var fill = document.getElementById('loaderFill');
-            var startTime = Date.now();
-
-            function update() {
-                var elapsed = Date.now() - startTime;
-                var pct = Math.min((elapsed / duration) * 100, 100);
-                fill.style.width = pct + '%';
-                if (elapsed < duration) requestAnimationFrame(update);
-            }
-            requestAnimationFrame(update);
-            setTimeout(function() { document.getElementById('loadingScreen').classList.add('hide'); }, duration);
+            var d = 1500, st = Date.now(), fill = document.getElementById('loaderFill');
+            function upd() { var e = Date.now() - st, p = Math.min((e / d) * 100, 100);
+                fill.style.width = p + '%'; if (e < d) requestAnimationFrame(upd); }
+            requestAnimationFrame(upd);
+            setTimeout(function() { document.getElementById('loadingScreen').classList.add('hide'); }, d);
         }
 
-        renderAll();
+        r();
         startLoading();
     </script>
 </body>
-                                  </html>
+</html>
