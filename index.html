@@ -8,7 +8,6 @@
         :root {
             --bg: #0a0a1a;
             --surface: #151530;
-            --surface2: #1e1e3a;
             --text: #e8e8f0;
             --text2: #a0a0c0;
             --primary: #7c5cfc;
@@ -131,36 +130,31 @@
             border-radius: 16px; padding: 14px; margin: 10px 0;
             transition: 0.3s; opacity: 0; transform: translateY(20px);
             animation: cardIn 0.4s ease forwards;
-            position: relative; overflow: visible;
         }
         @keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
         .script-card:hover { border-color: rgba(124,92,252,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
-        .script-card.owner-card { border-left: 3px solid #ff6b9d; }
-        .script-card.owner-card:hover { border-color: rgba(255,107,157,0.5); box-shadow: 0 8px 25px rgba(255,107,157,0.15); }
+        .script-card.owner-card { border-right: 3px solid #ff6b9d; }
         .script-card .name { font-weight: 700; font-size: 0.95em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff6b9d; flex-shrink: 0; }
-        .dot.owner-dot { background: #ff8e53; animation: dotGlow 1.5s infinite; }
-        @keyframes dotGlow { 0%,100% { box-shadow: 0 0 4px #ff8e53; } 50% { box-shadow: 0 0 14px #ff8e53, 0 0 20px #ff6b9d; } }
         .key-tag { background: #ffd700; color: #1a1a2e; padding: 2px 8px; border-radius: 8px; font-size: 0.65em; font-weight: 700; }
         .owner-tag { background: linear-gradient(135deg, #ff6b9d, #ff8e53); color: #fff; padding: 2px 8px; border-radius: 8px; font-size: 0.6em; font-weight: 700; }
-        .new-tag {
-            background: linear-gradient(135deg, #00cec9, #00b894);
-            color: #fff; padding: 3px 10px; border-radius: 10px;
-            font-size: 0.62em; font-weight: 800; letter-spacing: 0.5px;
-            animation: newPulse 1.5s infinite;
-            display: inline-flex; align-items: center; gap: 3px;
-        }
-        @keyframes newPulse {
-            0%,100% { box-shadow: 0 0 0 0 rgba(0,206,201,0.5); }
-            50% { box-shadow: 0 0 0 8px rgba(0,206,201,0); }
-        }
+        .new-tag { background: linear-gradient(135deg, #00cec9, #00b894); color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 0.62em; font-weight: 800; animation: newPulse 1.5s infinite; }
+        .hot-tag { background: linear-gradient(135deg, #e17055, #d63031); color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 0.62em; font-weight: 800; animation: hotPulse 1s infinite; }
+        .pro-tag { background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 0.62em; font-weight: 800; }
+        @keyframes newPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(0,206,201,0.5); } 50% { box-shadow: 0 0 0 8px rgba(0,206,201,0); } }
+        @keyframes hotPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(214,48,49,0.6); } 50% { box-shadow: 0 0 0 10px rgba(214,48,49,0); } }
         .features-box {
-            background: rgba(0,206,201,0.06); border: 1px solid rgba(0,206,201,0.2);
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
             border-radius: 10px; padding: 8px 12px; margin-bottom: 10px;
-            font-size: 0.7em; color: #81ecec; line-height: 1.6;
+            font-size: 0.7em; color: #dfe6e9; line-height: 1.8;
         }
-        .features-box .feat-title { font-weight: 700; color: #00cec9; margin-bottom: 4px; }
-        .features-box span { display: inline-block; background: rgba(0,206,201,0.1); padding: 2px 8px; border-radius: 6px; margin: 2px 3px; }
+        .features-box .feat-title { font-weight: 700; color: #ffd700; margin-bottom: 4px; }
+        .features-box span { display: inline-block; background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 6px; margin: 2px 3px; }
+        .warning-box {
+            background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.25);
+            border-radius: 8px; padding: 6px 10px; margin-bottom: 10px;
+            font-size: 0.68em; color: #ffeaa7;
+        }
         .code-box {
             background: #0e0e22; border-radius: 10px; padding: 10px;
             font-family: 'Courier New', monospace; font-size: 0.72em;
@@ -176,9 +170,6 @@
         .btn-copy { background: #7c5cfc; color: #fff; }
         .btn-copy:hover { background: #6a4de6; }
         .btn-copy.done { background: #00b894; }
-        .btn-copy.owner-copy { background: linear-gradient(135deg, #ff6b9d, #ff8e53); }
-        .btn-copy.owner-copy:hover { opacity: 0.9; }
-        .btn-copy.owner-copy.done { background: #00b894; }
         .btn-fav { background: rgba(255,255,255,0.04); color: #a0a0c0; border: 1px solid rgba(255,255,255,0.1); }
         .btn-fav:hover { background: rgba(255,215,0,0.1); border-color: rgba(255,215,0,0.3); color: #ffd700; }
         .btn-fav.on { background: rgba(255,215,0,0.1); border-color: #ffd700; color: #ffd700; }
@@ -226,8 +217,8 @@
     <div class="container">
         <div class="header">
             <div class="icon">📜</div>
-            <h1 id="siteTitle">ScriptsDelta</h1>
-            <div class="sub" id="siteSub">تطبيق سكربتات Roblox - المطور عبدالله</div>
+            <h1>ScriptsDelta</h1>
+            <div class="sub">تطبيق سكربتات Roblox - المطور عبدالله</div>
             <div class="badges">
                 <span class="badge dev">👨‍💻 عبدالله</span>
                 <span class="badge owner">👑 صاحب الموقع</span>
@@ -242,526 +233,339 @@
             <button class="icon-btn" id="themeBtn" title="تأثير">✨</button>
             <div style="position:relative;">
                 <button class="icon-btn lang-btn" id="langBtn">🌐 <span id="langFlag">AR</span></button>
-                <div class="lang-drop" id="langDrop"></div>
+                <div class="lang-drop" id="langDrop">
+                    <button class="active" onclick="changeLang('ar')">العربية 🇸🇦</button>
+                    <button onclick="changeLang('en')">English 🇺🇸</button>
+                </div>
             </div>
         </div>
 
         <div class="stats">
-            <div class="stat"><div class="num" id="statScripts">0</div><div class="lbl" id="statLbl1">سكربتات</div></div>
-            <div class="stat"><div class="num" id="statCats">0</div><div class="lbl" id="statLbl2">تصنيفات</div></div>
-            <div class="stat"><div class="num" id="statFavs">0</div><div class="lbl" id="statLbl3">مفضلة</div></div>
+            <div class="stat"><div class="num" id="statScripts">0</div><div class="lbl">سكربتات</div></div>
+            <div class="stat"><div class="num" id="statCats">0</div><div class="lbl">تصنيفات</div></div>
+            <div class="stat"><div class="num" id="statFavs">0</div><div class="lbl">مفضلة</div></div>
         </div>
 
         <div class="tabs-wrap"><div class="tabs" id="tabsContainer"></div></div>
         <div id="contentArea"></div>
 
         <div class="favs-section" id="favsSection">
-            <div class="cat-title">⭐ <span id="favsTitle">المفضلة</span></div>
+            <div class="cat-title">⭐ المفضلة</div>
             <div id="favsContent"></div>
         </div>
     </div>
 
     <script>
-        (function() {
-            var scriptsData = [
-                { cat: 'cat_owner', name: 'سكربت صاحب التطبيق (Monika)',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/main/Monika.lua"))()',
-                    isOwner: true },
-                { cat: 'cat_owner', name: 'سكربت كشف اماكن ESP مميز',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7ESP.lua"))()',
-                    isOwner: true, isNew: true,
-                    features: ['🎨 تغيير ألوان الكشف', '👁️ رؤية اللاعبين عبر الجدران', '📏 تحديد المسافات', '⚡ أداء سريع بدون لاق', '🔧 تخصيص كامل للواجهة'] },
-                { cat: 'cat_owner', name: 'اداة تنقل الى اي مكان',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/TPPlayerToll.lua"))()',
-                    isOwner: true },
-                { cat: 'cat_owner', name: 'تنقل الى لاعب عبر اسمه',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7TPPLAER.lua"))()',
-                    isOwner: true },
-                { cat: 'cat_owner', name: 'كشف لاعبين ESP',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/ESPPLAYER.lua"))()',
-                    isOwner: true },
-                { cat: 'cat_owner', name: 'واجهه SSV7 المميزه',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7GUI.lua"))()',
-                    isOwner: true },
-                { cat: 'cat_all', name: 'VR7',
-                    code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/Hm5011/hussain/refs/heads/main/Mercy%20Script\'))()' },
-                { cat: 'cat_all', name: 'Zayn Chat',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Zayn-Chat-195426"))()' },
-                { cat: 'cat_all', name: 'ADI ANTIBANG SCRIPT',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-ADI-ANTIBANG-SCRIPT-129234"))()' },
-                { cat: 'cat_all', name: 'تخريب (Kay Hub)',
-                    code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/hdhjvcfik/KAY-HUB-Script1/refs/heads/main/Kaylartop%25allmap\'))()' },
-                { cat: 'cat_all', name: 'Anti Bang (1)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-antibang-script-58378"))()' },
-                { cat: 'cat_all', name: 'Anti Bang (2)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Anti-Bang-48256"))()' },
-                { cat: 'cat_all', name: 'c00lgui (F3X)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-C00LGUI-F3X-PORT-MADE-BY-LOOPSKIDD-LEAKED-BY-PELUSIN-166496"))()' },
-                { cat: 'cat_all', name: 'c00lgui (2)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-c00lgui-212097"))()' },
-                { cat: 'cat_all', name: 'سكربت رقصات (AFEM)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"))()' },
-                { cat: 'cat_all', name: 'M7 ADMIN',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-M7-ADMIN-202724"))()' },
-                { cat: 'cat_all', name: 'c00lgui (TrafficConeHax)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-TrafficConeHax-f3x-gui-V5-166256"))()' },
-                { cat: 'cat_all', name: 'c00lgui (OP GUI F3X)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MOST-OP-GUI-F3X-MOST-OP-GUI-HAS-FE-BYPASS-AND-BACKDOOR-167144"))()' },
-                { cat: 'cat_all', name: 'سكربت رقصات (Gaze)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Gaze-emote-74592"))()' },
-                { cat: 'cat_all', name: 'طيران بانواع واشكال',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-flight-of-the-Invincible-59729"))()' },
-                { cat: 'cat_all', name: 'تخريب (FH7)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-FH7-Script-213669"))()' },
-                { cat: 'cat_all', name: 'Epik Hub',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-epik-hub-zeno-and-solara-26932"))()' },
-                { cat: 'cat_all', name: 'هيدلس وكوربلوكس (1)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Headless-Korblox-227396"))()' },
-                { cat: 'cat_all', name: 'هيدلس وكوربلوكس (2)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Headless-and-Korblox-207744"))()' },
-                { cat: 'cat_all', name: 'Anti AFK',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/evxncodes/mainroblox/main/anti-afk", true))()' },
-                { cat: 'cat_all', name: 'ايم بوت وكشف اماكن',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kesicihub/Universal-Aim-Esp-/refs/heads/main/universalaimesp.lua"))()' },
-                { cat: 'cat_all', name: 'تخريب (KillGui)',
-                    code: 'loadstring("\\108\\111\\97\\100\\115\\116\\114\\105\\110\\103\\40\\103\\97\\109\\101\\58\\72\\116\\116\\112\\71\\101\\116\\40\\34\\104\\116\\116\\112\\115\\58\\47\\47\\114\\97\\119\\46\\103\\105\\116\\104\\117\\98\\117\\115\\101\\114\\99\\111\\110\\116\\101\\110\\116\\46\\99\\111\\109\\47\\65\\99\\117\\114\\97\\88\\48\\52\\57\\47\\111\\98\\102\\117\\115\\99\\97\\116\\101\\100\\83\\99\\114\\105\\112\\116\\115\\47\\109\\97\\105\\110\\47\\75\\105\\108\\108\\71\\117\\105\\34\\41\\41\\40\\41\\10")()' },
-                { cat: 'cat_all', name: 'عداد FPS',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MrLamon/MLamon-Hub/refs/heads/main/Protected_4747902775072511.lua.txt"))()' },
-                { cat: 'cat_all', name: 'ادمن (Infinite Yield)',
-                    code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source\'))()' },
-                { cat: 'cat_all', name: 'سكربت السرعة (Speed Hub)',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kckckckckcc/Speed-hub-update-25/refs/heads/main/Speed%20hub%20%20update%2025"))()' },
-                { cat: 'cat_all', name: 'سكربت السرعة - المفتاح', code: '1234', isKey: true },
-                { cat: 'cat_brookhaven', name: 'XKhazraji',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-XKhazraji-58197"))()' },
-                { cat: 'cat_brookhaven', name: 'تخريب (Map Al-Biout)',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/n0kc/AtomicHub/main/Map-Al-Biout.lua"))()' },
-                { cat: 'cat_brookhaven', name: 'منوع (JG Brookhaven)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-New-Update-Script-JG-Brookhaven-93130"))()' },
-                { cat: 'cat_brookhaven', name: 'اغاني (OXR RECHAT)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-OXR-RECHAT-207620"))()' },
-                { cat: 'cat_brookhaven', name: 'اغاني (GhostMusic)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-GhostMusic-135281"))()' },
-                { cat: 'cat_brookhaven', name: 'MOLYN DEVELOPMENT',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MOLYN-DEVELOPMENT-201480"))()' },
-                { cat: 'cat_brookhaven', name: 'اغاني (Fe Music)',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-Fe-Music-Script-Tiktok-Songs-Hindi-Songs-Phonk-And-Bhojpuri-210809"))()' },
-                { cat: 'cat_mm2', name: 'YARHM',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-YARHM-12403"))()' },
-                { cat: 'cat_mm2', name: 'GhostHub',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Murder-Mystery-2-GhostHub-MM-13413"))()' },
-                { cat: 'cat_mm2', name: 'XhubMM2',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Au0yX/Community/main/XhubMM2"))()' },
-                { cat: 'cat_megamansion', name: 'جمع تلقائي فلوس',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mega-Mansion-Tycoon-CITY!-Auto-Collect-without-gamepass-5216"))()' },
-                { cat: 'cat_lava', name: 'Auto collect tokens',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/The-Floor-Is-LAVA!-Auto-collect-tokens-27876"))()' },
-                { cat: 'cat_lava', name: 'Auto Collect Coin',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/The-Floor-Is-LAVA!-The-Floor-Is-LAVA-Script-Auto-Collect-Coin-43814"))()' },
-                { cat: 'cat_arab', name: 'تخريب',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Lakany/MOLYN-DEVELOPMENT/refs/heads/main/README.md"))()' },
-                { cat: 'cat_wallhop', name: 'Wallhop VIP',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-WALLHOP-VIP-ALL-GAME-213034"))()' },
-                { cat: 'cat_wallhop', name: 'Spidi Wallhop',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Spidi-Wallhop-195373"))()' },
-                { cat: 'cat_wallhop', name: 'Wallhop Auto v6',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Wallhop-Auto-v6-177145"))()' },
-                { cat: 'cat_spider', name: 'سكربت Spider 1',
-                    code: 'loadstring(game:HttpGet("https://pastebin.com/raw/eDzjAAbK"))()' },
-                { cat: 'cat_spider', name: 'Animal Simulator',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/AnimalSimulator.lua"))()' },
-                { cat: 'cat_mafia', name: 'Role Exposer OP',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Role-exposer-OP-56533"))()' },
-                { cat: 'cat_mafia', name: 'ROLE REVEAL ESP',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-ROLE-REVEAL-ESP-TAROT-CARDS-72893"))()' },
-                { cat: 'cat_mafia', name: 'Open Source',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Open-Source-60300"))()' },
-                { cat: 'cat_mafia', name: 'Role Exposer 2',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Role-Exposer-53639"))()' },
-                { cat: 'cat_survive', name: 'Survive Killer OP',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Survive-the-Killer!-SURVIVE-THE-KILLER-NO-KEY-OP-213287"))()' },
-                { cat: 'cat_fling', name: 'Noob Hub',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-Noob-hub-203572"))()' },
-                { cat: 'cat_fling', name: 'Player Hub',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-Player-Hub-208119"))()' },
-                { cat: 'cat_fling', name: 'SAKURAHUB',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-SAKURAHUB-no-AD-213203"))()' },
-                { cat: 'cat_studio', name: 'Model Inserter',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Studio-Lite-Model-Inserter-NotMines-27264"))()' },
-                { cat: 'cat_teamwork', name: 'G0bbyD0llan TP',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Teamwork-Puzzles-G0bbyD0llan-TP-27860"))()' },
-                { cat: 'cat_flee', name: 'Koala Scripts',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-Koala-Scripts-17343"))()' },
-                { cat: 'cat_flee', name: 'CyberCoders Menu II',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-CyberCoders-Menu-II-Flee-The-Facilit-193909"))()' },
-                { cat: 'cat_flee', name: 'Best Script',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-best-script-209442"))()' },
-                { cat: 'cat_escape', name: 'Free Products',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Escape-The-Lava-free-products-60574"))()' },
-                { cat: 'cat_train', name: 'KiciaHook OP',
-                    code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Dead-Rails-Alpha-Dead-Rails-OP-KiciaHook-Script-Fastest-Auto-Farm-35961"))()' },
-                { cat: 'cat_train', name: 'سكربت اسطوري (يختم الماب)',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ringtaa/newpacifisct/refs/heads/main/newpacifisct.lua"))()' },
-                { cat: 'cat_train', name: 'يجمع باوند (Auto Bond)',
-                    code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/thiennrb7/Script/refs/heads/main/autobond"))()' },
-                { cat: 'cat_train', name: 'اوتو تلبورت',
-                    code: 'loadstring(game:HttpGet(("https://raw.githubusercontent.com/TwoGunVolley/Eeeee/refs/heads/main/RailsDated.txt")))()' },
-                { cat: 'cat_train', name: 'يعطيك كلاس الحصان',
-                    code: 'loadstring(game:HttpGet("https://pastebin.com/raw/5nu3ni6D"))()' },
-                { cat: 'cat_steal', name: 'سكربت السرقة',
-                    code: 'loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/53325754de16c11fbf8bf78101c1c881.lua"))()' },
-            ];
+        var scriptsData = [
+            { cat: 'owner', name: 'سكربت صاحب التطبيق (Monika)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/main/Monika.lua"))()', tag: 'owner' },
+            { cat: 'owner', name: '🎯 SSV7 Aimbot Pro v2', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7AimBot.lua"))()', tag: 'hot', desc: 'الايمبوت اللي يخليك محترف! 🔥 جربه وهتشكرني! 💯', features: '🎯 تصويب ذكي | 👥 كل اللاعبين | 🧠 رأس/صدر/بطن | 🔴 هايلايت | ⚡ سريع | 📱 كل الأجهزة' },
+            { cat: 'owner', name: 'سكربت كشف اماكن ESP مميز', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7ESP.lua"))()', tag: 'new', features: '🎨 تغيير ألوان الكشف | 👁️ رؤية عبر الجدران | 📏 تحديد المسافات | ⚡ بدون لاق | 🔧 تخصيص كامل' },
+            { cat: 'owner', name: 'سكربت تتبع اي شخص', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Tracker.lua"))()', tag: 'pro', features: '🕵️ تتبع تلقائي | 🗺️ موقع على الخريطة | 👣 متابعة لحظة بلحظة | 📊 إحصائيات | 🔔 تنبيهات' },
+            { cat: 'owner', name: 'سكربت كشف كل شيء بالماب', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Killer.lua"))()', tag: 'pro', features: '🔍 كشف الأدوات | 📜 السكربتات | 🖥️ الواجهات | ⚙️ خصائص العناصر | 📋 قائمة كاملة', warning: '⚠️ ملاحظة: قد يحذف زر القفز والمشي مؤقتاً - اخرج وادخل الماب وكل شيء يرجع طبيعي' },
+            { cat: 'owner', name: 'اداة تنقل الى اي مكان', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/TPPlayerToll.lua"))()', tag: 'owner' },
+            { cat: 'owner', name: 'تنقل الى لاعب عبر اسمه', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7TPPLAER.lua"))()', tag: 'owner' },
+            { cat: 'owner', name: 'كشف لاعبين ESP', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/ESPPLAYER.lua"))()', tag: 'owner' },
+            { cat: 'owner', name: 'واجهه SSV7 المميزه', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7GUI.lua"))()', tag: 'owner' },
+            { cat: 'all', name: 'VR7', code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/Hm5011/hussain/refs/heads/main/Mercy%20Script\'))()' },
+            { cat: 'all', name: 'Zayn Chat', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Zayn-Chat-195426"))()' },
+            { cat: 'all', name: 'ADI ANTIBANG SCRIPT', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-ADI-ANTIBANG-SCRIPT-129234"))()' },
+            { cat: 'all', name: 'تخريب (Kay Hub)', code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/hdhjvcfik/KAY-HUB-Script1/refs/heads/main/Kaylartop%25allmap\'))()' },
+            { cat: 'all', name: 'Anti Bang (1)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-antibang-script-58378"))()' },
+            { cat: 'all', name: 'Anti Bang (2)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Anti-Bang-48256"))()' },
+            { cat: 'all', name: 'c00lgui (F3X)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-C00LGUI-F3X-PORT-MADE-BY-LOOPSKIDD-LEAKED-BY-PELUSIN-166496"))()' },
+            { cat: 'all', name: 'c00lgui (2)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-c00lgui-212097"))()' },
+            { cat: 'all', name: 'سكربت رقصات (AFEM)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"))()' },
+            { cat: 'all', name: 'M7 ADMIN', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-M7-ADMIN-202724"))()' },
+            { cat: 'all', name: 'c00lgui (TrafficConeHax)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-TrafficConeHax-f3x-gui-V5-166256"))()' },
+            { cat: 'all', name: 'c00lgui (OP GUI F3X)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MOST-OP-GUI-F3X-MOST-OP-GUI-HAS-FE-BYPASS-AND-BACKDOOR-167144"))()' },
+            { cat: 'all', name: 'سكربت رقصات (Gaze)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Gaze-emote-74592"))()' },
+            { cat: 'all', name: 'طيران بانواع واشكال', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-flight-of-the-Invincible-59729"))()' },
+            { cat: 'all', name: 'تخريب (FH7)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-FH7-Script-213669"))()' },
+            { cat: 'all', name: 'Epik Hub', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-epik-hub-zeno-and-solara-26932"))()' },
+            { cat: 'all', name: 'هيدلس وكوربلوكس (1)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Headless-Korblox-227396"))()' },
+            { cat: 'all', name: 'هيدلس وكوربلوكس (2)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Headless-and-Korblox-207744"))()' },
+            { cat: 'all', name: 'Anti AFK', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/evxncodes/mainroblox/main/anti-afk", true))()' },
+            { cat: 'all', name: 'ايم بوت وكشف اماكن', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kesicihub/Universal-Aim-Esp-/refs/heads/main/universalaimesp.lua"))()' },
+            { cat: 'all', name: 'تخريب (KillGui)', code: 'loadstring("\\108\\111\\97\\100\\115\\116\\114\\105\\110\\103\\40\\103\\97\\109\\101\\58\\72\\116\\116\\112\\71\\101\\116\\40\\34\\104\\116\\116\\112\\115\\58\\47\\47\\114\\97\\119\\46\\103\\105\\116\\104\\117\\98\\117\\115\\101\\114\\99\\111\\110\\116\\101\\110\\116\\46\\99\\111\\109\\47\\65\\99\\117\\114\\97\\88\\48\\52\\57\\47\\111\\98\\102\\117\\115\\99\\97\\116\\101\\100\\83\\99\\114\\105\\112\\116\\115\\47\\109\\97\\105\\110\\47\\75\\105\\108\\108\\71\\117\\105\\34\\41\\41\\40\\41\\10")()' },
+            { cat: 'all', name: 'عداد FPS', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MrLamon/MLamon-Hub/refs/heads/main/Protected_4747902775072511.lua.txt"))()' },
+            { cat: 'all', name: 'ادمن (Infinite Yield)', code: 'loadstring(game:HttpGet(\'https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source\'))()' },
+            { cat: 'all', name: 'سكربت السرعة (Speed Hub)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kckckckckcc/Speed-hub-update-25/refs/heads/main/Speed%20hub%20%20update%2025"))()' },
+            { cat: 'all', name: 'سكربت السرعة - المفتاح', code: '1234', isKey: true },
+            { cat: 'brookhaven', name: 'XKhazraji', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-XKhazraji-58197"))()' },
+            { cat: 'brookhaven', name: 'تخريب (Map Al-Biout)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/n0kc/AtomicHub/main/Map-Al-Biout.lua"))()' },
+            { cat: 'brookhaven', name: 'منوع (JG Brookhaven)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-New-Update-Script-JG-Brookhaven-93130"))()' },
+            { cat: 'brookhaven', name: 'اغاني (OXR RECHAT)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-OXR-RECHAT-207620"))()' },
+            { cat: 'brookhaven', name: 'اغاني (GhostMusic)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-GhostMusic-135281"))()' },
+            { cat: 'brookhaven', name: 'MOLYN DEVELOPMENT', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MOLYN-DEVELOPMENT-201480"))()' },
+            { cat: 'brookhaven', name: 'اغاني (Fe Music)', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-Fe-Music-Script-Tiktok-Songs-Hindi-Songs-Phonk-And-Bhojpuri-210809"))()' },
+            { cat: 'mm2', name: 'YARHM', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-YARHM-12403"))()' },
+            { cat: 'mm2', name: 'GhostHub', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Murder-Mystery-2-GhostHub-MM-13413"))()' },
+            { cat: 'mm2', name: 'XhubMM2', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Au0yX/Community/main/XhubMM2"))()' },
+            { cat: 'megamansion', name: 'جمع تلقائي فلوس', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mega-Mansion-Tycoon-CITY!-Auto-Collect-without-gamepass-5216"))()' },
+            { cat: 'lava', name: 'Auto collect tokens', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/The-Floor-Is-LAVA!-Auto-collect-tokens-27876"))()' },
+            { cat: 'lava', name: 'Auto Collect Coin', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/The-Floor-Is-LAVA!-The-Floor-Is-LAVA-Script-Auto-Collect-Coin-43814"))()' },
+            { cat: 'arab', name: 'تخريب', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Lakany/MOLYN-DEVELOPMENT/refs/heads/main/README.md"))()' },
+            { cat: 'wallhop', name: 'Wallhop VIP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-WALLHOP-VIP-ALL-GAME-213034"))()' },
+            { cat: 'wallhop', name: 'Spidi Wallhop', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Spidi-Wallhop-195373"))()' },
+            { cat: 'wallhop', name: 'Wallhop Auto v6', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Wallhop-Auto-v6-177145"))()' },
+            { cat: 'spider', name: 'سكربت Spider 1', code: 'loadstring(game:HttpGet("https://pastebin.com/raw/eDzjAAbK"))()' },
+            { cat: 'spider', name: 'Animal Simulator', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/AnimalSimulator.lua"))()' },
+            { cat: 'mafia', name: 'Role Exposer OP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Role-exposer-OP-56533"))()' },
+            { cat: 'mafia', name: 'ROLE REVEAL ESP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-ROLE-REVEAL-ESP-TAROT-CARDS-72893"))()' },
+            { cat: 'mafia', name: 'Open Source', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Open-Source-60300"))()' },
+            { cat: 'mafia', name: 'Role Exposer 2', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Mafia-Role-Exposer-53639"))()' },
+            { cat: 'survive', name: 'Survive Killer OP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Survive-the-Killer!-SURVIVE-THE-KILLER-NO-KEY-OP-213287"))()' },
+            { cat: 'fling', name: 'Noob Hub', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-Noob-hub-203572"))()' },
+            { cat: 'fling', name: 'Player Hub', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-Player-Hub-208119"))()' },
+            { cat: 'fling', name: 'SAKURAHUB', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-SAKURAHUB-no-AD-213203"))()' },
+            { cat: 'studio', name: 'Model Inserter', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Studio-Lite-Model-Inserter-NotMines-27264"))()' },
+            { cat: 'teamwork', name: 'G0bbyD0llan TP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Teamwork-Puzzles-G0bbyD0llan-TP-27860"))()' },
+            { cat: 'flee', name: 'Koala Scripts', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-Koala-Scripts-17343"))()' },
+            { cat: 'flee', name: 'CyberCoders Menu II', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-CyberCoders-Menu-II-Flee-The-Facilit-193909"))()' },
+            { cat: 'flee', name: 'Best Script', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Flee-the-Facility-best-script-209442"))()' },
+            { cat: 'escape', name: 'Free Products', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Escape-The-Lava-free-products-60574"))()' },
+            { cat: 'train', name: 'KiciaHook OP', code: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Dead-Rails-Alpha-Dead-Rails-OP-KiciaHook-Script-Fastest-Auto-Farm-35961"))()' },
+            { cat: 'train', name: 'سكربت اسطوري (يختم الماب)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ringtaa/newpacifisct/refs/heads/main/newpacifisct.lua"))()' },
+            { cat: 'train', name: 'يجمع باوند (Auto Bond)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/thiennrb7/Script/refs/heads/main/autobond"))()' },
+            { cat: 'train', name: 'اوتو تلبورت', code: 'loadstring(game:HttpGet(("https://raw.githubusercontent.com/TwoGunVolley/Eeeee/refs/heads/main/RailsDated.txt")))()' },
+            { cat: 'train', name: 'يعطيك كلاس الحصان', code: 'loadstring(game:HttpGet("https://pastebin.com/raw/5nu3ni6D"))()' },
+            { cat: 'steal', name: 'سكربت السرقة', code: 'loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/53325754de16c11fbf8bf78101c1c881.lua"))()' }
+        ];
 
-            var catKeys = ['cat_owner', 'cat_all', 'cat_brookhaven', 'cat_mm2', 'cat_megamansion', 'cat_lava', 'cat_arab',
-                'cat_wallhop', 'cat_spider', 'cat_mafia', 'cat_survive', 'cat_fling', 'cat_studio', 'cat_teamwork',
-                'cat_flee', 'cat_escape', 'cat_train', 'cat_steal'
-            ];
+        var cats = [
+            { key: 'owner', name: '👑 سكربتات صاحب الموقع', icon: '👑' },
+            { key: 'all', name: '🌍 جميع المابات', icon: '📂' },
+            { key: 'brookhaven', name: '🏡 Brookhaven', icon: '📂' },
+            { key: 'mm2', name: '🔪 MM2', icon: '📂' },
+            { key: 'megamansion', name: '🏠 MegaMansion', icon: '📂' },
+            { key: 'lava', name: '🌋 Lava Floor', icon: '📂' },
+            { key: 'arab', name: '🚗 عرب سيتي', icon: '📂' },
+            { key: 'wallhop', name: '🧱 Wallhop', icon: '📂' },
+            { key: 'spider', name: '🕷️ Spider', icon: '📂' },
+            { key: 'mafia', name: '🔫 Mafia', icon: '📂' },
+            { key: 'survive', name: '🔪 Survive Killer', icon: '📂' },
+            { key: 'fling', name: '🤸 Fling Things', icon: '📂' },
+            { key: 'studio', name: '🎬 استوديو لايت', icon: '📂' },
+            { key: 'teamwork', name: '🧩 Teamwork', icon: '📂' },
+            { key: 'flee', name: '🏃 Flee the Facility', icon: '📂' },
+            { key: 'escape', name: '🌋 Escape Lava', icon: '📂' },
+            { key: 'train', name: '🚂 القطار', icon: '📂' },
+            { key: 'steal', name: '💰 السرقة', icon: '📂' }
+        ];
 
-            var translations = {
-                ar: {
-                    siteTitle: 'ScriptsDelta',
-                    siteSub: 'تطبيق سكربتات Roblox - المطور عبدالله',
-                    searchPlaceholder: '🔍 بحث سريع...',
-                    statLbl1: 'سكربتات',
-                    statLbl2: 'تصنيفات',
-                    statLbl3: 'مفضلة',
-                    favsTitle: 'المفضلة',
-                    noResults: 'لا توجد نتائج',
-                    copied: '✅ تم النسخ!',
-                    cat_owner: '👑 سكربتات صاحب الموقع',
-                    cat_all: '🌍 جميع المابات',
-                    cat_brookhaven: '🏡 Brookhaven',
-                    cat_mm2: '🔪 MM2',
-                    cat_megamansion: '🏠 MegaMansion',
-                    cat_lava: '🌋 Lava Floor',
-                    cat_arab: '🚗 عرب سيتي',
-                    cat_wallhop: '🧱 Wallhop',
-                    cat_spider: '🕷️ Spider',
-                    cat_mafia: '🔫 Mafia',
-                    cat_survive: '🔪 Survive Killer',
-                    cat_fling: '🤸 Fling Things',
-                    cat_studio: '🎬 استوديو لايت',
-                    cat_teamwork: '🧩 Teamwork',
-                    cat_flee: '🏃 Flee the Facility',
-                    cat_escape: '🌋 Escape Lava',
-                    cat_train: '🚂 القطار',
-                    cat_steal: '💰 السرقة',
-                },
-                en: {
-                    siteTitle: 'ScriptsDelta',
-                    siteSub: 'Roblox Scripts - Dev Abdullah',
-                    searchPlaceholder: '🔍 Search...',
-                    statLbl1: 'Scripts',
-                    statLbl2: 'Categories',
-                    statLbl3: 'Favorites',
-                    favsTitle: 'Favorites',
-                    noResults: 'No results',
-                    copied: '✅ Copied!',
-                    cat_owner: '👑 Owner Scripts',
-                    cat_all: '🌍 All Maps',
-                    cat_brookhaven: '🏡 Brookhaven',
-                    cat_mm2: '🔪 MM2',
-                    cat_megamansion: '🏠 MegaMansion',
-                    cat_lava: '🌋 Lava Floor',
-                    cat_arab: '🚗 Arab City',
-                    cat_wallhop: '🧱 Wallhop',
-                    cat_spider: '🕷️ Spider',
-                    cat_mafia: '🔫 Mafia',
-                    cat_survive: '🔪 Survive Killer',
-                    cat_fling: '🤸 Fling Things',
-                    cat_studio: '🎬 Studio Lite',
-                    cat_teamwork: '🧩 Teamwork',
-                    cat_flee: '🏃 Flee the Facility',
-                    cat_escape: '🌋 Escape Lava',
-                    cat_train: '🚂 Train',
-                    cat_steal: '💰 Steal',
-                },
-            };
-            var langNames = { ar: 'العربية 🇸🇦', en: 'English 🇺🇸' };
-            var langFlags = { ar: 'AR', en: 'EN' };
+        var currentCat = 'owner';
+        var favorites = JSON.parse(localStorage.getItem('sdfavs') || '[]');
+        var currentLang = 'ar';
 
-            var currentCat = 'cat_owner';
-            var favorites = JSON.parse(localStorage.getItem('sdfavs') || '[]');
-            var currentLang = localStorage.getItem('sdlang') || 'ar';
+        function esc(s) { var d = document.createElement('div');
+            d.textContent = s; return d.innerHTML; }
 
-            function $(s) { return document.querySelector(s); }
+        function showToast(msg) {
+            var t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(function() { t.classList.remove('show'); }, 2000);
+        }
 
-            function $$(s) { return document.querySelectorAll(s); }
-            var loadingScreen = $('#loadingScreen');
-            var loaderFill = $('#loaderFill');
-            var progressBar = $('#progressBar');
-            var toast = $('#toast');
-            var backTop = $('#backTop');
-            var tabsContainer = $('#tabsContainer');
-            var contentArea = $('#contentArea');
-            var searchInput = $('#searchInput');
-            var langBtn = $('#langBtn');
-            var langDrop = $('#langDrop');
-            var langFlag = $('#langFlag');
-            var statScripts = $('#statScripts');
-            var statCats = $('#statCats');
-            var statFavs = $('#statFavs');
-            var favsSection = $('#favsSection');
-            var favsContent = $('#favsContent');
+        function copyText(text) {
+            if (!text) return;
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(function() { showToast('✅ تم النسخ!'); }).catch(function() {
+                        fallbackCopy(text);
+                    });
+                } else { fallbackCopy(text); }
+            } catch (e) { fallbackCopy(text); }
+        }
 
-            function t(key) { return (translations[currentLang] && translations[currentLang][key]) || key; }
+        function fallbackCopy(text) {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy');
+                showToast('✅ تم النسخ!'); } catch (e) { showToast('❌ فشل النسخ'); }
+            document.body.removeChild(ta);
+        }
 
-            function showToast(msg) {
-                toast.textContent = msg;
-                toast.classList.add('show');
-                clearTimeout(toast._timer);
-                toast._timer = setTimeout(function() { toast.classList.remove('show'); }, 2000);
+        function toggleFav(name, code) {
+            var idx = -1;
+            for (var i = 0; i < favorites.length; i++) { if (favorites[i].code === code) { idx = i; break; } }
+            if (idx >= 0) favorites.splice(idx, 1);
+            else favorites.push({ name: name, code: code });
+            localStorage.setItem('sdfavs', JSON.stringify(favorites));
+            renderAll();
+        }
+
+        function isFav(code) { for (var i = 0; i < favorites.length; i++) { if (favorites[i].code === code) return true; } return false; }
+
+        function getTagHTML(tag) {
+            if (tag === 'owner') return ' <span class="owner-tag">صاحب الموقع</span>';
+            if (tag === 'new') return ' <span class="new-tag">🔥 جديد</span>';
+            if (tag === 'hot') return ' <span class="hot-tag">💥 الأكثر طلباً</span>';
+            if (tag === 'pro') return ' <span class="pro-tag">⭐ Pro</span>';
+            return '';
+        }
+
+        function buildCard(s, i) {
+            var fav = isFav(s.code);
+            var tagHTML = s.tag ? getTagHTML(s.tag) : '';
+            if (!s.tag && s.isKey) tagHTML = ' <span class="key-tag">KEY</span>';
+            var isOwner = s.cat === 'owner';
+            var cardClass = isOwner ? ' owner-card' : '';
+
+            var h = '<div class="script-card' + cardClass + '" style="animation-delay:' + (i * 0.03) + 's">';
+            h += '<div class="name"><span class="dot"></span>' + esc(s.name) + tagHTML + '</div>';
+            if (s.desc) h += '<p style="font-size:0.78em;color:#dfe6e9;margin-bottom:8px;">' + s.desc + '</p>';
+            if (s.warning) h += '<div class="warning-box">' + s.warning + '</div>';
+            if (s.features) h += '<div class="features-box"><span class="feat-title">✨ مميزات السكربت:</span><br>' + s
+                .features + '</div>';
+            if (!s.isKey) {
+                h += '<div class="code-box">' + esc(s.code) + '</div>';
+                h += '<div class="actions">';
+                h += '<button class="btn btn-copy" onclick="var c=this.getAttribute(\'data-code\');copyText(c);this.classList.add(\'done\');setTimeout(function(t){t.classList.remove(\'done\')},1500,this)" data-code="' +
+                    s.code.replace(/"/g, '&quot;') + '">📋 نسخ</button>';
+                h += '<button class="btn btn-fav' + (fav ? ' on' : '') +
+                    '" onclick="toggleFav(this.getAttribute(\'data-name\'),this.getAttribute(\'data-code\'))" data-name="' +
+                    esc(s.name) + '" data-code="' + s.code.replace(/"/g, '&quot;') + '">' + (fav ? '⭐' : '☆') +
+                    ' حفظ</button>';
+                h += '</div>';
+            } else {
+                h +=
+                    '<div class="actions"><button class="btn btn-copy" onclick="copyText(\'1234\');this.classList.add(\'done\');setTimeout(function(t){t.classList.remove(\'done\')},1500,this)">📋 نسخ المفتاح</button></div>';
             }
+            h += '</div>';
+            return h;
+        }
 
-            function copyText(text) {
-                if (!text || text.length === 0) { showToast('❌ لا يوجد نص للنسخ'); return; }
-                try {
-                    if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(text).then(function() { showToast(t('copied')); }).catch(
-                            function() { fallbackCopy(text); });
-                    } else { fallbackCopy(text); }
-                } catch (e) { fallbackCopy(text); }
-            }
-
-            function fallbackCopy(text) {
-                try {
-                    var ta = document.createElement('textarea');
-                    ta.value = text;
-                    ta.style.position = 'fixed';
-                    ta.style.left = '-9999px';
-                    ta.style.top = '-9999px';
-                    ta.style.opacity = '0';
-                    ta.style.zIndex = '-1';
-                    document.body.appendChild(ta);
-                    ta.focus();
-                    ta.select();
-                    ta.setSelectionRange(0, text.length);
-                    var success = document.execCommand('copy');
-                    document.body.removeChild(ta);
-                    if (success) showToast(t('copied'));
-                    else showToast('❌ فشل النسخ');
-                } catch (e) { showToast('❌ المتصفح لا يدعم النسخ'); }
-            }
-
-            function toggleFav(name, code) {
-                var idx = -1;
-                for (var i = 0; i < favorites.length; i++) { if (favorites[i].code === code) { idx = i; break; } }
-                if (idx >= 0) favorites.splice(idx, 1);
-                else favorites.push({ name: name, code: code });
-                localStorage.setItem('sdfavs', JSON.stringify(favorites));
-                updateStats();
-                renderAll();
-            }
-
-            function isFav(code) { for (var i = 0; i < favorites.length; i++) { if (favorites[i].code === code) return true; } return false; }
-
-            function esc(s) { var d = document.createElement('div');
-                d.textContent = s; return d.innerHTML; }
-
-            function escAttr(s) { return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g,
-                    '&gt;').replace(/'/g, '&#39;'); }
-
-            function buildCardHTML(s, i) {
-                var fav = isFav(s.code);
-                var en = esc(s.name);
-                var ec = escAttr(s.code);
-                var isOwner = s.isOwner || s.cat === 'cat_owner';
-                var cardClass = isOwner ? ' owner-card' : '';
-                var dotClass = isOwner ? ' owner-dot' : '';
-                var copyClass = isOwner ? ' owner-copy' : '';
-                var tagHtml = '';
-                if (s.isNew) tagHtml += ' <span class="new-tag">🔥 جديد</span>';
-                if (isOwner && !s.isNew) tagHtml += ' <span class="owner-tag">صاحب الموقع</span>';
-                if (s.isKey) tagHtml += ' <span class="key-tag">KEY</span>';
-                var html = '<div class="script-card' + cardClass + '" style="animation-delay:' + (i * 0.03) + 's">';
-                html += '<div class="name"><span class="dot' + dotClass + '"></span>' + en + tagHtml + '</div>';
-                if (s.features && s.features.length > 0) {
-                    html += '<div class="features-box"><div class="feat-title">✨ مميزات السكربت:</div>';
-                    for (var f = 0; f < s.features.length; f++) { html += '<span>' + s.features[f] + '</span> '; }
-                    html += '</div>';
+        function renderAll() {
+            var tabsHTML = '';
+            for (var i = 0; i < cats.length; i++) {
+                var c = cats[i];
+                var hasScripts = false;
+                for (var j = 0; j < scriptsData.length; j++) { if (scriptsData[j].cat === c.key) { hasScripts = true; break; } }
+                if (hasScripts) {
+                    tabsHTML += '<button class="tab' + (c.key === currentCat ? ' active' : '') + (c.key === 'owner' ?
+                        ' owner-tab' : '') + '" onclick="switchCat(\'' + c.key + '\')">' + c.name + '</button>';
                 }
-                if (!s.isKey) {
-                    html += '<div class="code-box">' + esc(s.code) + '</div>';
-                    html += '<div class="actions">';
-                    html += '<button class="btn btn-copy' + copyClass + '" data-code="' + ec +
-                        '" onclick="window._copyScript(this)">📋 ' + (currentLang === 'ar' ? 'نسخ' : 'Copy') +
-                        '</button>';
-                    html += '<button class="btn btn-fav' + (fav ? ' on' : '') + '" data-name="' + ec +
-                        '" data-code="' + ec + '" onclick="window._toggleFav(this)">' + (fav ? '⭐' : '☆') + ' ' + (
-                            currentLang === 'ar' ? 'حفظ' : 'Save') + '</button>';
-                    html += '</div>';
-                } else {
-                    html +=
-                        '<div class="actions"><button class="btn btn-copy" data-code="1234" onclick="window._copyScript(this)">📋 ' +
-                        (currentLang === 'ar' ? 'نسخ المفتاح' : 'Copy Key') + '</button></div>';
+            }
+            document.getElementById('tabsContainer').innerHTML = tabsHTML;
+
+            var filtered = [];
+            for (var k = 0; k < scriptsData.length; k++) { if (scriptsData[k].cat === currentCat) filtered.push(
+                scriptsData[k]); }
+            var catInfo = null;
+            for (var m = 0; m < cats.length; m++) { if (cats[m].key === currentCat) { catInfo = cats[m]; break; } }
+            var contentHTML = '<div class="cat-title">' + (catInfo ? catInfo.icon : '📂') + ' ' + (catInfo ? catInfo.name :
+                currentCat) + ' <span class="count-badge' + (currentCat === 'owner' ? ' owner' : '') + '">' + filtered
+                .length + '</span></div>';
+            for (var n = 0; n < filtered.length; n++) { contentHTML += buildCard(filtered[n], n); }
+            if (filtered.length === 0) contentHTML +=
+                '<p style="text-align:center;padding:30px;color:#a0a0c0;">لا توجد نتائج</p>';
+            document.getElementById('contentArea').innerHTML = contentHTML;
+
+            var favSection = document.getElementById('favsSection');
+            var favContent = document.getElementById('favsContent');
+            if (favorites.length > 0) {
+                favSection.classList.add('show');
+                var favHTML = '';
+                for (var p = 0; p < favorites.length; p++) {
+                    favHTML += '<div class="script-card" style="animation-delay:' + (p * 0.03) + 's">';
+                    favHTML += '<div class="name"><span class="dot"></span>' + esc(favorites[p].name) + '</div>';
+                    favHTML += '<div class="code-box">' + esc(favorites[p].code) + '</div>';
+                    favHTML += '<div class="actions">';
+                    favHTML +=
+                        '<button class="btn btn-copy" onclick="var c=this.getAttribute(\'data-code\');copyText(c);this.classList.add(\'done\');setTimeout(function(t){t.classList.remove(\'done\')},1500,this)" data-code="' +
+                        favorites[p].code.replace(/"/g, '&quot;') + '">📋 نسخ</button>';
+                    favHTML +=
+                        '<button class="btn btn-fav on" onclick="toggleFav(this.getAttribute(\'data-name\'),this.getAttribute(\'data-code\'))" data-name="' +
+                        esc(favorites[p].name) + '" data-code="' + favorites[p].code.replace(/"/g, '&quot;') +
+                        '">⭐ إزالة</button>';
+                    favHTML += '</div></div>';
                 }
-                html += '</div>';
-                return html;
+                favContent.innerHTML = favHTML;
+            } else {
+                favSection.classList.remove('show');
+                favContent.innerHTML = '';
             }
 
-            function renderAll() {
-                var cats = [];
-                for (var i = 0; i < catKeys.length; i++) {
-                    for (var j = 0; j < scriptsData.length; j++) {
-                        if (scriptsData[j].cat === catKeys[i]) { cats.push(catKeys[i]); break; }
-                    }
-                }
-                var tabsHtml = '';
-                for (var k = 0; k < cats.length; k++) {
-                    var isOwnerTab = cats[k] === 'cat_owner';
-                    tabsHtml += '<button class="tab' + (cats[k] === currentCat ? ' active' : '') + (isOwnerTab ?
-                        ' owner-tab' : '') + '" data-cat="' + cats[k] + '">' + t(cats[k]) + '</button>';
-                }
-                tabsContainer.innerHTML = tabsHtml;
-
-                var filtered = [];
-                for (var m = 0; m < scriptsData.length; m++) {
-                    if (scriptsData[m].cat === currentCat) filtered.push(scriptsData[m]);
-                }
-                var isOwnerCat = currentCat === 'cat_owner';
-                var contentHtml = '<div class="cat-title">' + (isOwnerCat ? '👑' : '📂') + ' ' + t(currentCat) +
-                    ' <span class="count-badge' + (isOwnerCat ? ' owner' : '') + '">' + filtered.length +
-                    '</span></div>';
-                for (var n = 0; n < filtered.length; n++) { contentHtml += buildCardHTML(filtered[n], n); }
-                if (filtered.length === 0) contentHtml += '<p style="text-align:center;padding:30px;color:#a0a0c0;">' + t(
-                    'noResults') + '</p>';
-                contentArea.innerHTML = contentHtml;
-
-                if (favorites.length > 0) {
-                    favsSection.classList.add('show');
-                    var favHtml = '';
-                    for (var p = 0; p < favorites.length; p++) {
-                        var fcode = favorites[p].code;
-                        var fname = favorites[p].name;
-                        var ec2 = escAttr(fcode);
-                        favHtml += '<div class="script-card" style="animation-delay:' + (p * 0.03) + 's">';
-                        favHtml += '<div class="name"><span class="dot"></span>' + esc(fname) + '</div>';
-                        favHtml += '<div class="code-box">' + esc(fcode) + '</div>';
-                        favHtml += '<div class="actions">';
-                        favHtml += '<button class="btn btn-copy" data-code="' + ec2 +
-                            '" onclick="window._copyScript(this)">📋 ' + (currentLang === 'ar' ? 'نسخ' : 'Copy') +
-                            '</button>';
-                        favHtml += '<button class="btn btn-fav on" data-name="' + ec2 + '" data-code="' + ec2 +
-                            '" onclick="window._toggleFav(this)">⭐ ' + (currentLang === 'ar' ? 'إزالة' : 'Remove') +
-                            '</button>';
-                        favHtml += '</div></div>';
-                    }
-                    favsContent.innerHTML = favHtml;
-                } else { favsSection.classList.remove('show');
-                    favsContent.innerHTML = ''; }
+            document.getElementById('statScripts').textContent = scriptsData.length;
+            var catCount = 0;
+            for (var q = 0; q < cats.length; q++) {
+                for (var r = 0; r < scriptsData.length; r++) { if (scriptsData[r].cat === cats[q].key) { catCount++; break; } }
             }
+            document.getElementById('statCats').textContent = catCount;
+            document.getElementById('statFavs').textContent = favorites.length;
+        }
 
-            function updateStats() {
-                statScripts.textContent = scriptsData.length;
-                var cats = [];
-                for (var i = 0; i < catKeys.length; i++) {
-                    for (var j = 0; j < scriptsData.length; j++) {
-                        if (scriptsData[j].cat === catKeys[i]) { cats.push(catKeys[i]); break; }
-                    }
-                }
-                statCats.textContent = cats.length;
-                statFavs.textContent = favorites.length;
+        function switchCat(cat) {
+            currentCat = cat;
+            document.getElementById('searchInput').value = '';
+            renderAll();
+            window.scrollTo({ top: 250, behavior: 'smooth' });
+        }
+
+        function filterScripts(q) {
+            if (!q.trim()) { renderAll(); return; }
+            var lq = q.toLowerCase().trim();
+            var results = [];
+            for (var i = 0; i < scriptsData.length; i++) {
+                var s = scriptsData[i];
+                if (s.name.toLowerCase().indexOf(lq) >= 0 || s.code.toLowerCase().indexOf(lq) >= 0) results.push(s);
             }
+            var contentHTML = '<div class="cat-title">🔍 نتائج: "' + esc(lq) + '" <span class="count-badge">' + results
+                .length + '</span></div>';
+            if (results.length > 0) { for (var j = 0; j < results.length; j++) { contentHTML += buildCard(results[j], j); } } else
+                contentHTML += '<p style="text-align:center;padding:30px;color:#a0a0c0;">لا توجد نتائج</p>';
+            document.getElementById('contentArea').innerHTML = contentHTML;
+            document.getElementById('favsSection').classList.remove('show');
+            document.getElementById('favsContent').innerHTML = '';
+        }
 
-            function filterScripts(q) {
-                if (!q.trim()) { renderAll(); return; }
-                var lq = q.toLowerCase().trim();
-                var results = [];
-                for (var i = 0; i < scriptsData.length; i++) {
-                    var s = scriptsData[i];
-                    if (s.name.toLowerCase().indexOf(lq) >= 0 || s.code.toLowerCase().indexOf(lq) >= 0 || (t(s.cat) || '')
-                        .toLowerCase().indexOf(lq) >= 0) results.push(s);
-                }
-                var html = '<div class="cat-title">🔍 نتائج: "' + esc(lq) + '" <span class="count-badge">' + results
-                    .length + '</span></div>';
-                if (results.length > 0) { for (var j = 0; j < results.length; j++) { html += buildCardHTML(results[j], j); } } else { html +=
-                        '<p style="text-align:center;padding:30px;color:#a0a0c0;">' + t('noResults') + '</p>'; }
-                contentArea.innerHTML = html;
-                favsSection.classList.remove('show');
-                favsContent.innerHTML = '';
-            }
+        function changeLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('sdlang', lang);
+            document.getElementById('langFlag').textContent = lang === 'ar' ? 'AR' : 'EN';
+            var btns = document.querySelectorAll('#langDrop button');
+            for (var i = 0; i < btns.length; i++) { btns[i].classList.remove('active'); if (btns[i].getAttribute(
+                    'onclick').indexOf("'" + lang + "'") >= 0) btns[i].classList.add('active'); }
+            document.getElementById('langDrop').classList.remove('show');
+        }
 
-            function updateAllTexts() {
-                document.title = t('siteTitle');
-                $('#siteTitle').textContent = t('siteTitle');
-                $('#siteSub').textContent = t('siteSub');
-                searchInput.placeholder = t('searchPlaceholder');
-                $('#statLbl1').textContent = t('statLbl1');
-                $('#statLbl2').textContent = t('statLbl2');
-                $('#statLbl3').textContent = t('statLbl3');
-                $('#favsTitle').textContent = t('favsTitle');
-                langFlag.textContent = langFlags[currentLang] || 'AR';
-                renderLangDrop();
-                renderAll();
-            }
+        document.getElementById('searchInput').addEventListener('input', function() { filterScripts(this.value); });
+        document.getElementById('themeBtn').addEventListener('click', function() { showToast('✨ ScriptsDelta | عبدالله'); });
+        document.getElementById('langBtn').addEventListener('click', function(e) { e.stopPropagation();
+            document.getElementById('langDrop').classList.toggle('show'); });
+        document.addEventListener('click', function() { document.getElementById('langDrop').classList.remove('show'); });
+        window.addEventListener('scroll', function() {
+            var st = window.scrollY;
+            var dh = document.documentElement.scrollHeight - window.innerHeight;
+            document.getElementById('progressBar').style.width = dh > 0 ? (st / dh * 100) + '%' : '0%';
+            var bt = document.getElementById('backTop');
+            if (st > 400) bt.classList.add('visible');
+            else bt.classList.remove('visible');
+        });
+        document.getElementById('backTop').addEventListener('click', function() { window.scrollTo({ top: 0,
+                behavior: 'smooth' }); });
 
-            function renderLangDrop() {
-                var html = '';
-                var keys = Object.keys(langNames);
-                for (var i = 0; i < keys.length; i++) {
-                    html += '<button data-lang="' + keys[i] + '" class="' + (keys[i] === currentLang ? 'active' : '') +
-                        '">' + langNames[keys[i]] + '</button>';
-                }
-                langDrop.innerHTML = html;
-            }
+        function startLoading() {
+            var duration = 1500;
+            var start = Date.now;
+            var fill = document.getElementById('loaderFill');
 
-            window._copyScript = function(btn) {
-                var code = btn.getAttribute('data-code');
-                if (code) { copyText(code);
-                    btn.classList.add('done');
-                    setTimeout(function() { btn.classList.remove('done'); }, 1500); }
-            };
-            window._toggleFav = function(btn) {
-                var name = btn.getAttribute('data-name');
-                var code = btn.getAttribute('data-code');
-                if (name && code) toggleFav(name, code);
-            };
+            function update() { var elapsed = Date.now() - start;
+                var pct = Math.min((elapsed / duration) * 100, 100);
+                fill.style.width = pct + '%'; if (elapsed < duration) requestAnimationFrame(update); }
+            requestAnimationFrame(update);
+            setTimeout(function() { document.getElementById('loadingScreen').classList.add('hide'); }, duration);
+        }
 
-            tabsContainer.addEventListener('click', function(e) {
-                if (e.target.classList.contains('tab')) { currentCat = e.target.getAttribute('data-cat');
-                    searchInput.value = '';
-                    renderAll();
-                    window.scrollTo({ top: 250, behavior: 'smooth' }); }
-            });
-            searchInput.addEventListener('input', function() { filterScripts(this.value); });
-            $('#themeBtn').addEventListener('click', function() { showToast('✨ ' + t('siteTitle') + ' | عبدالله'); });
-            langBtn.addEventListener('click', function(e) { e.stopPropagation();
-                langDrop.classList.toggle('show'); });
-            langDrop.addEventListener('click', function(e) {
-                if (e.target.tagName === 'BUTTON') { var l = e.target.getAttribute('data-lang'); if (l && l !==
-                        currentLang) { currentLang = l;
-                        localStorage.setItem('sdlang', l);
-                        updateAllTexts(); }
-                    langDrop.classList.remove('show'); }
-            });
-            document.addEventListener('click', function() { langDrop.classList.remove('show'); });
-            window.addEventListener('scroll', function() {
-                var st = window.scrollY;
-                var dh = document.documentElement.scrollHeight - window.innerHeight;
-                progressBar.style.width = dh > 0 ? (st / dh * 100) + '%' : '0%';
-                if (st > 400) backTop.classList.add('visible');
-                else backTop.classList.remove('visible');
-            });
-            backTop.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
-
-            function startLoading() {
-                var duration = 1500;
-                var start = Date.now();
-
-                function update() { var elapsed = Date.now() - start;
-                    var pct = Math.min((elapsed / duration) * 100, 100);
-                    loaderFill.style.width = pct + '%'; if (elapsed < duration) requestAnimationFrame(update); }
-                requestAnimationFrame(update);
-                setTimeout(function() { loadingScreen.classList.add('hide'); }, duration);
-            }
-
-            function init() { updateStats();
-                updateAllTexts();
-                renderLangDrop();
-                langFlag.textContent = langFlags[currentLang] || 'AR';
-                startLoading(); }
-            init();
-        })();
+        renderAll();
+        startLoading();
     </script>
 </body>
     </html>
