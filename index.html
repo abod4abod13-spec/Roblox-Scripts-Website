@@ -3,202 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScriptsDelta | عبدالله</title>
+    <title>ScriptsDelta v4 | عبدالله</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap');
         :root {
-            --bg: #0a0a1a;
-            --surface: #151530;
-            --text: #e8e8f0;
-            --text2: #a0a0c0;
+            --bg: #060612;
+            --surface: #0f0f22;
+            --surface2: #181830;
+            --text: #eaeaf5;
+            --text2: #b0b0cc;
             --primary: #7c5cfc;
             --accent: #ff6b9d;
             --gold: #ffd700;
-            --card: #1a1a35;
-            --border: rgba(255,255,255,0.06);
+            --card: #12122a;
+            --border: rgba(255,255,255,0.05);
+            --font: 'Cairo', 'Tajawal', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
-            font-family: 'Segoe UI', 'Tajawal', 'Cairo', sans-serif;
+            font-family: var(--font);
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
             background-image:
-                radial-gradient(ellipse at 20% 10%, rgba(124,92,252,0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 90%, rgba(255,107,157,0.08) 0%, transparent 50%);
+                radial-gradient(ellipse at 15% 8%, rgba(124,92,252,0.15) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 92%, rgba(255,107,157,0.12) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 50%, rgba(255,215,0,0.06) 0%, transparent 60%);
             background-attachment: fixed;
         }
         #loadingScreen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #08081a; z-index: 99999;
+            background: #050510; z-index: 99999;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
             transition: opacity 0.5s, visibility 0.5s;
         }
         #loadingScreen.hide { opacity: 0; visibility: hidden; pointer-events: none; }
         .loader-spin {
-            width: 50px; height: 50px;
-            border: 3px solid rgba(255,255,255,0.1);
+            width: 55px; height: 55px;
+            border: 3px solid rgba(255,255,255,0.08);
             border-top-color: #7c5cfc;
+            border-right-color: #ff6b9d;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .loader-msg { color: #a0a0c0; margin-top: 16px; font-weight: 600; font-size: 0.95em; }
-        .loader-bar { width: 180px; height: 3px; background: rgba(255,255,255,0.08); border-radius: 10px; margin-top: 12px; overflow: hidden; }
-        .loader-bar-fill { height: 100%; background: #7c5cfc; border-radius: 10px; width: 0%; transition: width 0.3s; }
+        .loader-msg {
+            color: #b0b0cc; margin-top: 18px;
+            font-weight: 700; font-size: 1em;
+            letter-spacing: 0.5px;
+        }
+        .loader-bar { width: 200px; height: 3px; background: rgba(255,255,255,0.06); border-radius: 10px; margin-top: 14px; overflow: hidden; }
+        .loader-bar-fill { height: 100%; background: linear-gradient(90deg, #7c5cfc, #ff6b9d, #ffd700); border-radius: 10px; width: 0%; transition: width 0.3s; }
         #progressBar {
             position: fixed; top: 0; left: 0; height: 3px;
             background: linear-gradient(90deg, #7c5cfc, #ff6b9d, #ffd700);
             z-index: 1000; width: 0%; transition: width 0.1s;
+            box-shadow: 0 0 12px rgba(124,92,252,0.5);
         }
-        .container { max-width: 900px; margin: 0 auto; padding: 14px; }
-        .header { text-align: center; padding: 24px 10px 16px; }
-        .header .icon { font-size: 3em; animation: float 3s infinite; }
-        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .container { max-width: 920px; margin: 0 auto; padding: 14px; }
+        .header { text-align: center; padding: 28px 10px 18px; }
+        .header .icon { font-size: 3.4em; animation: float 3s ease-in-out infinite; display: block; }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
         .header h1 {
-            font-size: 2.4em; font-weight: 900;
-            background: linear-gradient(135deg, #7c5cfc, #ff6b9d, #ffd700);
-            background-size: 200% 200%;
+            font-size: 2.8em; font-weight: 900;
+            background: linear-gradient(135deg, #7c5cfc, #ff6b9d, #ffd700, #7c5cfc);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: grad 3s infinite;
+            animation: grad 3.5s infinite;
+            letter-spacing: -1px;
+            line-height: 1.3;
         }
         @keyframes grad { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-        .header .sub { color: #a0a0c0; font-size: 0.9em; margin-top: 2px; }
-        .badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
-        .badge { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 18px; font-size: 0.73em; color: #c0c0d8; font-weight: 600; }
-        .badge.dev { background: #7c5cfc; color: #fff; border: none; }
-        .badge.gold { background: #ffd700; color: #1a1a2e; border: none; font-weight: 700; }
-        .badge.owner { background: linear-gradient(135deg, #ff6b9d, #ff8e53); color: #fff; border: none; font-weight: 700; }
-        .search-bar { display: flex; gap: 8px; margin: 14px 0; flex-wrap: wrap; }
-        .search-bar input {
-            flex: 1; min-width: 180px; padding: 12px 16px;
-            border-radius: 25px; border: 2px solid rgba(255,255,255,0.08);
-            background: var(--surface); color: var(--text);
-            font-size: 0.9em; font-family: inherit; transition: 0.3s;
+        .header .sub {
+            color: #b0b0cc; font-size: 0.95em;
+            margin-top: 4px; font-weight: 500;
+            letter-spacing: 0.4px;
         }
-        .search-bar input:focus { outline: none; border-color: #7c5cfc; box-shadow: 0 0 0 4px rgba(124,92,252,0.1); }
-        .search-bar input::placeholder { color: #6a6a8a; }
+        .badges { display: flex; gap: 7px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+        .badge { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 6px 14px; border-radius: 20px; font-size: 0.74em; color: #c0c0d8; font-weight: 600; letter-spacing: 0.3px; }
+        .badge.dev { background: #7c5cfc; color: #fff; border: none; font-weight: 700; }
+        .badge.gold { background: linear-gradient(135deg, #ffd700, #ffb800); color: #1a1a2e; border: none; font-weight: 800; }
+        .badge.owner { background: linear-gradient(135deg, #ff6b9d, #ff8e53); color: #fff; border: none; font-weight: 700; }
+        .badge.ver { background: linear-gradient(135deg, #00cec9, #00b894); color: #fff; border: none; font-weight: 700; }
+        .search-bar { display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+        .search-bar input {
+            flex: 1; min-width: 180px; padding: 13px 18px;
+            border-radius: 28px; border: 2px solid rgba(255,255,255,0.06);
+            background: var(--surface); color: var(--text);
+            font-size: 0.92em; font-family: var(--font);
+            transition: 0.3s; letter-spacing: 0.3px;
+        }
+        .search-bar input:focus { outline: none; border-color: #7c5cfc; box-shadow: 0 0 0 5px rgba(124,92,252,0.1); }
+        .search-bar input::placeholder { color: #5a5a7a; }
         .icon-btn {
-            width: 44px; height: 44px; border-radius: 50%;
-            background: var(--surface); border: 1px solid rgba(255,255,255,0.08);
+            width: 46px; height: 46px; border-radius: 50%;
+            background: var(--surface); border: 2px solid rgba(255,255,255,0.06);
             color: var(--text); cursor: pointer; font-size: 1.2em;
             display: flex; align-items: center; justify-content: center;
             transition: 0.3s; flex-shrink: 0;
         }
-        .icon-btn:hover { border-color: #7c5cfc; background: #1e1e3a; }
-        .lang-btn { width: auto; padding: 0 14px; border-radius: 22px; font-weight: 700; font-size: 0.8em; gap: 4px; }
+        .icon-btn:hover { border-color: #7c5cfc; background: var(--surface2); transform: scale(1.05); }
+        .lang-btn { width: auto; padding: 0 16px; border-radius: 24px; font-weight: 700; font-size: 0.82em; gap: 5px; }
         .lang-drop {
-            position: absolute; top: 50px; right: 0;
-            background: #1a1a35; border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            z-index: 100; min-width: 170px; max-height: 280px;
-            overflow-y: auto; display: none; flex-direction: column; padding: 6px;
+            position: absolute; top: 54px; right: 0;
+            background: #151535; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+            z-index: 100; min-width: 180px; max-height: 260px;
+            overflow-y: auto; display: none; flex-direction: column; padding: 8px;
         }
         .lang-drop.show { display: flex; }
         .lang-drop button {
-            background: none; border: none; padding: 10px 14px;
+            background: none; border: none; padding: 11px 16px;
             text-align: right; cursor: pointer; color: #c0c0d8;
-            font-size: 0.85em; border-radius: 10px; font-family: inherit;
+            font-size: 0.88em; border-radius: 12px; font-family: var(--font);
+            transition: 0.2s;
         }
         .lang-drop button:hover { background: rgba(124,92,252,0.2); }
         .lang-drop button.active { background: #7c5cfc; color: #fff; font-weight: 700; }
-        .stats { display: flex; gap: 8px; margin: 14px 0; flex-wrap: wrap; }
+        .stats { display: flex; gap: 10px; margin: 16px 0; flex-wrap: wrap; }
         .stat {
             flex: 1; min-width: 70px; text-align: center;
             background: var(--card); border: 1px solid var(--border);
-            border-radius: 16px; padding: 12px 10px; transition: 0.3s;
+            border-radius: 18px; padding: 14px 10px; transition: 0.3s;
         }
-        .stat:hover { transform: translateY(-3px); border-color: rgba(124,92,252,0.3); }
-        .stat .num { font-size: 1.8em; font-weight: 900; background: linear-gradient(135deg, #7c5cfc, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .stat .lbl { font-size: 0.68em; color: #a0a0c0; margin-top: 2px; }
-        .tabs-wrap { overflow-x: auto; padding: 6px 0; margin: 8px 0 14px; }
+        .stat:hover { transform: translateY(-4px); border-color: rgba(124,92,252,0.35); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+        .stat .num { font-size: 2em; font-weight: 900; background: linear-gradient(135deg, #7c5cfc, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .stat .lbl { font-size: 0.7em; color: #b0b0cc; margin-top: 3px; font-weight: 500; letter-spacing: 0.3px; }
+        .tabs-wrap { overflow-x: auto; padding: 4px 0; margin: 8px 0 16px; }
         .tabs-wrap::-webkit-scrollbar { display: none; }
-        .tabs { display: flex; gap: 6px; flex-wrap: nowrap; }
-        .tab { padding: 8px 16px; border-radius: 22px; white-space: nowrap; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); cursor: pointer; font-weight: 600; font-size: 0.78em; color: #a0a0c0; transition: 0.3s; font-family: inherit; }
-        .tab:hover { border-color: rgba(124,92,252,0.3); color: #fff; }
-        .tab.active { background: #7c5cfc; color: #fff; border-color: #7c5cfc; box-shadow: 0 4px 16px rgba(124,92,252,0.3); }
-        .tab.owner-tab { border-color: rgba(255,107,157,0.3); }
-        .tab.owner-tab.active { background: linear-gradient(135deg, #ff6b9d, #ff8e53); border-color: #ff6b9d; box-shadow: 0 4px 16px rgba(255,107,157,0.4); }
-        .cat-title { font-size: 1.05em; font-weight: 700; margin: 16px 0 10px; display: flex; align-items: center; gap: 8px; }
-        .count-badge { font-size: 0.65em; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2); color: #ffd700; padding: 2px 8px; border-radius: 10px; }
+        .tabs { display: flex; gap: 7px; flex-wrap: nowrap; }
+        .tab { padding: 9px 18px; border-radius: 24px; white-space: nowrap; background: rgba(255,255,255,0.02); border: 2px solid rgba(255,255,255,0.05); cursor: pointer; font-weight: 700; font-size: 0.8em; color: #b0b0cc; transition: 0.3s; font-family: var(--font); letter-spacing: 0.3px; }
+        .tab:hover { border-color: rgba(124,92,252,0.35); color: #fff; background: rgba(124,92,252,0.08); }
+        .tab.active { background: #7c5cfc; color: #fff; border-color: #7c5cfc; box-shadow: 0 6px 20px rgba(124,92,252,0.4); }
+        .tab.owner-tab { border-color: rgba(255,107,157,0.25); }
+        .tab.owner-tab.active { background: linear-gradient(135deg, #ff6b9d, #ff8e53); border-color: #ff6b9d; box-shadow: 0 6px 20px rgba(255,107,157,0.4); }
+        .cat-title { font-size: 1.1em; font-weight: 800; margin: 18px 0 12px; display: flex; align-items: center; gap: 10px; letter-spacing: 0.4px; }
+        .count-badge { font-size: 0.67em; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2); color: #ffd700; padding: 3px 10px; border-radius: 12px; font-weight: 600; }
         .count-badge.owner { background: rgba(255,107,157,0.15); border: 1px solid rgba(255,107,157,0.3); color: #ff6b9d; }
         .script-card {
             background: var(--card); border: 1px solid var(--border);
-            border-radius: 16px; padding: 14px; margin: 10px 0;
+            border-radius: 18px; padding: 16px; margin: 12px 0;
             transition: 0.3s; opacity: 0; transform: translateY(20px);
             animation: cardIn 0.4s ease forwards;
         }
         @keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
-        .script-card:hover { border-color: rgba(124,92,252,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
-        .script-card.owner-card { border-right: 3px solid #ff6b9d; }
-        .script-card .name { font-weight: 700; font-size: 0.95em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff6b9d; flex-shrink: 0; }
-        .key-tag { background: #ffd700; color: #1a1a2e; padding: 2px 8px; border-radius: 8px; font-size: 0.65em; font-weight: 700; }
-        .owner-tag { background: linear-gradient(135deg, #ff6b9d, #ff8e53); color: #fff; padding: 2px 8px; border-radius: 8px; font-size: 0.6em; font-weight: 700; }
+        .script-card:hover { border-color: rgba(124,92,252,0.35); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .script-card.owner-card { border-right: 4px solid #ff6b9d; }
+        .script-card .name { font-weight: 700; font-size: 0.98em; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; letter-spacing: 0.3px; }
+        .dot { width: 9px; height: 9px; border-radius: 50%; background: #ff6b9d; flex-shrink: 0; box-shadow: 0 0 8px rgba(255,107,157,0.5); }
+        .key-tag { background: #ffd700; color: #1a1a2e; padding: 3px 10px; border-radius: 10px; font-size: 0.67em; font-weight: 800; letter-spacing: 0.3px; }
+        .owner-tag { background: linear-gradient(135deg, #ff6b9d, #ff8e53); color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 0.62em; font-weight: 800; letter-spacing: 0.3px; }
         .new-tag { background: linear-gradient(135deg, #00cec9, #00b894); color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 0.62em; font-weight: 800; animation: newPulse 1.5s infinite; }
         .hot-tag { background: linear-gradient(135deg, #e17055, #d63031); color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 0.62em; font-weight: 800; animation: hotPulse 1s infinite; }
         .pro-tag { background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 0.62em; font-weight: 800; }
-        @keyframes newPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(0,206,201,0.5); } 50% { box-shadow: 0 0 0 8px rgba(0,206,201,0); } }
-        @keyframes hotPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(214,48,49,0.6); } 50% { box-shadow: 0 0 0 10px rgba(214,48,49,0); } }
+        .updated-tag { background: linear-gradient(135deg, #fdcb6e, #f39c12); color: #1a1a2e; padding: 3px 10px; border-radius: 10px; font-size: 0.62em; font-weight: 800; animation: updatePulse 2s infinite; }
+        @keyframes newPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(0,206,201,0.5); } 50% { box-shadow: 0 0 0 10px rgba(0,206,201,0); } }
+        @keyframes hotPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(214,48,49,0.6); } 50% { box-shadow: 0 0 0 12px rgba(214,48,49,0); } }
+        @keyframes updatePulse { 0%,100% { box-shadow: 0 0 0 0 rgba(253,203,110,0.5); } 50% { box-shadow: 0 0 0 8px rgba(253,203,110,0); } }
         .features-box {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 10px; padding: 8px 12px; margin-bottom: 10px;
-            font-size: 0.7em; color: #dfe6e9; line-height: 1.8;
+            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px; padding: 10px 14px; margin-bottom: 10px;
+            font-size: 0.72em; color: #dfe6e9; line-height: 1.9;
         }
-        .features-box .feat-title { font-weight: 700; color: #ffd700; margin-bottom: 4px; }
-        .features-box span { display: inline-block; background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 6px; margin: 2px 3px; }
+        .features-box .feat-title { font-weight: 700; color: #ffd700; margin-bottom: 5px; }
+        .features-box span { display: inline-block; background: rgba(255,255,255,0.04); padding: 3px 10px; border-radius: 8px; margin: 2px 3px; }
         .warning-box {
-            background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.25);
-            border-radius: 8px; padding: 6px 10px; margin-bottom: 10px;
-            font-size: 0.68em; color: #ffeaa7;
+            background: rgba(255,215,0,0.06); border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 10px; padding: 7px 12px; margin-bottom: 10px;
+            font-size: 0.7em; color: #ffeaa7; line-height: 1.6;
         }
+        .desc-text { font-size: 0.8em; color: #dfe6e9; margin-bottom: 8px; line-height: 1.5; }
         .code-box {
-            background: #0e0e22; border-radius: 10px; padding: 10px;
-            font-family: 'Courier New', monospace; font-size: 0.72em;
-            word-break: break-all; color: #b0b0d0; max-height: 50px;
-            overflow: hidden; position: relative; line-height: 1.5;
-            margin-bottom: 10px; direction: ltr; text-align: left;
-            user-select: all; cursor: text;
+            background: #08081a; border-radius: 12px; padding: 12px;
+            font-family: 'Courier New', monospace; font-size: 0.73em;
+            word-break: break-all; color: #c0c0d8; max-height: 50px;
+            overflow: hidden; position: relative; line-height: 1.6;
+            margin-bottom: 12px; direction: ltr; text-align: left;
+            user-select: all; cursor: text; border: 1px solid rgba(255,255,255,0.04);
         }
-        .code-box::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 16px; background: linear-gradient(transparent, #0e0e22); }
-        .actions { display: flex; gap: 6px; flex-wrap: wrap; }
-        .btn { padding: 8px 16px; border-radius: 20px; border: none; cursor: pointer; font-weight: 700; font-size: 0.75em; display: flex; align-items: center; gap: 4px; font-family: inherit; transition: 0.3s; }
-        .btn:active { transform: scale(0.94); }
-        .btn-copy { background: #7c5cfc; color: #fff; }
-        .btn-copy:hover { background: #6a4de6; }
+        .code-box::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 18px; background: linear-gradient(transparent, #08081a); }
+        .actions { display: flex; gap: 7px; flex-wrap: wrap; }
+        .btn { padding: 9px 18px; border-radius: 22px; border: none; cursor: pointer; font-weight: 700; font-size: 0.77em; display: flex; align-items: center; gap: 5px; font-family: var(--font); transition: 0.3s; letter-spacing: 0.3px; }
+        .btn:active { transform: scale(0.93); }
+        .btn-copy { background: #7c5cfc; color: #fff; box-shadow: 0 4px 15px rgba(124,92,252,0.3); }
+        .btn-copy:hover { background: #6a4de6; box-shadow: 0 6px 20px rgba(124,92,252,0.45); }
         .btn-copy.done { background: #00b894; }
-        .btn-fav { background: rgba(255,255,255,0.04); color: #a0a0c0; border: 1px solid rgba(255,255,255,0.1); }
-        .btn-fav:hover { background: rgba(255,215,0,0.1); border-color: rgba(255,215,0,0.3); color: #ffd700; }
-        .btn-fav.on { background: rgba(255,215,0,0.1); border-color: #ffd700; color: #ffd700; }
-        .favs-section { margin-top: 20px; border-top: 2px dashed rgba(255,255,255,0.06); padding-top: 16px; display: none; }
+        .btn-fav { background: rgba(255,255,255,0.03); color: #b0b0cc; border: 1px solid rgba(255,255,255,0.08); }
+        .btn-fav:hover { background: rgba(255,215,0,0.1); border-color: rgba(255,215,0,0.35); color: #ffd700; }
+        .btn-fav.on { background: rgba(255,215,0,0.12); border-color: #ffd700; color: #ffd700; }
+        .favs-section { margin-top: 24px; border-top: 2px dashed rgba(255,255,255,0.06); padding-top: 18px; display: none; }
         .favs-section.show { display: block; }
         #toast {
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
-            background: #1e1e3a; color: #fff; padding: 12px 22px;
-            border-radius: 25px; font-weight: 600; font-size: 0.85em;
-            z-index: 9999; transition: transform 0.35s ease;
+            position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(90px);
+            background: #1e1e3a; color: #fff; padding: 13px 26px;
+            border-radius: 28px; font-weight: 700; font-size: 0.88em;
+            z-index: 9999; transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 1px solid rgba(124,92,252,0.3); pointer-events: none;
+            letter-spacing: 0.4px;
         }
         #toast.show { transform: translateX(-50%) translateY(0); }
         #backTop {
-            position: fixed; bottom: 20px; right: 16px; width: 42px; height: 42px;
+            position: fixed; bottom: 24px; right: 18px; width: 44px; height: 44px;
             border-radius: 50%; background: #7c5cfc; color: #fff; border: none;
             cursor: pointer; font-size: 1.2em; z-index: 99;
-            opacity: 0; transform: translateY(20px); transition: 0.3s;
+            opacity: 0; transform: translateY(25px); transition: 0.3s;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 16px rgba(124,92,252,0.4);
+            box-shadow: 0 6px 20px rgba(124,92,252,0.5);
         }
         #backTop.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
         #backTop:not(.visible) { pointer-events: none; }
+        #backTop:hover { transform: translateY(-4px) scale(1.08); box-shadow: 0 10px 28px rgba(124,92,252,0.65); }
         @media (max-width: 600px) {
-            .header h1 { font-size: 1.8em; }
-            .stat { min-width: 55px; padding: 10px 6px; }
-            .stat .num { font-size: 1.4em; }
-            .tab { padding: 7px 12px; font-size: 0.7em; }
-            .code-box { font-size: 0.65em; }
+            .header h1 { font-size: 2em; }
+            .stat { min-width: 55px; padding: 10px 8px; }
+            .stat .num { font-size: 1.5em; }
+            .tab { padding: 7px 13px; font-size: 0.72em; }
+            .code-box { font-size: 0.66em; }
         }
     </style>
 </head>
@@ -206,7 +230,7 @@
 
     <div id="loadingScreen">
         <div class="loader-spin"></div>
-        <div class="loader-msg">ScriptsDelta</div>
+        <div class="loader-msg">ScriptsDelta v4</div>
         <div class="loader-bar"><div class="loader-bar-fill" id="loaderFill"></div></div>
     </div>
 
@@ -222,14 +246,15 @@
             <div class="badges">
                 <span class="badge dev">👨‍💻 عبدالله</span>
                 <span class="badge owner">👑 صاحب الموقع</span>
-                <span class="badge gold">🚀 v1.0</span>
+                <span class="badge ver">🚀 v4.0</span>
+                <span class="badge gold">💎 Premium</span>
                 <span class="badge">🎮 SAD_J82</span>
                 <span class="badge">📱 dark4abod</span>
             </div>
         </div>
 
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="🔍 بحث سريع...">
+            <input type="text" id="searchInput" placeholder="🔍 ابحث عن أي سكربت بسرعة...">
             <button class="icon-btn" id="themeBtn" title="تأثير">✨</button>
             <div style="position:relative;">
                 <button class="icon-btn lang-btn" id="langBtn">🌐 <span id="langFlag">AR</span></button>
@@ -241,9 +266,9 @@
         </div>
 
         <div class="stats">
-            <div class="stat"><div class="num" id="statScripts">0</div><div class="lbl">سكربتات</div></div>
-            <div class="stat"><div class="num" id="statCats">0</div><div class="lbl">تصنيفات</div></div>
-            <div class="stat"><div class="num" id="statFavs">0</div><div class="lbl">مفضلة</div></div>
+            <div class="stat"><div class="num" id="statScripts">0</div><div class="lbl">إجمالي السكربتات</div></div>
+            <div class="stat"><div class="num" id="statCats">0</div><div class="lbl">تصنيف</div></div>
+            <div class="stat"><div class="num" id="statFavs">0</div><div class="lbl">المفضلة</div></div>
         </div>
 
         <div class="tabs-wrap"><div class="tabs" id="tabsContainer"></div></div>
@@ -258,11 +283,16 @@
     <script>
         var scriptsData = [
             { cat: 'owner', name: 'سكربت صاحب التطبيق (Monika)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/main/Monika.lua"))()', tag: 'owner' },
-            { cat: 'owner', name: '🎯 SSV7 Aimbot Pro v2', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7AimBot.lua"))()', tag: 'hot', desc: 'الايمبوت اللي يخليك محترف! 🔥 جربه وهتشكرني! 💯', features: '🎯 تصويب ذكي | 👥 كل اللاعبين | 🧠 رأس/صدر/بطن | 🔴 هايلايت | ⚡ سريع | 📱 كل الأجهزة' },
-            { cat: 'owner', name: 'سكربت كشف اماكن ESP مميز', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7ESP.lua"))()', tag: 'new', features: '🎨 تغيير ألوان الكشف | 👁️ رؤية عبر الجدران | 📏 تحديد المسافات | ⚡ بدون لاق | 🔧 تخصيص كامل' },
-            { cat: 'owner', name: 'سكربت تتبع اي شخص', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Tracker.lua"))()', tag: 'pro', features: '🕵️ تتبع تلقائي | 🗺️ موقع على الخريطة | 👣 متابعة لحظة بلحظة | 📊 إحصائيات | 🔔 تنبيهات' },
-            { cat: 'owner', name: 'سكربت كشف كل شيء بالماب', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Killer.lua"))()', tag: 'pro', features: '🔍 كشف الأدوات | 📜 السكربتات | 🖥️ الواجهات | ⚙️ خصائص العناصر | 📋 قائمة كاملة', warning: '⚠️ ملاحظة: قد يحذف زر القفز والمشي مؤقتاً - اخرج وادخل الماب وكل شيء يرجع طبيعي' },
-            { cat: 'owner', name: 'اداة تنقل الى اي مكان', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/TPPlayerToll.lua"))()', tag: 'owner' },
+            { cat: 'owner', name: '🎯 SSV7 Aimbot Pro v2', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7AimBot.lua"))()', tag: 'hot', desc: 'الايمبوت اللي يخليك محترف! 🔥 جربه وهتشكرني! 💯', features: '🎯 تصويب ذكي تلقائي | 👥 يدعم كل اللاعبين | 🧠 اختيار رأس/صدر/بطن | 🔴 هايلايت على الهدف | ⚡ سرعة فائقة بدون تأخير | 📱 يعمل على كل الأجهزة' },
+            { cat: 'owner', name: 'سكربت كشف اماكن ESP مميز', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7ESP.lua"))()', tag: 'new', features: '🎨 تغيير ألوان الكشف | 👁️ رؤية اللاعبين عبر الجدران | 📏 تحديد المسافات بدقة | ⚡ أداء سريع بدون لاق | 🔧 تخصيص كامل للواجهة' },
+            { cat: 'owner', name: 'سكربت تتبع اي شخص', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Tracker.lua"))()', tag: 'pro', features: '🕵️ تتبع أي لاعب تلقائياً | 🗺️ تحديد موقعه على الخريطة | 👣 متابعة حركته لحظة بلحظة | 📊 عرض إحصائيات اللاعب | 🎯 خيارات تتبع متعددة | 🔔 تنبيه عند اقتراب الهدف' },
+            { cat: 'owner', name: 'سكربت كشف كل شيء بالماب', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Killer.lua"))()', tag: 'pro', features: '🔍 كشف جميع الأدوات بالماب | 📜 عرض السكربتات الموجودة | 🖥️ كشف واجهات المستخدم | ⚙️ عرض خصائص العناصر | 📋 قائمة بكل شيء في الماب', warning: '⚠️ ملاحظة: قد يحذف زر القفز والمشي مؤقتاً - اخرج وادخل الماب وكل شيء يرجع طبيعي' },
+            { cat: 'owner', name: '🛡️ SSV7 Anti Cheat Bypass', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7AntiCheat.lua"))()', tag: 'hot', desc: 'تخطي أقوى أنظمة الحماية في روبلوكس! 🔓 العب براحتك بدون خوف من الباند 💪', features: '🛡️ تخطي anti-cheat | 🔓 تجاوز كشف السكربتات | 🕶️ وضع خفي لا يكتشف | 🛑 حماية من التبليغ | ⚡ تحديث تلقائي مستمر | 🎮 يعمل على كل الألعاب' },
+            { cat: 'owner', name: '📷 SSV7 Camera Free', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7CameraFree.lua"))()', tag: 'new', desc: 'كاميرا حرة كاملة! 🎥 صور ووثق أي لحظة من أي زاوية 📸', features: '🎥 كاميرا حرة 360 درجة | 📸 تصوير من أي زاوية | 🔍 زووم غير محدود | ✨ تحكم سلس بالماوس | 🎬 تسجيل مشاهد احترافية | 🌍 استكشاف الماب بالكامل' },
+            { cat: 'owner', name: '🌈 SSV7 Chams', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Chams.lua"))()', tag: 'pro', desc: 'خليك تشوف اللاعبين بألوانك المفضلة! 🎨 كشف تشامز احترافي بجودة عالية', features: '🌈 تلوين اللاعبين حسب الرغبة | 👁️ رؤية عبر الجدران بوضوح | 🎨 ألوان متعددة وقابلة للتخصيص | ⚡ أداء عالي بدون لاق | 🔧 تحكم كامل بالإعدادات | 📱 متوافق مع كل الأجهزة' },
+            { cat: 'owner', name: '🤫 SSV7 Silent Aim', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7SlientAim.lua"))()', tag: 'hot', desc: 'أقوى سكربت تصويب صامت! 🔫 محد راح يعرف إنك تستخدمه حتى! 🤐', features: '🤫 تصويب صامت تماماً | 🔫 إصابة دقيقة 100% | 👻 غير قابل للكشف | 🎯 استهداف تلقائي ذكي | ⚡ سرعة استجابة فورية | 🛡️ آمن تماماً من الباند' },
+            { cat: 'owner', name: '☠️ SSV7 Kill All', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Killall.lua"))()', tag: 'hot', desc: 'اقتل كل اللاعبين بضغطة زر واحدة! 💀 أقوى أداة قتل جماعي في روبلوكس ⚡', features: '💀 قتل جميع اللاعبين فوراً | ⚡ زر واحد ينهي الكل | 🎯 تحديد أهداف معينة | 🔥 تأثيرات مرئية مرعبة | 🛡️ حماية من الـ kick | ⚠️ استخدمه بحذر!' },
+            { cat: 'owner', name: '📍 اداة تنقل الى اي مكان', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/TPPlayerToll.lua"))()', tag: 'updated', desc: 'تم التحديث! ✨ الأداة تبقى معك دائمة حتى بعد الموت! تنقل فوري وسريع 🚀', features: '📍 تنقل فوري لأي مكان | ♻️ الأداة تبقى معك حتى بعد الموت | ⚡ سرعة تنقل فائقة | 🗺️ حفظ المواقع المفضلة | 🔄 تحديث دائم ومستمر | 📱 يعمل على كل الأجهزة' },
             { cat: 'owner', name: 'تنقل الى لاعب عبر اسمه', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7TPPLAER.lua"))()', tag: 'owner' },
             { cat: 'owner', name: 'كشف لاعبين ESP', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/ESPPLAYER.lua"))()', tag: 'owner' },
             { cat: 'owner', name: 'واجهه SSV7 المميزه', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7GUI.lua"))()', tag: 'owner' },
@@ -365,16 +395,15 @@
             t.textContent = msg;
             t.classList.add('show');
             clearTimeout(t._timer);
-            t._timer = setTimeout(function() { t.classList.remove('show'); }, 2000);
+            t._timer = setTimeout(function() { t.classList.remove('show'); }, 2200);
         }
 
         function copyText(text) {
             if (!text) return;
             try {
                 if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(text).then(function() { showToast('✅ تم النسخ!'); }).catch(function() {
-                        fallbackCopy(text);
-                    });
+                    navigator.clipboard.writeText(text).then(function() { showToast('✅ تم النسخ بنجاح!'); }).catch(
+                        function() { fallbackCopy(text); });
                 } else { fallbackCopy(text); }
             } catch (e) { fallbackCopy(text); }
         }
@@ -388,7 +417,7 @@
             document.body.appendChild(ta);
             ta.select();
             try { document.execCommand('copy');
-                showToast('✅ تم النسخ!'); } catch (e) { showToast('❌ فشل النسخ'); }
+                showToast('✅ تم النسخ بنجاح!'); } catch (e) { showToast('❌ فشل النسخ - حاول يدوياً'); }
             document.body.removeChild(ta);
         }
 
@@ -408,35 +437,35 @@
             if (tag === 'new') return ' <span class="new-tag">🔥 جديد</span>';
             if (tag === 'hot') return ' <span class="hot-tag">💥 الأكثر طلباً</span>';
             if (tag === 'pro') return ' <span class="pro-tag">⭐ Pro</span>';
+            if (tag === 'updated') return ' <span class="updated-tag">🔄 تم التحديث</span>';
             return '';
         }
 
         function buildCard(s, i) {
             var fav = isFav(s.code);
             var tagHTML = s.tag ? getTagHTML(s.tag) : '';
-            if (!s.tag && s.isKey) tagHTML = ' <span class="key-tag">KEY</span>';
+            if (!s.tag && s.isKey) tagHTML = ' <span class="key-tag">🔑 KEY</span>';
             var isOwner = s.cat === 'owner';
             var cardClass = isOwner ? ' owner-card' : '';
-
-            var h = '<div class="script-card' + cardClass + '" style="animation-delay:' + (i * 0.03) + 's">';
+            var h = '<div class="script-card' + cardClass + '" style="animation-delay:' + (i * 0.035) + 's">';
             h += '<div class="name"><span class="dot"></span>' + esc(s.name) + tagHTML + '</div>';
-            if (s.desc) h += '<p style="font-size:0.78em;color:#dfe6e9;margin-bottom:8px;">' + s.desc + '</p>';
+            if (s.desc) h += '<div class="desc-text">' + s.desc + '</div>';
             if (s.warning) h += '<div class="warning-box">' + s.warning + '</div>';
             if (s.features) h += '<div class="features-box"><span class="feat-title">✨ مميزات السكربت:</span><br>' + s
                 .features + '</div>';
             if (!s.isKey) {
                 h += '<div class="code-box">' + esc(s.code) + '</div>';
                 h += '<div class="actions">';
-                h += '<button class="btn btn-copy" onclick="var c=this.getAttribute(\'data-code\');copyText(c);this.classList.add(\'done\');setTimeout(function(t){t.classList.remove(\'done\')},1500,this)" data-code="' +
-                    s.code.replace(/"/g, '&quot;') + '">📋 نسخ</button>';
+                h += '<button class="btn btn-copy" onclick="var c=this.getAttribute(\'data-code\');copyText(c);this.classList.add(\'done\');setTimeout(function(t){t.classList.remove(\'done\')},1600,this)" data-code="' +
+                    s.code.replace(/"/g, '&quot;').replace(/'/g, '&#39;') + '">📋 نسخ</button>';
                 h += '<button class="btn btn-fav' + (fav ? ' on' : '') +
                     '" onclick="toggleFav(this.getAttribute(\'data-name\'),this.getAttribute(\'data-code\'))" data-name="' +
-                    esc(s.name) + '" data-code="' + s.code.replace(/"/g, '&quot;') + '">' + (fav ? '⭐' : '☆') +
-                    ' حفظ</button>';
+                    esc(s.name).replace(/"/g, '&quot;') + '" data-code="' + s.code.replace(/"/g, '&quot;').replace(/'/g,
+                        '&#39;') + '">' + (fav ? '⭐' : '☆') + ' حفظ</button>';
                 h += '</div>';
             } else {
                 h +=
-                    '<div class="actions"><button class="btn btn-copy" onclick="copyText(\'1234\');this.classList.add(\'done\');setTimeout(function(t){t.classList.remove(\'done\')},1500,this)">📋 نسخ المفتاح</button></div>';
+                    '<div class="actions"><button class="btn btn-copy" onclick="copyText(\'1234\');this.classList.add(\'done\');setTimeout(function(t){t.classList.remove(\'done\')},1600,this)">📋 نسخ المفتاح</button></div>';
             }
             h += '</div>';
             return h;
@@ -465,7 +494,7 @@
                 .length + '</span></div>';
             for (var n = 0; n < filtered.length; n++) { contentHTML += buildCard(filtered[n], n); }
             if (filtered.length === 0) contentHTML +=
-                '<p style="text-align:center;padding:30px;color:#a0a0c0;">لا توجد نتائج</p>';
+                '<p style="text-align:center;padding:35px;color:#b0b0cc;font-size:1em;">لا توجد نتائج 😕</p>';
             document.getElementById('contentArea').innerHTML = contentHTML;
 
             var favSection = document.getElementById('favsSection');
@@ -474,17 +503,17 @@
                 favSection.classList.add('show');
                 var favHTML = '';
                 for (var p = 0; p < favorites.length; p++) {
-                    favHTML += '<div class="script-card" style="animation-delay:' + (p * 0.03) + 's">';
+                    favHTML += '<div class="script-card" style="animation-delay:' + (p * 0.035) + 's">';
                     favHTML += '<div class="name"><span class="dot"></span>' + esc(favorites[p].name) + '</div>';
                     favHTML += '<div class="code-box">' + esc(favorites[p].code) + '</div>';
                     favHTML += '<div class="actions">';
                     favHTML +=
-                        '<button class="btn btn-copy" onclick="var c=this.getAttribute(\'data-code\');copyText(c);this.classList.add(\'done\');setTimeout(function(t){t.classList.remove(\'done\')},1500,this)" data-code="' +
-                        favorites[p].code.replace(/"/g, '&quot;') + '">📋 نسخ</button>';
+                        '<button class="btn btn-copy" onclick="var c=this.getAttribute(\'data-code\');copyText(c);this.classList.add(\'done\');setTimeout(function(t){t.classList.remove(\'done\')},1600,this)" data-code="' +
+                        favorites[p].code.replace(/"/g, '&quot;').replace(/'/g, '&#39;') + '">📋 نسخ</button>';
                     favHTML +=
                         '<button class="btn btn-fav on" onclick="toggleFav(this.getAttribute(\'data-name\'),this.getAttribute(\'data-code\'))" data-name="' +
-                        esc(favorites[p].name) + '" data-code="' + favorites[p].code.replace(/"/g, '&quot;') +
-                        '">⭐ إزالة</button>';
+                        esc(favorites[p].name).replace(/"/g, '&quot;') + '" data-code="' + favorites[p].code.replace(/"/g,
+                            '&quot;').replace(/'/g, '&#39;') + '">⭐ إزالة</button>';
                     favHTML += '</div></div>';
                 }
                 favContent.innerHTML = favHTML;
@@ -506,7 +535,7 @@
             currentCat = cat;
             document.getElementById('searchInput').value = '';
             renderAll();
-            window.scrollTo({ top: 250, behavior: 'smooth' });
+            window.scrollTo({ top: 280, behavior: 'smooth' });
         }
 
         function filterScripts(q) {
@@ -517,10 +546,10 @@
                 var s = scriptsData[i];
                 if (s.name.toLowerCase().indexOf(lq) >= 0 || s.code.toLowerCase().indexOf(lq) >= 0) results.push(s);
             }
-            var contentHTML = '<div class="cat-title">🔍 نتائج: "' + esc(lq) + '" <span class="count-badge">' + results
+            var contentHTML = '<div class="cat-title">🔍 نتائج البحث: "' + esc(lq) + '" <span class="count-badge">' + results
                 .length + '</span></div>';
             if (results.length > 0) { for (var j = 0; j < results.length; j++) { contentHTML += buildCard(results[j], j); } } else
-                contentHTML += '<p style="text-align:center;padding:30px;color:#a0a0c0;">لا توجد نتائج</p>';
+                contentHTML += '<p style="text-align:center;padding:35px;color:#b0b0cc;">لا توجد نتائج 😕</p>';
             document.getElementById('contentArea').innerHTML = contentHTML;
             document.getElementById('favsSection').classList.remove('show');
             document.getElementById('favsContent').innerHTML = '';
@@ -537,7 +566,8 @@
         }
 
         document.getElementById('searchInput').addEventListener('input', function() { filterScripts(this.value); });
-        document.getElementById('themeBtn').addEventListener('click', function() { showToast('✨ ScriptsDelta | عبدالله'); });
+        document.getElementById('themeBtn').addEventListener('click', function() { showToast(
+                '✨ ScriptsDelta v4 | عبدالله | Premium 💎'); });
         document.getElementById('langBtn').addEventListener('click', function(e) { e.stopPropagation();
             document.getElementById('langDrop').classList.toggle('show'); });
         document.addEventListener('click', function() { document.getElementById('langDrop').classList.remove('show'); });
@@ -554,12 +584,15 @@
 
         function startLoading() {
             var duration = 1500;
-            var start = Date.now;
             var fill = document.getElementById('loaderFill');
+            var startTime = Date.now();
 
-            function update() { var elapsed = Date.now() - start;
+            function update() {
+                var elapsed = Date.now() - startTime;
                 var pct = Math.min((elapsed / duration) * 100, 100);
-                fill.style.width = pct + '%'; if (elapsed < duration) requestAnimationFrame(update); }
+                fill.style.width = pct + '%';
+                if (elapsed < duration) requestAnimationFrame(update);
+            }
             requestAnimationFrame(update);
             setTimeout(function() { document.getElementById('loadingScreen').classList.add('hide'); }, duration);
         }
@@ -568,4 +601,4 @@
         startLoading();
     </script>
 </body>
-    </html>
+                                  </html>
