@@ -110,6 +110,9 @@
         .script-card:hover { border-color: rgba(124,92,252,0.3); transform: translateY(-2px); }
         .script-card.owner { border-right: 3px solid #ff6b9d; }
         .script-card.mm2 { border-right: 3px solid #e74c3c; }
+        .script-card.chat { border-right: 3px solid #00cec9; }
+        .script-card.shield { border-right: 3px solid #f39c12; }
+        .script-card.msg { border-right: 3px solid #6c5ce7; }
         .script-name {
             font-weight: 700; font-size: 0.8em; margin-bottom: 4px;
             display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
@@ -117,7 +120,13 @@
         }
         .dot { width: 6px; height: 6px; border-radius: 50%; background: #ff6b9d; flex-shrink: 0; box-shadow: 0 0 5px rgba(255,107,157,0.5); }
         .dot.mm2 { background: #e74c3c; box-shadow: 0 0 7px rgba(231,76,60,0.7); animation: dotPulse 1s infinite; }
+        .dot.chat { background: #00cec9; box-shadow: 0 0 7px rgba(0,206,201,0.7); animation: dotPulseChat 1.2s infinite; }
+        .dot.shield { background: #f39c12; box-shadow: 0 0 7px rgba(243,156,18,0.7); animation: dotPulseShield 0.9s infinite; }
+        .dot.msg { background: #6c5ce7; box-shadow: 0 0 7px rgba(108,92,231,0.7); animation: dotPulseMsg 1.1s infinite; }
         @keyframes dotPulse { 0%,100% { box-shadow: 0 0 5px rgba(231,76,60,0.5); } 50% { box-shadow: 0 0 14px rgba(231,76,60,1); } }
+        @keyframes dotPulseChat { 0%,100% { box-shadow: 0 0 5px rgba(0,206,201,0.5); } 50% { box-shadow: 0 0 14px rgba(0,206,201,1); } }
+        @keyframes dotPulseShield { 0%,100% { box-shadow: 0 0 5px rgba(243,156,18,0.5); } 50% { box-shadow: 0 0 16px rgba(243,156,18,1); } }
+        @keyframes dotPulseMsg { 0%,100% { box-shadow: 0 0 5px rgba(108,92,231,0.5); } 50% { box-shadow: 0 0 14px rgba(108,92,231,1); } }
         .tag { display: inline-block; padding: 2px 6px; border-radius: 6px; font-size: 0.55em; font-weight: 700; letter-spacing: 0.1px; }
         .tag.owner { background: linear-gradient(135deg, #ff6b9d, #ff8e53); color: #fff; }
         .tag.new { background: #00b894; color: #fff; animation: tagPulse 1.5s infinite; }
@@ -125,9 +134,15 @@
         .tag.pro { background: #6c5ce7; color: #fff; }
         .tag.updated { background: #f39c12; color: #1a1a2e; animation: tagPulse 2s infinite; }
         .tag.exclusive { background: #c0392b; color: #fff; animation: tagPulse 1.3s infinite; }
+        .tag.chat { background: #00cec9; color: #1a1a2e; animation: tagPulse 1.4s infinite; }
+        .tag.shield { background: #f39c12; color: #1a1a2e; animation: tagPulse 0.9s infinite; }
+        .tag.msg { background: #6c5ce7; color: #fff; animation: tagPulse 1.2s infinite; }
         @keyframes tagPulse { 0%,100% { box-shadow: 0 0 0 0 currentColor; } 50% { box-shadow: 0 0 0 5px transparent; } }
         .desc { font-size: 0.68em; color: #b0b0d0; margin-bottom: 4px; line-height: 1.4; }
         .features { font-size: 0.63em; color: #81ecec; margin-bottom: 4px; line-height: 1.5; }
+        .features.chat-f { color: #81ecec; }
+        .features.shield-f { color: #ffeaa7; }
+        .features.msg-f { color: #dfe6e9; }
         .warning { font-size: 0.6em; color: #ffeaa7; margin-bottom: 4px; background: rgba(255,215,0,0.05); padding: 3px 6px; border-radius: 5px; border: 1px solid rgba(255,215,0,0.1); }
         .code-box {
             background: #08081a; padding: 6px 8px; border-radius: 7px;
@@ -147,6 +162,12 @@
         .btn-copy:hover { background: #6a4de6; }
         .btn-copy.mm2 { background: #e74c3c; }
         .btn-copy.mm2:hover { background: #c0392b; }
+        .btn-copy.chat { background: #00cec9; color: #1a1a2e; }
+        .btn-copy.chat:hover { background: #00b894; }
+        .btn-copy.shield { background: #f39c12; color: #1a1a2e; }
+        .btn-copy.shield:hover { background: #e67e22; }
+        .btn-copy.msg { background: #6c5ce7; }
+        .btn-copy.msg:hover { background: #5a4bd1; }
         .btn-fav { background: rgba(255,255,255,0.03); color: #a0a0c0; border: 1px solid var(--border); }
         .btn-fav:hover { border-color: #ffd700; color: #ffd700; }
         .btn-fav.on { background: rgba(255,215,0,0.08); border-color: #ffd700; color: #ffd700; }
@@ -224,6 +245,12 @@
 
     <script>
         var S = [
+            { c: 'owner', n: '💬 SSV7 Chat Bypass - كاتب الشات السحري', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/ChatBypass.lua"))()', t: 'chat', d: 'عندك شات وماتقدر تكتب؟ هذا هو الحل! ✨ يكتب لك بدون تشفير وحتى لو ماعندك شات يظهر للناس!', f: '✍️ يكتب في الشات بدون تشفير | 👻 يظهر للناس اللي شاتهم مفتوح | 🔓 يتخطى قيود الشات | 📝 كتابة حرة كاملة | ⚡ سريع وفوري | 🎮 يعمل حتى لو شاتك مقفول', fc: 'chat-f', cl: 'chat', dot: 'chat', btn: 'chat' },
+            { c: 'all', n: '💬 SSV7 Chat Bypass - كاتب الشات السحري', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/ChatBypass.lua"))()', t: 'chat', d: 'عندك شات وماتقدر تكتب؟ هذا هو الحل! ✨ يكتب لك بدون تشفير وحتى لو ماعندك شات يظهر للناس!', f: '✍️ يكتب في الشات بدون تشفير | 👻 يظهر للناس اللي شاتهم مفتوح | 🔓 يتخطى قيود الشات | 📝 كتابة حرة كاملة | ⚡ سريع وفوري | 🎮 يعمل حتى لو شاتك مقفول', fc: 'chat-f', cl: 'chat', dot: 'chat', btn: 'chat' },
+            { c: 'owner', n: '🛡️ SSV7 Anti Bang - درع الحماية الأسطوري', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/AntiBang.lua"))()', t: 'shield', d: 'أقوى حماية في روبلوكس! 🛡️ أي أحد يحاول يبندك أو يتقرب منك يتصدى له ويدمره!', f: '🛡️ حماية من الباند | 🚫 يمنع أي شخص يقرب منك | ⚔️ يتعرف على المعتدي ويتخلص منه | 🔒 حماية شاملة وقوية | ⚡ استجابة فورية | 💪 قوة دفاعية لا تقهر', fc: 'shield-f', cl: 'shield', dot: 'shield', btn: 'shield' },
+            { c: 'all', n: '🛡️ SSV7 Anti Bang - درع الحماية الأسطوري', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/AntiBang.lua"))()', t: 'shield', d: 'أقوى حماية في روبلوكس! 🛡️ أي أحد يحاول يبندك أو يتقرب منك يتصدى له ويدمره!', f: '🛡️ حماية من الباند | 🚫 يمنع أي شخص يقرب منك | ⚔️ يتعرف على المعتدي ويتخلص منه | 🔒 حماية شاملة وقوية | ⚡ استجابة فورية | 💪 قوة دفاعية لا تقهر', fc: 'shield-f', cl: 'shield', dot: 'shield', btn: 'shield' },
+            { c: 'owner', n: '📨 SSV7 Chat - شات النخبة الخاص', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Chat.lua"))()', t: 'msg', d: 'شات خاص للمفعلين فقط! 🔒 محد يشوف رسايلك غير اللي مفعلين السكربت معاك', f: '🔒 رسائل مشفرة بين المفعلين | 👥 تواصل آمن وسري | 🎨 واجهة شات جميلة | ⚡ مراسلة فورية | 🔐 خصوصية تامة | 🤝 شبكة تواصل حصرية', fc: 'msg-f', cl: 'msg', dot: 'msg', btn: 'msg' },
+            { c: 'all', n: '📨 SSV7 Chat - شات النخبة الخاص', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7Chat.lua"))()', t: 'msg', d: 'شات خاص للمفعلين فقط! 🔒 محد يشوف رسايلك غير اللي مفعلين السكربت معاك', f: '🔒 رسائل مشفرة بين المفعلين | 👥 تواصل آمن وسري | 🎨 واجهة شات جميلة | ⚡ مراسلة فورية | 🔐 خصوصية تامة | 🤝 شبكة تواصل حصرية', fc: 'msg-f', cl: 'msg', dot: 'msg', btn: 'msg' },
             { c: 'owner', n: '🔪 SSV7 MM2 - قاتل الغموض الأسطوري', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7MM2.lua"))()', t: 'exclusive', d: 'أقوى سكربت MM2! إيم بوت • ESP • سبيد • حماية كاملة • كشف القاتل والسكين', f: '🎯 إيم بوت 100% | 👁️ ESP كشف | 🏃 سبيد بوست | 🛡️ حماية | 🔪 كشف السكين | 👻 كشف الشريف | 💰 جمع كوينز | ⚡ تحديث مستمر', mm2: 1 },
             { c: 'mm2', n: '🔪 SSV7 MM2 - قاتل الغموض الأسطوري', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/SSV7MM2.lua"))()', t: 'exclusive', d: 'أقوى سكربت MM2! إيم بوت • ESP • سبيد • حماية كاملة • كشف القاتل والسكين', f: '🎯 إيم بوت 100% | 👁️ ESP كشف | 🏃 سبيد بوست | 🛡️ حماية | 🔪 كشف السكين | 👻 كشف الشريف | 💰 جمع كوينز | ⚡ تحديث مستمر', mm2: 1 },
             { c: 'owner', n: 'سكربت صاحب التطبيق (Monika)', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/main/Monika.lua"))()', t: 'owner' },
@@ -355,6 +382,9 @@
         function tag(t) {
             var m = '';
             if (t === 'exclusive') m = '<span class="tag exclusive">💎 حصري</span> <span class="tag owner">👑 صاحب الموقع</span> <span class="tag hot">💥 الأعلى طلباً</span>';
+            else if (t === 'chat') m = '<span class="tag chat">💬 شات</span> <span class="tag new">🔥 جديد</span> <span class="tag owner">👑 صاحب الموقع</span> <span class="tag hot">💥 مميز</span>';
+            else if (t === 'shield') m = '<span class="tag shield">🛡️ حماية</span> <span class="tag new">🔥 جديد</span> <span class="tag owner">👑 صاحب الموقع</span> <span class="tag hot">💥 مميز</span>';
+            else if (t === 'msg') m = '<span class="tag msg">📨 مراسلة</span> <span class="tag new">🔥 جديد</span> <span class="tag owner">👑 صاحب الموقع</span> <span class="tag pro">⭐ حصري</span>';
             else if (t === 'owner') m = '<span class="tag owner">👑 صاحب الموقع</span>';
             else if (t === 'new') m = '<span class="tag new">🔥 جديد</span>';
             else if (t === 'hot') m = '<span class="tag hot">💥 الأكثر طلباً</span>';
@@ -366,18 +396,19 @@
         function card(s, i) {
             var fv = isF(s.code);
             var tg = s.t ? tag(s.t) : (s.k ? '<span class="tag" style="background:#ffd700;color:#1a1a2e;">🔑 KEY</span>' : '');
-            var cl = s.mm2 ? ' mm2' : (s.c === 'owner' ? ' owner' : '');
-            var dotCl = s.mm2 ? ' mm2' : '';
-            var btnCl = s.mm2 ? ' mm2' : '';
-            var h = '<div class="script-card' + cl + '" style="animation-delay:' + (i * 0.03) + 's">';
-            h += '<div class="script-name"><span class="dot' + dotCl + '"></span>' + esc(s.n) + ' ' + tg + '</div>';
+            var cl = s.cl || (s.mm2 ? ' mm2' : (s.c === 'owner' ? ' owner' : ''));
+            var dotCl = s.dot || (s.mm2 ? ' mm2' : '');
+            var btnCl = s.btn || (s.mm2 ? ' mm2' : '');
+            var fc = s.fc || '';
+            var h = '<div class="script-card' + (cl ? ' ' + cl : '') + '" style="animation-delay:' + (i * 0.03) + 's">';
+            h += '<div class="script-name"><span class="dot' + (dotCl ? ' ' + dotCl : '') + '"></span>' + esc(s.n) + ' ' + tg + '</div>';
             if (s.d) h += '<div class="desc">' + s.d + '</div>';
             if (s.w) h += '<div class="warning">' + s.w + '</div>';
-            if (s.f) h += '<div class="features">✨ ' + s.f + '</div>';
+            if (s.f) h += '<div class="features' + (fc ? ' ' + fc : '') + '">✨ ' + s.f + '</div>';
             if (!s.k) {
                 h += '<div class="code-box">' + esc(s.code) + '</div>';
                 h += '<div class="actions">';
-                h += '<button class="btn btn-copy' + btnCl + '" onclick="cp(this.getAttribute(\'data-code\'))" data-code="' + s.code.replace(/"/g, '&quot;') + '">📋 نسخ</button>';
+                h += '<button class="btn btn-copy' + (btnCl ? ' ' + btnCl : '') + '" onclick="cp(this.getAttribute(\'data-code\'))" data-code="' + s.code.replace(/"/g, '&quot;') + '">📋 نسخ</button>';
                 h += '<button class="btn btn-fav' + (fv ? ' on' : '') + '" onclick="tf(\'' + esc(s.n).replace(/'/g, "\\'") + '\',\'' + s.code.replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\')">' + (fv ? '⭐' : '☆') + '</button>';
                 h += '</div>';
             } else {
@@ -459,4 +490,4 @@
         startLoading();
     </script>
 </body>
-</html>
+    </html>
