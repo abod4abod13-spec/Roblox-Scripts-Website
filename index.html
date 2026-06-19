@@ -113,6 +113,8 @@
         .script-card.chat { border-right: 3px solid #00cec9; }
         .script-card.shield { border-right: 3px solid #f39c12; }
         .script-card.msg { border-right: 3px solid #6c5ce7; }
+        .script-card.fps { border-right: 3px solid #e84118; }
+        .script-card.fps2 { border-right: 3px solid #c23616; }
         .script-name {
             font-weight: 700; font-size: 0.8em; margin-bottom: 4px;
             display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
@@ -123,10 +125,14 @@
         .dot.chat { background: #00cec9; box-shadow: 0 0 7px rgba(0,206,201,0.7); animation: dotPulseChat 1.2s infinite; }
         .dot.shield { background: #f39c12; box-shadow: 0 0 7px rgba(243,156,18,0.7); animation: dotPulseShield 0.9s infinite; }
         .dot.msg { background: #6c5ce7; box-shadow: 0 0 7px rgba(108,92,231,0.7); animation: dotPulseMsg 1.1s infinite; }
+        .dot.fps { background: #e84118; box-shadow: 0 0 8px rgba(232,65,24,0.8); animation: dotPulseFps 0.8s infinite; }
+        .dot.fps2 { background: #c23616; box-shadow: 0 0 6px rgba(194,54,22,0.6); animation: dotPulseFps2 1s infinite; }
         @keyframes dotPulse { 0%,100% { box-shadow: 0 0 5px rgba(231,76,60,0.5); } 50% { box-shadow: 0 0 14px rgba(231,76,60,1); } }
         @keyframes dotPulseChat { 0%,100% { box-shadow: 0 0 5px rgba(0,206,201,0.5); } 50% { box-shadow: 0 0 14px rgba(0,206,201,1); } }
         @keyframes dotPulseShield { 0%,100% { box-shadow: 0 0 5px rgba(243,156,18,0.5); } 50% { box-shadow: 0 0 16px rgba(243,156,18,1); } }
         @keyframes dotPulseMsg { 0%,100% { box-shadow: 0 0 5px rgba(108,92,231,0.5); } 50% { box-shadow: 0 0 14px rgba(108,92,231,1); } }
+        @keyframes dotPulseFps { 0%,100% { box-shadow: 0 0 5px rgba(232,65,24,0.5); } 50% { box-shadow: 0 0 18px rgba(232,65,24,1); } }
+        @keyframes dotPulseFps2 { 0%,100% { box-shadow: 0 0 4px rgba(194,54,22,0.4); } 50% { box-shadow: 0 0 12px rgba(194,54,22,0.9); } }
         .tag { display: inline-block; padding: 2px 6px; border-radius: 6px; font-size: 0.55em; font-weight: 700; letter-spacing: 0.1px; }
         .tag.owner { background: linear-gradient(135deg, #ff6b9d, #ff8e53); color: #fff; }
         .tag.new { background: #00b894; color: #fff; animation: tagPulse 1.5s infinite; }
@@ -137,13 +143,19 @@
         .tag.chat { background: #00cec9; color: #1a1a2e; animation: tagPulse 1.4s infinite; }
         .tag.shield { background: #f39c12; color: #1a1a2e; animation: tagPulse 0.9s infinite; }
         .tag.msg { background: #6c5ce7; color: #fff; animation: tagPulse 1.2s infinite; }
+        .tag.fps { background: #e84118; color: #fff; animation: tagPulse 0.8s infinite; font-size: 0.6em; }
+        .tag.fps2 { background: #c23616; color: #fff; animation: tagPulse 1.1s infinite; }
+        .tag.best { background: linear-gradient(135deg, #ffd700, #ffb800); color: #1a1a2e; font-size: 0.6em; animation: tagPulse 0.7s infinite; }
         @keyframes tagPulse { 0%,100% { box-shadow: 0 0 0 0 currentColor; } 50% { box-shadow: 0 0 0 5px transparent; } }
         .desc { font-size: 0.68em; color: #b0b0d0; margin-bottom: 4px; line-height: 1.4; }
         .features { font-size: 0.63em; color: #81ecec; margin-bottom: 4px; line-height: 1.5; }
         .features.chat-f { color: #81ecec; }
         .features.shield-f { color: #ffeaa7; }
         .features.msg-f { color: #dfe6e9; }
+        .features.fps-f { color: #fab1a0; }
+        .features.fps2-f { color: #ff7675; }
         .warning { font-size: 0.6em; color: #ffeaa7; margin-bottom: 4px; background: rgba(255,215,0,0.05); padding: 3px 6px; border-radius: 5px; border: 1px solid rgba(255,215,0,0.1); }
+        .warning.red { color: #ff7675; background: rgba(232,65,24,0.06); border: 1px solid rgba(232,65,24,0.2); }
         .code-box {
             background: #08081a; padding: 6px 8px; border-radius: 7px;
             font-family: 'Courier New', monospace; font-size: 0.6em;
@@ -168,6 +180,10 @@
         .btn-copy.shield:hover { background: #e67e22; }
         .btn-copy.msg { background: #6c5ce7; }
         .btn-copy.msg:hover { background: #5a4bd1; }
+        .btn-copy.fps { background: #e84118; }
+        .btn-copy.fps:hover { background: #c23616; }
+        .btn-copy.fps2 { background: #c23616; }
+        .btn-copy.fps2:hover { background: #a02010; }
         .btn-fav { background: rgba(255,255,255,0.03); color: #a0a0c0; border: 1px solid var(--border); }
         .btn-fav:hover { border-color: #ffd700; color: #ffd700; }
         .btn-fav.on { background: rgba(255,215,0,0.08); border-color: #ffd700; color: #ffd700; }
@@ -245,6 +261,10 @@
 
     <script>
         var S = [
+            { c: 'owner', n: '🎯 [FPS] Flick - السكربت الأسطوري الكامل', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/%5BFPS%5D%20Flick.lua"))()', t: 'fps', d: 'أقوى سكربت لـ FPS Flick! 🔥 إيم بوت خارق • ESP كامل • خطوط تصويب • القاتل الصامت', f: '👁️ ESP كشف اماكن متقدم | 🎯 إيم بوت خارق 100% | 📐 خطوط تصويب احترافية | ⚡ اداء فائق السرعة | 🔴 هايلايت على الاعداء | 🛡️ حماية من الكشف | 🎨 تخصيص كامل للالوان | 📊 احصائيات مباشرة', fc: 'fps-f', cl: 'fps', dot: 'fps', btn: 'fps', w: '⚠️ العيوب: الازرار خربانه - لاتقرب من الازرار المعطوبه عشان مايخرب السكربت! استخدم الازرار السليمه فقط', wr: 'red' },
+            { c: 'fps', n: '🎯 [FPS] Flick - السكربت الأسطوري الكامل', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/%5BFPS%5D%20Flick.lua"))()', t: 'fps', d: 'أقوى سكربت لـ FPS Flick! 🔥 إيم بوت خارق • ESP كامل • خطوط تصويب • القاتل الصامت', f: '👁️ ESP كشف اماكن متقدم | 🎯 إيم بوت خارق 100% | 📐 خطوط تصويب احترافية | ⚡ اداء فائق السرعة | 🔴 هايلايت على الاعداء | 🛡️ حماية من الكشف | 🎨 تخصيص كامل للالوان | 📊 احصائيات مباشرة', fc: 'fps-f', cl: 'fps', dot: 'fps', btn: 'fps', w: '⚠️ العيوب: الازرار خربانه - لاتقرب من الازرار المعطوبه عشان مايخرب السكربت! استخدم الازرار السليمه فقط', wr: 'red' },
+            { c: 'owner', n: '🔫 [FPS] Flick - السكربت الاقتصادي', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/%5BFPS%5D%20Flickbad.lua"))()', t: 'fps2', d: 'نسخة أخف ومناسبة للاجهزة الضعيفة 💻 ESP + ايم بوت اساسي • سهل وبسيط', f: '👁️ ESP كشف اماكن اساسي | 🎯 ايم بوت بسيط | ⚡ خفيف على الاجهزة | 📱 مناسب للجوالات | 🔰 سهل الاستخدام | 💻 اداء مستقر', fc: 'fps2-f', cl: 'fps2', dot: 'fps2', btn: 'fps2' },
+            { c: 'fps', n: '🔫 [FPS] Flick - السكربت الاقتصادي', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/%5BFPS%5D%20Flickbad.lua"))()', t: 'fps2', d: 'نسخة أخف ومناسبة للاجهزة الضعيفة 💻 ESP + ايم بوت اساسي • سهل وبسيط', f: '👁️ ESP كشف اماكن اساسي | 🎯 ايم بوت بسيط | ⚡ خفيف على الاجهزة | 📱 مناسب للجوالات | 🔰 سهل الاستخدام | 💻 اداء مستقر', fc: 'fps2-f', cl: 'fps2', dot: 'fps2', btn: 'fps2' },
             { c: 'owner', n: '💬 SSV7 Chat Bypass - كاتب الشات السحري', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/ChatBypass.lua"))()', t: 'chat', d: 'عندك شات وماتقدر تكتب؟ هذا هو الحل! ✨ يكتب لك بدون تشفير وحتى لو ماعندك شات يظهر للناس!', f: '✍️ يكتب في الشات بدون تشفير | 👻 يظهر للناس اللي شاتهم مفتوح | 🔓 يتخطى قيود الشات | 📝 كتابة حرة كاملة | ⚡ سريع وفوري | 🎮 يعمل حتى لو شاتك مقفول', fc: 'chat-f', cl: 'chat', dot: 'chat', btn: 'chat' },
             { c: 'all', n: '💬 SSV7 Chat Bypass - كاتب الشات السحري', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/ChatBypass.lua"))()', t: 'chat', d: 'عندك شات وماتقدر تكتب؟ هذا هو الحل! ✨ يكتب لك بدون تشفير وحتى لو ماعندك شات يظهر للناس!', f: '✍️ يكتب في الشات بدون تشفير | 👻 يظهر للناس اللي شاتهم مفتوح | 🔓 يتخطى قيود الشات | 📝 كتابة حرة كاملة | ⚡ سريع وفوري | 🎮 يعمل حتى لو شاتك مقفول', fc: 'chat-f', cl: 'chat', dot: 'chat', btn: 'chat' },
             { c: 'owner', n: '🛡️ SSV7 Anti Bang - درع الحماية الأسطوري', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/abod4abod13-spec/DeltaaRoblox/refs/heads/main/AntiBang.lua"))()', t: 'shield', d: 'أقوى حماية في روبلوكس! 🛡️ أي أحد يحاول يبندك أو يتقرب منك يتصدى له ويدمره!', f: '🛡️ حماية من الباند | 🚫 يمنع أي شخص يقرب منك | ⚔️ يتعرف على المعتدي ويتخلص منه | 🔒 حماية شاملة وقوية | ⚡ استجابة فورية | 💪 قوة دفاعية لا تقهر', fc: 'shield-f', cl: 'shield', dot: 'shield', btn: 'shield' },
@@ -335,11 +355,12 @@
 
         var cats = [
             { k: 'owner', n: '👑 سكربتات صاحب الموقع' },{ k: 'all', n: '🌍 جميع المابات' },{ k: 'brookhaven', n: '🏡 Brookhaven' },
-            { k: 'mm2', n: '🔪 MM2' },{ k: 'megamansion', n: '🏠 MegaMansion' },{ k: 'lava', n: '🌋 Lava Floor' },
-            { k: 'arab', n: '🚗 عرب سيتي' },{ k: 'wallhop', n: '🧱 Wallhop' },{ k: 'spider', n: '🕷️ Spider' },
-            { k: 'mafia', n: '🔫 Mafia' },{ k: 'survive', n: '🔪 Survive Killer' },{ k: 'fling', n: '🤸 Fling Things' },
-            { k: 'studio', n: '🎬 استوديو لايت' },{ k: 'teamwork', n: '🧩 Teamwork' },{ k: 'flee', n: '🏃 Flee the Facility' },
-            { k: 'escape', n: '🌋 Escape Lava' },{ k: 'train', n: '🚂 القطار' },{ k: 'steal', n: '💰 السرقة' }
+            { k: 'mm2', n: '🔪 MM2' },{ k: 'fps', n: '🎯 [FPS] Flick' },{ k: 'megamansion', n: '🏠 MegaMansion' },
+            { k: 'lava', n: '🌋 Lava Floor' },{ k: 'arab', n: '🚗 عرب سيتي' },{ k: 'wallhop', n: '🧱 Wallhop' },
+            { k: 'spider', n: '🕷️ Spider' },{ k: 'mafia', n: '🔫 Mafia' },{ k: 'survive', n: '🔪 Survive Killer' },
+            { k: 'fling', n: '🤸 Fling Things' },{ k: 'studio', n: '🎬 استوديو لايت' },{ k: 'teamwork', n: '🧩 Teamwork' },
+            { k: 'flee', n: '🏃 Flee the Facility' },{ k: 'escape', n: '🌋 Escape Lava' },{ k: 'train', n: '🚂 القطار' },
+            { k: 'steal', n: '💰 السرقة' }
         ];
 
         var cur = 'owner', favs = JSON.parse(localStorage.getItem('sfv') || '[]');
@@ -381,7 +402,9 @@
 
         function tag(t) {
             var m = '';
-            if (t === 'exclusive') m = '<span class="tag exclusive">💎 حصري</span> <span class="tag owner">👑 صاحب الموقع</span> <span class="tag hot">💥 الأعلى طلباً</span>';
+            if (t === 'fps') m = '<span class="tag fps">🎯 FPS</span> <span class="tag best">👑 الأفضل والأقوى</span> <span class="tag owner">👑 صاحب الموقع</span> <span class="tag hot">💥 خارق</span> <span class="tag new">🔥 جديد</span>';
+            else if (t === 'fps2') m = '<span class="tag fps2">🔫 FPS</span> <span class="tag owner">👑 صاحب الموقع</span> <span class="tag pro">⭐ اقتصادي</span> <span class="tag new">🔥 جديد</span>';
+            else if (t === 'exclusive') m = '<span class="tag exclusive">💎 حصري</span> <span class="tag owner">👑 صاحب الموقع</span> <span class="tag hot">💥 الأعلى طلباً</span>';
             else if (t === 'chat') m = '<span class="tag chat">💬 شات</span> <span class="tag new">🔥 جديد</span> <span class="tag owner">👑 صاحب الموقع</span> <span class="tag hot">💥 مميز</span>';
             else if (t === 'shield') m = '<span class="tag shield">🛡️ حماية</span> <span class="tag new">🔥 جديد</span> <span class="tag owner">👑 صاحب الموقع</span> <span class="tag hot">💥 مميز</span>';
             else if (t === 'msg') m = '<span class="tag msg">📨 مراسلة</span> <span class="tag new">🔥 جديد</span> <span class="tag owner">👑 صاحب الموقع</span> <span class="tag pro">⭐ حصري</span>';
@@ -400,10 +423,11 @@
             var dotCl = s.dot || (s.mm2 ? ' mm2' : '');
             var btnCl = s.btn || (s.mm2 ? ' mm2' : '');
             var fc = s.fc || '';
+            var wr = s.wr || '';
             var h = '<div class="script-card' + (cl ? ' ' + cl : '') + '" style="animation-delay:' + (i * 0.03) + 's">';
             h += '<div class="script-name"><span class="dot' + (dotCl ? ' ' + dotCl : '') + '"></span>' + esc(s.n) + ' ' + tg + '</div>';
             if (s.d) h += '<div class="desc">' + s.d + '</div>';
-            if (s.w) h += '<div class="warning">' + s.w + '</div>';
+            if (s.w) h += '<div class="warning' + (wr ? ' ' + wr : '') + '">' + s.w + '</div>';
             if (s.f) h += '<div class="features' + (fc ? ' ' + fc : '') + '">✨ ' + s.f + '</div>';
             if (!s.k) {
                 h += '<div class="code-box">' + esc(s.code) + '</div>';
@@ -490,4 +514,4 @@
         startLoading();
     </script>
 </body>
-    </html>
+</html>
